@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
+import { createPortal } from "react-dom"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, X } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -50,6 +51,10 @@ export function TorreVisualGallery({
 }: TorreVisualGalleryProps) {
   const [open, setOpen] = useState(false)
   const [index, setIndex] = useState(0)
+  // mounted flag — portal so renderiza apos hidratacao (document existe).
+  // Evita erro SSR e flash na primeira render.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   // Combina render + plantas — render fica como slide 0 (hero/marketing)
   const allImages: string[] = []
@@ -195,8 +200,14 @@ export function TorreVisualGallery({
         </div>
       )}
 
-      {/* Lightbox fullscreen */}
-      {open && (
+      {/* Lightbox fullscreen — renderizado via React Portal direto no
+          document.body. Bug fix 08/05/2026: o data-torre-cascade no grid
+          dos cards aplica `transform` em cada coluna, o que cria novo
+          containing block pra `position: fixed`. Sem portal, o lightbox
+          ficava limitado a coluna do card (visual bugado conforme
+          screenshot do usuario). Portal escapa toda a arvore CSS e
+          posiciona relativo ao viewport. */}
+      {open && mounted && createPortal(
         <div
           className="fixed inset-0 z-[9999] flex flex-col bg-black animate-[fadeIn_0.2s_ease-out]"
           onClick={close}
@@ -285,7 +296,8 @@ export function TorreVisualGallery({
               ))}
             </div>
           )}
-        </div>
+        </div>,
+        document.body,
       )}
 
       {/* Hide unused — accentSoft reservado pra futuras animacoes */}
