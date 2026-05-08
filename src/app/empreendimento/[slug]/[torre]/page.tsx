@@ -773,38 +773,9 @@ export default async function TorreSubRoute({ params }: TorreSubRouteProps) {
         </div>
       </section>
 
-      {/* Float WhatsApp mobile */}
-      <div className="fixed bottom-14 left-0 z-[100] w-full border-t border-neutral-200 bg-white/95 px-4 py-3 shadow-[0_-2px_10px_rgba(0,0,0,0.08)] backdrop-blur lg:hidden">
-        <div className="mx-auto flex max-w-lg items-center gap-3">
-          <div className="min-w-0 flex-1">
-            {precoMin ? (
-              <>
-                <p className="text-base font-extrabold text-slate-900">{formatPrice(precoMin)}</p>
-                <p className="text-[11px] text-neutral-500">
-                  {t.nome} · {allTorreProps.length} {allTorreProps.length === 1 ? "unidade" : "unidades"}
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-sm font-semibold text-slate-900">{t.nome}</p>
-                <p className="text-[11px] text-neutral-500">
-                  {allTorreProps.length} {allTorreProps.length === 1 ? "unidade" : "unidades"}
-                </p>
-              </>
-            )}
-          </div>
-          <a
-            href={whatsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-track="whatsapp_click"
-            data-source="float_mobile_torre"
-            className="flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#1da851]"
-          >
-            Tenho interesse
-          </a>
-        </div>
-      </div>
+      {/* Sticky bar mobile removida 08/05/2026 — mesmo motivo do hub
+          /empreendimento/[slug]: bloco branco brigava com tema editorial
+          + WhatsAppFloat global cobre o caso de CTA persistente. */}
     </>
   )
 }

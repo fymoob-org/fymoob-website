@@ -1135,24 +1135,43 @@ export async function getPropertyStats(): Promise<PropertyStats> {
 
 export async function getAllEmpreendimentos(): Promise<EmpreendimentoSummary[]> {
   const all = await getAllPropertiesInternal()
-  const empMap = new Map<string, Property[]>()
+
+  // Agrupa por SLUG (nao por nome literal) — assim variacoes de grafia no
+  // CRM ("Vitória Régia" vs "Vitoria Regia") que slugificam pro mesmo valor
+  // viram um unico empreendimento. Antes geravam 2 cards apontando pra
+  // mesma URL + erro React de chave duplicada na pagina /empreendimentos
+  // (incidente 08/05/2026 com slug "vitoria-regia"). Pra cada bucket, o
+  // nome canonico e o que aparece com MAIS imoveis (frequencia decide).
+  const slugMap = new Map<string, { properties: Property[]; nameCounts: Map<string, number> }>()
 
   for (const p of all) {
     if (!p.empreendimento) continue
-    if (!empMap.has(p.empreendimento)) empMap.set(p.empreendimento, [])
-    empMap.get(p.empreendimento)!.push(p)
+    const slug = slugify(p.empreendimento)
+    if (!slug) continue
+    let bucket = slugMap.get(slug)
+    if (!bucket) {
+      bucket = { properties: [], nameCounts: new Map() }
+      slugMap.set(slug, bucket)
+    }
+    bucket.properties.push(p)
+    bucket.nameCounts.set(
+      p.empreendimento,
+      (bucket.nameCounts.get(p.empreendimento) ?? 0) + 1,
+    )
   }
 
-  return Array.from(empMap.entries())
-    .map(([nome, properties]) => {
+  return Array.from(slugMap.entries())
+    .map(([slug, { properties, nameCounts }]) => {
       const precos = properties
         .map((p) => p.precoVenda ?? p.precoAluguel)
         .filter((p): p is number => p !== null && p > 0)
       const bairros = [...new Set(properties.map((p) => p.bairro).filter(Boolean))]
+      // Nome canonico = grafia mais frequente. Em empate, primeira encontrada.
+      const nome = [...nameCounts.entries()].sort((a, b) => b[1] - a[1])[0][0]
 
       return {
         nome,
-        slug: slugify(nome),
+        slug,
         total: properties.length,
         construtora: properties.find((p) => p.construtora)?.construtora ?? null,
         bairros,

@@ -22,6 +22,15 @@ export interface EmpreendimentoAssets {
     planta?: string
     plantas?: string[]
     descricao?: string
+    /**
+     * Categoria curta da torre — usada como subtitle no card do hub
+     * `/empreendimento/[slug]` pra diferenciar produtos (residencial 1-2Q
+     * vs residencial premium vs comercial). Sem isso, 3 torres do mesmo
+     * empreendimento parecem identicas no grid e usuario que busca
+     * residencial pode tropecar em torre comercial.
+     * Ex: "Residencial • 1-2 quartos", "Corporativo & Lojas".
+     */
+    categoria?: string
   }[]
   plantas?: string[]
   videoUrl?: string
@@ -124,6 +133,7 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
         logo: "/images/empreendimentos/reserva-barigui/logo-lago.png",
         render: "/images/empreendimentos/reserva-barigui/fachada-lago.jpg",
         descricao: "Apartamentos com 1 a 2 quartos, em formato de studio, loft, garden, ou duplex. Entrega prevista para Agosto/26.",
+        categoria: "Residencial • 1 a 2 quartos",
         plantas: [
           "/images/empreendimentos/reserva-barigui/plantas/lago-1.png",
           "/images/empreendimentos/reserva-barigui/plantas/lago-2.png",
@@ -136,6 +146,7 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
         logo: "/images/empreendimentos/reserva-barigui/logo-colina.png",
         render: "/images/empreendimentos/reserva-barigui/render-colina.jpg",
         descricao: "Apartamentos de 3 a 4 suítes, com plantas de garden, laje, ou coberturas duplex. Entrega prevista para Julho/27.",
+        categoria: "Residencial premium • 3 a 4 suítes",
         plantas: [
           "/images/empreendimentos/reserva-barigui/plantas/colina-1.png",
           "/images/empreendimentos/reserva-barigui/plantas/colina-2.png",
@@ -148,6 +159,7 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
         logo: "/images/empreendimentos/reserva-barigui/logo-mirante.png",
         render: "/images/empreendimentos/reserva-barigui/render-mirante.jpg",
         descricao: "Salas comerciais, lojas e lajes corporativas, de 38m² a 1.222m². Entrega prevista para Setembro/27.",
+        categoria: "Corporativo & Lojas",
         plantas: [
           "/images/empreendimentos/reserva-barigui/plantas/mirante-1.webp",
           "/images/empreendimentos/reserva-barigui/plantas/mirante-2.webp",

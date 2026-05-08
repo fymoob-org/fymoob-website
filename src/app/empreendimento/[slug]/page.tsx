@@ -17,8 +17,8 @@ import { PropertyMap } from "@/components/property/PropertyMap"
 import { getPropertyFeatureIcon } from "@/components/property/propertyFeatureIcons"
 import { getEmpreendimentoAssets, getTorreShortSlug, hasEditorialLayout } from "@/data/empreendimento-assets"
 import { getTorreAccent } from "@/components/empreendimento/units/editorial"
-import { PlantasCarousel } from "@/components/empreendimento/PlantasCarousel"
 import { PlantasGallery } from "@/components/empreendimento/PlantasGallery"
+import { TorreVisualGallery } from "@/components/empreendimento/TorreVisualGallery"
 import { VideoLazyEmbed } from "@/components/empreendimento/VideoLazyEmbed"
 import { EmpreendimentoStandardSEOContent } from "@/components/empreendimento/EmpreendimentoStandardSEOContent"
 import { MasterplanPartners } from "@/components/empreendimento/MasterplanPartners"
@@ -597,14 +597,11 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                       pra reduzir friccao (usuario quer ver imoveis antes
                       de falar com corretor).
 
-                      Cor refator 08/05/2026: era verde #246B4E (cor
-                      WhatsApp/conversao) que destoava da paleta editorial
-                      gold/bronze/verdigris da pagina + fica orfao porque
-                      esse CTA e link interno, nao WhatsApp. Trocado pra
-                      bronze solido #8b6f47 (mesmo da torre Colina) — warm,
-                      premium, contrasta com sunset dourado, coerente com
-                      paleta. Hover gold #c9a876 (transicao de profundidade
-                      pra mais luz). */}
+                      Cor 08/05/2026: bronze solido #8b6f47 (mesmo da torre
+                      Colina) com hover gold #a0825a + sombra dourada.
+                      Coerente com paleta editorial gold/bronze/verdigris
+                      do hub. Verde #246B4E ficou orfao porque esse CTA e
+                      link interno, nao WhatsApp. */}
                   <Link
                     href="#precos"
                     className="inline-flex h-11 items-center gap-2.5 rounded-full bg-[#8b6f47] px-[34px] text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_8px_28px_-8px_rgba(139,111,71,0.55)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#a0825a] hover:shadow-[0_12px_36px_-8px_rgba(201,168,118,0.6)] sm:h-12 sm:px-9"
@@ -714,19 +711,22 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
       >
         <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16 xl:gap-20">
-            <div>
+            {/* Centralizado em mobile (lg:text-left), alinhado a esquerda em
+                desktop onde o grid 2-col tem espaco lateral pra leitura
+                fluida da coluna esquerda. */}
+            <div className="text-center lg:text-left">
               <p data-reveal className="font-serif text-3xl font-light italic leading-tight tracking-tight text-[#c9a876] sm:text-4xl lg:text-5xl">Na frente, o parque.</p>
               <p data-reveal className="mt-2 font-serif text-3xl font-light italic leading-tight tracking-tight text-[#c9a876] sm:text-4xl lg:text-5xl">Ao lado, o shopping.</p>
               <p data-reveal className="mt-2 font-serif text-3xl font-light italic leading-tight tracking-tight text-[#c9a876] sm:text-4xl lg:text-5xl">E no centro, você.</p>
 
               {descricao && (
-                <div data-reveal className="mt-10 max-w-xl space-y-4 whitespace-pre-line text-[15px] leading-relaxed text-neutral-300">
+                <div data-reveal className="mx-auto mt-10 max-w-xl space-y-4 whitespace-pre-line text-[15px] leading-relaxed text-neutral-300 lg:mx-0">
                   {descricao}
                 </div>
               )}
 
               {precoMin && (
-                <div data-reveal className="mt-10 border-t border-white/10 pt-8">
+                <div data-reveal className="mt-10 border-t border-white/10 pt-8 text-center lg:text-left">
                   <p className="text-[10px] uppercase tracking-[0.3em] text-white/45 sm:text-[11px]">
                     A partir de
                   </p>
@@ -736,7 +736,14 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                 </div>
               )}
 
-              <div data-reveal className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+              {/* CTAs intro 08/05/2026: centralizado em mobile (era left
+                  alinhado, ficava solto em viewport estreito) + secundario
+                  trocado de "Ver plantas" pra "Ver unidades disponiveis"
+                  apontando pra #precos. Motivo: "Ver plantas" duplicava o
+                  CTA do hero (mesma palavra na mesma pagina). Apos mostrar
+                  preco "a partir de R$ X · N unidades", o passo natural e
+                  explorar as unidades concretas, nao plantas abstratas. */}
+              <div data-reveal className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4 lg:justify-start">
                 <a
                   href={whatsUrl}
                   target="_blank"
@@ -748,10 +755,10 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                   Agendar visita privativa
                 </a>
                 <Link
-                  href="#plantas"
+                  href="#precos"
                   className="inline-flex items-center gap-2 rounded-full border border-white/[0.28] bg-white/[0.03] px-7 py-3.5 text-[11px] font-light uppercase tracking-[0.2em] text-white/90 backdrop-blur-sm transition hover:border-white/55 hover:bg-white/10 sm:px-9 sm:text-xs"
                 >
-                  Ver plantas
+                  Ver unidades disponíveis
                 </Link>
               </div>
             </div>
@@ -780,23 +787,36 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
         </div>
       </section>
 
-      {/* ===== PARALLAX 1 — Piscina/lake — refator perf 06/05/2026
-            ANTES: <div className="bg-fixed bg-center bg-cover"> com
-            background-image inline. `background-attachment: fixed` invalida
-            o composite layer a cada frame de scroll => jank monstruoso.
-            DEPOIS: <Image> nativo Next + .emp-parallax-img (CSS scroll-driven
-            via animation-timeline: view()). GPU-accelerated translate3d,
-            zero invalidacao de paint, scroll suave a 60fps. */}
+      {/* ===== PARALLAX 1 — Piscina/lake — efeito "elevador descendo"
+            (08/05/2026 v3): traz de volta `background-attachment: fixed`
+            no DESKTOP (efeito visual mais imersivo, imagem fica estatica
+            enquanto conteudo flui sobre ela). No MOBILE mantem <Image>
+            do Next com .emp-parallax-img (scroll-driven sutil — iOS
+            Safari nao suporta bg-fixed corretamente, ali bg fica
+            estatica sem parallax e quebra a impressao desejada).
+
+            Trade-off perf: bg-fixed no desktop tem custo de composite
+            layer reflow, mas em browser moderno (Chrome 90+/FF/Safari
+            desktop) e aceitavel pra UMA section por pagina. Vale o
+            ganho visual luxury. */}
       {assets.parallaxImages[0] && (
         <div className="relative h-[60vh] overflow-hidden md:h-[80vh]">
+          {/* Mobile: <Image> Next com parallax scroll-driven sutil */}
           <Image
             src={assets.parallaxImages[0]}
             alt={`${emp.nome} — vista do Parque Barigui`}
             fill
             sizes="100vw"
-            className="emp-parallax-img object-cover"
+            className="emp-parallax-img object-cover md:hidden"
             loading="lazy"
             quality={88}
+          />
+          {/* Desktop: bg-fixed pra efeito elevador descendo */}
+          <div
+            className="absolute inset-0 hidden bg-cover bg-fixed bg-center md:block"
+            style={{ backgroundImage: `url(${assets.parallaxImages[0]})` }}
+            role="img"
+            aria-label={`${emp.nome} — vista do Parque Barigui`}
           />
           {/* Gradient suave so na metade inferior pra legibilidade do texto
               sem comprometer a foto. */}
@@ -870,8 +890,11 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                 />
               </div>
 
-              {/* CONTEÚDO — slide-in da direita */}
-              <div data-reveal-slide-right>
+              {/* CONTEÚDO — slide-in da direita.
+                  Mobile: text-center pra alinhar com o resto da pagina.
+                  Desktop (md+): text-left (split 2-col com imagem ao
+                  lado, leitura fluida da esquerda pra direita). */}
+              <div data-reveal-slide-right className="text-center md:text-left">
                 {/* Caption editorial */}
                 <p className="text-[10px] uppercase tracking-[0.4em] text-[#c9a876] sm:text-[11px]">
                   Residencial
@@ -884,9 +907,9 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                   <span className="italic">imobiliário único.</span>
                 </h3>
 
-                {/* Linha decorativa dourada */}
+                {/* Linha decorativa dourada — mx-auto em mobile, mx-0 em desktop */}
                 <div
-                  className="mt-7 h-px w-12 bg-[#c9a876]/60"
+                  className="mx-auto mt-7 h-px w-12 bg-[#c9a876]/60 md:mx-0"
                   aria-hidden="true"
                 />
 
@@ -1056,11 +1079,15 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                 const torreAnchor = `torre-${torreShortSlug}`
                 const accent = getTorreAccent(torreShortSlug)
 
+                // Extrai prazo de entrega da descricao ("Entrega prevista
+                // para Agosto/26." -> "Agosto/26"). Usado no footer.
+                const entregaMatch = torre.descricao?.match(/entrega prevista para ([^.]+)/i)
+                const entrega = entregaMatch ? entregaMatch[1].trim() : null
+
                 return (
-                  <Link
+                  <div
                     key={torre.nome}
                     id={torreAnchor}
-                    href={`/empreendimento/${slug}/${torreShortSlug}`}
                     style={
                       {
                         "--torre-accent": accent.color,
@@ -1068,174 +1095,106 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                         "--torre-accent-border": accent.borderSoft,
                       } as React.CSSProperties
                     }
-                    className="group relative flex aspect-[4/5] overflow-hidden rounded-3xl bg-neutral-900 shadow-xl scroll-mt-24 ring-1 ring-[var(--torre-accent-border)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-2xl hover:[box-shadow:0_25px_60px_-15px_var(--torre-accent-soft),0_15px_40px_-15px_rgba(0,0,0,0.4)]"
+                    className="group flex scroll-mt-24 flex-col text-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5"
                   >
-                    {torre.render ? (
-                      <Image
-                        src={torre.render}
-                        alt={`${torre.nome} - render da torre do ${emp.nome}${construtora ? ` (${construtora})` : ""}${bairros[0] ? ` em ${bairros[0]}, Curitiba` : ""}`}
-                        fill
-                        className="object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.08]"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        loading="lazy"
-                        data-image-zoom
-                      />
-                    ) : null}
+                    {/* Render hero + thumbs de plantas + lightbox unificado.
+                        Substituiu (08/05/2026) a section "PLANTAS POR TORRE"
+                        separada que duplicava informacao. Click no render
+                        ou em qualquer thumb abre lightbox fullscreen com
+                        todas as imagens. */}
+                    <TorreVisualGallery
+                      render={torre.render}
+                      plantas={torrePlantas}
+                      torreNome={torre.nome}
+                      empreendimentoNome={emp.nome}
+                      bairro={bairros[0]}
+                      construtora={construtora || undefined}
+                      accentColor={accent.color}
+                      accentBorder={accent.borderSoft}
+                      accentSoft={accent.bgSoft}
+                    />
 
-                    {/* Gradient mais leve no estado normal desktop (deixa
-                        imagem respirar). Hover firma pra suportar reveal
-                        overlay. Mobile/tablet sempre firme (info visivel). */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/45 transition-opacity duration-500 lg:from-black/55 lg:via-transparent lg:to-black/30 lg:group-hover:from-black/90 lg:group-hover:via-black/40 lg:group-hover:to-black/55" />
+                    {/* Editorial footer com link pra rota da torre. Click
+                        nesse bloco navega; click no render/thumbs acima
+                        abre o lightbox. UX limpa: cada zona tem 1 funcao. */}
+                    <Link
+                      href={`/empreendimento/${slug}/${torreShortSlug}`}
+                      className="flex flex-1 flex-col px-2 pt-7 sm:pt-8"
+                    >
+                      {torre.categoria && (
+                        <p
+                          className="text-[10px] font-medium uppercase tracking-[0.3em] sm:text-[11px]"
+                          style={{ color: accent.color }}
+                        >
+                          {torre.categoria}
+                        </p>
+                      )}
 
-                    {/* Logo da torre - overlay top-center, drop-shadow accent */}
-                    {torre.logo && (
-                      <div className="absolute top-6 left-1/2 -translate-x-1/2 sm:top-8">
-                        <Image
-                          src={torre.logo}
-                          alt={`Logo ${torre.nome} - ${emp.nome}`}
-                          width={220}
-                          height={88}
-                          className="h-auto max-h-[64px] w-auto max-w-[180px] object-contain drop-shadow-[0_2px_16px_rgba(0,0,0,0.65)] sm:max-h-[80px] sm:max-w-[220px]"
-                        />
-                      </div>
-                    )}
-
-                    {/* MOBILE/TABLET (até md): conteudo bottom completo
-                        sempre visivel. Desktop (lg+): minimal cue. */}
-                    <div className="relative z-10 mt-auto flex w-full flex-col p-6 sm:p-8 lg:transition-all lg:duration-500 lg:ease-[cubic-bezier(0.22,1,0.36,1)] lg:group-hover:translate-y-3 lg:group-hover:opacity-0">
-                      {!torre.logo && (
-                        <h3 className="mb-4 font-serif text-2xl font-light italic tracking-wider text-white">
+                      {torre.logo ? (
+                        <div className="mt-5 flex h-[80px] items-center justify-center">
+                          <Image
+                            src={torre.logo}
+                            alt={`Logo ${torre.nome} - ${emp.nome}`}
+                            width={220}
+                            height={88}
+                            className="h-auto max-h-[68px] w-auto max-w-[200px] object-contain sm:max-h-[80px] sm:max-w-[220px]"
+                          />
+                        </div>
+                      ) : (
+                        <h3 className="mt-5 font-serif text-2xl font-light italic tracking-tight text-neutral-900 sm:text-3xl">
                           {torre.nome}
                         </h3>
                       )}
-                      <div className="lg:hidden">
-                        {torre.descricao && (
-                          <p className="mb-5 line-clamp-3 text-sm leading-relaxed text-white/90">
-                            {torre.descricao}
-                          </p>
+
+                      {/* Linha decorativa accent — extende no hover do card */}
+                      <div
+                        aria-hidden="true"
+                        className="mx-auto mt-5 h-[2px] w-12 rounded-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:w-20"
+                        style={{ backgroundColor: accent.color, opacity: 0.7 }}
+                      />
+
+                      {/* Stats inline — plantas + entrega */}
+                      <div className="mt-5 flex items-center justify-center gap-3 text-[10px] font-medium uppercase tracking-[0.25em] text-neutral-500 sm:text-[11px]">
+                        {torrePlantas.length > 0 && (
+                          <span>
+                            {torrePlantas.length}{" "}
+                            {torrePlantas.length === 1 ? "planta" : "plantas"}
+                          </span>
                         )}
-                        <div className="flex items-center justify-between gap-3">
-                          {torrePlantas.length > 0 && (
-                            <span className="text-[10px] tracking-[0.25em] uppercase text-white/55">
-                              {torrePlantas.length} {torrePlantas.length === 1 ? "planta" : "plantas"}
-                            </span>
-                          )}
-                          <span
-                            className="ml-auto inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition"
-                            style={{ backgroundColor: accent.color }}
+                        {torrePlantas.length > 0 && entrega && (
+                          <span aria-hidden="true" className="text-neutral-300">
+                            ·
+                          </span>
+                        )}
+                        {entrega && <span>Entrega {entrega}</span>}
+                      </div>
+
+                      {/* CTA — pílula com border accent */}
+                      <div className="mt-auto pt-7">
+                        <span className="inline-flex items-center gap-2 rounded-full border-2 px-6 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] [border-color:var(--torre-accent)] [color:var(--torre-accent)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-[var(--torre-accent)] group-hover:text-white">
+                          Conhecer
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="h-3.5 w-3.5"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            aria-hidden="true"
                           >
-                            Conhecer
-                            <span className="transition-transform group-hover:translate-x-1">{"->"}</span>
-                          </span>
-                        </div>
-                      </div>
-                      {/* Desktop: cue minimal (planta count + arrow accent) */}
-                      <div className="hidden items-end justify-between lg:flex">
-                        {torrePlantas.length > 0 && (
-                          <span className="text-[10px] uppercase tracking-[0.3em] text-white/65">
-                            {torrePlantas.length} {torrePlantas.length === 1 ? "planta" : "plantas"}
-                          </span>
-                        )}
-                        <span
-                          className="ml-auto text-[10px] uppercase tracking-[0.3em]"
-                          style={{ color: accent.color }}
-                        >
-                          {"Conhecer ->"}
+                            <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
                         </span>
                       </div>
-                    </div>
-
-                    {/* HOVER REVEAL OVERLAY (desktop apenas) - descricao
-                        completa + CTA fazem slide-up + fade-in. Padrao
-                        Aman/Bulgari magazine. */}
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 hidden translate-y-6 p-6 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-8 lg:block lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
-                      {torre.descricao && (
-                        <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-white/95">
-                          {torre.descricao}
-                        </p>
-                      )}
-                      <div className="flex items-center justify-between gap-3">
-                        {torrePlantas.length > 0 && (
-                          <span className="text-[10px] uppercase tracking-[0.3em] text-white/65">
-                            {torrePlantas.length} {torrePlantas.length === 1 ? "planta" : "plantas"}
-                          </span>
-                        )}
-                        <span
-                          className="ml-auto inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white shadow-lg"
-                          style={{ backgroundColor: accent.color }}
-                        >
-                          {"Conhecer ->"}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Ring accent no hover (cor signature da torre) */}
-                    <div className="pointer-events-none absolute inset-0 rounded-3xl ring-0 transition-all duration-500 group-hover:ring-2 group-hover:ring-[var(--torre-accent)]/55" />
-                  </Link>
+                    </Link>
+                  </div>
                 )
               })}
             </div>
 
-            {/* Carrousels de plantas em painel separado abaixo do grid de
-                torres (limpa visual dos cards e cria secao dedicada de
-                plantas por torre). */}
-            {assets.torres.some((torre) => {
-              const torreProperties = properties.filter((p) =>
-                p.empreendimento?.toLowerCase() === torre.nome.toLowerCase(),
-              )
-              const plantasFromCRM = [
-                ...new Set(
-                  torreProperties.flatMap((p) =>
-                    (p.fotosPorTipo || [])
-                      .filter((f) => f.tipo.toLowerCase() === "planta")
-                      .map((f) => f.foto),
-                  ),
-                ),
-              ]
-              const torrePlantas = plantasFromCRM.length > 0 ? plantasFromCRM : torre.plantas || []
-              return torrePlantas.length > 0
-            }) && (
-              <div className="mt-20" data-reveal>
-                <p className="text-center text-[10px] tracking-[0.4em] text-[#c9a876] sm:text-[11px]">
-                  PLANTAS POR TORRE
-                </p>
-                <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-3" data-reveal-stagger>
-                  {assets.torres.map((torre) => {
-                    const torreProperties = properties.filter((p) =>
-                      p.empreendimento?.toLowerCase() === torre.nome.toLowerCase(),
-                    )
-                    const plantasFromCRM = [
-                      ...new Set(
-                        torreProperties.flatMap((p) =>
-                          (p.fotosPorTipo || [])
-                            .filter((f) => f.tipo.toLowerCase() === "planta")
-                            .map((f) => f.foto),
-                        ),
-                      ),
-                    ]
-                    const torrePlantas = plantasFromCRM.length > 0 ? plantasFromCRM : torre.plantas || []
-                    if (torrePlantas.length === 0) return <div key={`empty-${torre.nome}`} />
-                    return (
-                      <div
-                        key={`plantas-${torre.nome}`}
-                        className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
-                      >
-                        <p className="text-center text-[10px] font-medium uppercase tracking-[0.25em] text-neutral-500">
-                          {torre.nome}
-                        </p>
-                        <PlantasCarousel
-                          plantas={torrePlantas}
-                          torreNome={torre.nome}
-                          empreendimentoNome={emp.nome}
-                          bairro={bairros[0]}
-                          construtora={construtora || undefined}
-                        />
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
+            {/* Section "PLANTAS POR TORRE" removida 08/05/2026 — duplicava
+                informacao. Plantas agora aparecem como thumbs strip dentro
+                de cada card de torre (ver TorreVisualGallery acima), com
+                lightbox fullscreen ao clicar. UX mais compacta e direta. */}
           </div>
         </section>
       )}
@@ -1620,45 +1579,12 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
         </div>
       </section>
 
-      {/* Spacer mobile — buffer abaixo do conteudo pra sticky bar (h~72px)
-          nao cobrir o ultimo elemento. Hidden em desktop (lg:hidden). */}
-      <div className="h-[80px] lg:hidden" aria-hidden="true" />
-
-      {/* Sticky bar mobile com preço + CTA. bottom-0 (grudada no rodape).
-          z-30 (abaixo do smart nav z-40 e do Sheet z-50) — Sheet cobre a
-          barra quando o menu hamburger abre. Spacer acima absorve a
-          sobreposicao com o ultimo conteudo. */}
-      <div className="fixed bottom-0 left-0 z-30 w-full border-t border-neutral-200 bg-white/95 px-4 py-3 shadow-[0_-2px_10px_rgba(0,0,0,0.08)] backdrop-blur lg:hidden">
-        <div className="mx-auto flex max-w-lg items-center gap-3">
-          <div className="min-w-0 flex-1">
-            {precoMin ? (
-              <>
-                <p className="text-base font-extrabold text-slate-900">{formatPrice(precoMin)}</p>
-                <p className="text-[11px] text-neutral-500">A partir de · {properties.length} {properties.length === 1 ? "unidade" : "unidades"}</p>
-              </>
-            ) : (
-              <>
-                <p className="text-sm font-semibold text-slate-900">{emp.nome}</p>
-                <p className="text-[11px] text-neutral-500">{properties.length} {properties.length === 1 ? "unidade" : "unidades"}</p>
-              </>
-            )}
-          </div>
-          <a
-            href={whatsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-track="whatsapp_click"
-            data-source="float_mobile"
-            className="flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#1da851]"
-          >
-            <svg viewBox="0 0 24 24" className="size-4 fill-white" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-              <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 0 1-4.11-1.14l-.29-.174-3.01.79.8-2.93-.19-.3A7.96 7.96 0 0 1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z" />
-            </svg>
-            Tenho interesse
-          </a>
-        </div>
-      </div>
+      {/* Sticky bar mobile removida 08/05/2026 — pedido direto: bloco
+          branco solido no rodape brigava com o tema editorial premium e
+          duplicava o CTA do WhatsApp. WhatsAppFloat global (que antes
+          ficava `hideOnMobile` aqui) agora aparece em mobile tambem,
+          mesmo padrao das demais paginas do site. Spacer h-[80px] tambem
+          removido (nao tem mais sticky bar pra absorver). */}
     </>
   )
 }
