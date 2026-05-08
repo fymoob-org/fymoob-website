@@ -376,15 +376,20 @@
   [data-reveal] {
     opacity: 0;
     transform: translateY(28px);
-    animation: emp-reveal linear both;
+    animation: emp-reveal both;
     animation-timeline: view();
-    animation-range: entry 5% cover 25%;
+    animation-range: entry 5% cover 30%;
+    /* Luxury easing aplicado tambem no [data-reveal] (08/05/2026 v3):
+       antes era `linear` chapado, agora compartilha a mesma curva
+       elegante de slide-left/right e torre-cascade — entrada acelera
+       cedo (45% em 8% do range) e relaxa nos ultimos 50% do scroll. */
+    animation-timing-function: linear(0, 0.45 8%, 0.78 18%, 0.92 30%, 0.98 50%, 1);
   }
 
   /* Variante mais sutil pra elementos grandes (sections inteiras) */
   [data-reveal="soft"] {
     transform: translateY(16px);
-    animation-range: entry 0% cover 30%;
+    animation-range: entry 0% cover 35%;
   }
 
   /* Stagger — delay incremental nos primeiros 6 filhos. Funciona dentro
@@ -392,9 +397,10 @@
   [data-reveal-stagger] > * {
     opacity: 0;
     transform: translateY(28px);
-    animation: emp-reveal linear both;
+    animation: emp-reveal both;
     animation-timeline: view();
-    animation-range: entry 5% cover 30%;
+    animation-range: entry 5% cover 35%;
+    animation-timing-function: linear(0, 0.45 8%, 0.78 18%, 0.92 30%, 0.98 50%, 1);
   }
   [data-reveal-stagger] > *:nth-child(1) { animation-delay: 0ms; }
   [data-reveal-stagger] > *:nth-child(2) { animation-delay: 80ms; }
@@ -435,7 +441,9 @@
   [data-reveal-slide-left],
   [data-reveal-slide-right],
   [data-image-zoom],
-  [data-image-parallax] {
+  [data-image-parallax],
+  [data-torre-cascade] > *,
+  [data-reveal-zigzag] > * {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
@@ -457,16 +465,20 @@
    Aplicar em cards editoriais (UnitFeaturedCard, AmenitiesShowcase). */
 @supports (animation-timeline: view()) {
   [data-image-zoom] {
-    animation: emp-image-zoom-in linear both;
+    animation: emp-image-zoom-in both;
     animation-timeline: view();
-    animation-range: entry 0% cover 40%;
+    /* Range estendido pra cover 65% (era 40%) — zoom-out cinematic
+       mais lento, imagem continua relaxando enquanto o user le o
+       conteudo ao lado. Padrao Aman/Bulgari editorial. */
+    animation-range: entry 0% cover 65%;
+    animation-timing-function: linear(0, 0.45 8%, 0.78 18%, 0.92 30%, 0.98 50%, 1);
     transform-origin: center center;
     will-change: transform;
   }
 }
 
 @keyframes emp-image-zoom-in {
-  from { transform: scale(1.06); }
+  from { transform: scale(1.08); }
   to { transform: scale(1); }
 }
 
@@ -484,8 +496,11 @@
 }
 
 @keyframes emp-image-parallax {
-  from { transform: translate3d(0, -4%, 0) scale(1.08); }
-  to   { transform: translate3d(0, 4%, 0) scale(1.08); }
+  /* Parallax mais pronunciado (08/05/2026 v3): ±4% -> ±6%, scale 1.10
+     pra absorver translate sem deixar borda. Sensacao de profundidade
+     mais visivel sem comprometer leitura. */
+  from { transform: translate3d(0, -6%, 0) scale(1.10); }
+  to   { transform: translate3d(0, 6%, 0) scale(1.10); }
 }
 
 /* Parallax full-section — substitui `background-attachment: fixed` que e
@@ -525,7 +540,7 @@
     animation: emp-slide-left both;
     animation-timeline: view();
     animation-range: entry 0% cover 25%;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-timing-function: linear(0, 0.45 8%, 0.78 18%, 0.92 30%, 0.98 50%, 1);
   }
   [data-reveal-slide-right] {
     opacity: 0;
@@ -533,7 +548,7 @@
     animation: emp-slide-right both;
     animation-timeline: view();
     animation-range: entry 0% cover 25%;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-timing-function: linear(0, 0.45 8%, 0.78 18%, 0.92 30%, 0.98 50%, 1);
     /* Pequeno delay pra criar staggered duo (esquerda primeiro, direita depois) */
     animation-delay: 120ms;
   }
@@ -547,6 +562,93 @@
   to { opacity: 1; transform: translateX(0); }
 }
 
+/* Sprint design 08/05/2026 — animacao 1 (Vinicius approved):
+   Slide-in cascata pros 3 cards de torre. Card 1 (Lago) entra da
+   esquerda, card 2 (Colina) do bottom, card 3 (Mirante) da direita.
+   Stagger via animation-range deslocado (em scroll-driven, animation-delay
+   em ms e ignorado/inconsistente — porcentagem do range e mais previsivel).
+   Aplicar via `data-torre-cascade` no container grid. */
+@supports (animation-timeline: view()) {
+  [data-torre-cascade] > * {
+    opacity: 0;
+    animation-timeline: view();
+    animation-fill-mode: both;
+    animation-timing-function: linear(0, 0.45 8%, 0.78 18%, 0.92 30%, 0.98 50%, 1);
+  }
+  /* Bug fix 08/05/2026 v2: Lightning CSS minifica `entry 0%` pra `entry`
+     e o parser do Chrome rejeita. Usar 1% evita o minify. Range esticado
+     pra `entry 1% cover 50%` (vs 25% anterior) e translate pra 96px
+     (vs 48px) — animacao precisa ter janela visivel de scroll, senao
+     completa em milissegundos sem ser percebida. */
+  [data-torre-cascade] > *:nth-child(1) {
+    transform: translateX(-96px);
+    animation-name: emp-torre-cascade-left;
+    animation-range: entry 1% cover 50%;
+  }
+  [data-torre-cascade] > *:nth-child(2) {
+    transform: translateY(96px);
+    animation-name: emp-torre-cascade-bottom;
+    animation-range: entry 12% cover 62%;
+  }
+  [data-torre-cascade] > *:nth-child(3) {
+    transform: translateX(96px);
+    animation-name: emp-torre-cascade-right;
+    animation-range: entry 24% cover 74%;
+  }
+}
+
+@keyframes emp-torre-cascade-left {
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes emp-torre-cascade-bottom {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes emp-torre-cascade-right {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Sprint design 08/05/2026 — animacao 5 (Vinicius approved):
+   Zigzag slide-in pros cards de amenities. Odd children (1,3,5,7)
+   entram da esquerda, even (2,4,6,8) da direita. Stagger 100ms entre
+   cada par. Padrao Apple product pages — feel cinematic sem trocar
+   fundamento. Aplicar via `data-reveal-zigzag` no container grid. */
+@supports (animation-timeline: view()) {
+  [data-reveal-zigzag] > * {
+    opacity: 0;
+    animation-timeline: view();
+    animation-fill-mode: both;
+    animation-timing-function: linear(0, 0.45 8%, 0.78 18%, 0.92 30%, 0.98 50%, 1);
+  }
+  [data-reveal-zigzag] > *:nth-child(odd) {
+    transform: translateX(-72px);
+    animation-name: emp-zigzag-left;
+  }
+  [data-reveal-zigzag] > *:nth-child(even) {
+    transform: translateX(72px);
+    animation-name: emp-zigzag-right;
+  }
+  /* Stagger via animation-range deslocado (ms-delay e ignorado em
+     scroll-driven). Range esticado pra `cover 45%` pra animacao ter
+     janela visivel de scroll — antes terminava em cover 25% e completava
+     antes do user perceber. Translate 72px (vs 32px) pra entrada mais
+     dramatica. Bug fix 08/05/2026 v2. */
+  [data-reveal-zigzag] > *:nth-child(1),
+  [data-reveal-zigzag] > *:nth-child(2)  { animation-range: entry 1% cover 45%; }
+  [data-reveal-zigzag] > *:nth-child(3),
+  [data-reveal-zigzag] > *:nth-child(4)  { animation-range: entry 10% cover 54%; }
+  [data-reveal-zigzag] > *:nth-child(5),
+  [data-reveal-zigzag] > *:nth-child(6)  { animation-range: entry 19% cover 63%; }
+  [data-reveal-zigzag] > *:nth-child(7),
+  [data-reveal-zigzag] > *:nth-child(8)  { animation-range: entry 28% cover 72%; }
+}
+
+@keyframes emp-zigzag-left {
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes emp-zigzag-right {
+  to { opacity: 1; transform: translateX(0); }
+}
+
 /* D4.2 — Stagger refinado pra rows de tabela (até 12 linhas).
    Reaproveita keyframe `emp-reveal`. Delay menor (50ms) pra adequar
    ritmo de tabela vs cards (160ms). Easing luxury. */
@@ -557,7 +659,7 @@
     animation: emp-reveal both;
     animation-timeline: view();
     animation-range: entry 5% cover 30%;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-timing-function: linear(0, 0.45 8%, 0.78 18%, 0.92 30%, 0.98 50%, 1);
   }
   [data-reveal-rows] > *:nth-child(1)  { animation-delay: 0ms; }
   [data-reveal-rows] > *:nth-child(2)  { animation-delay: 50ms; }

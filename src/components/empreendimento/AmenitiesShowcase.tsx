@@ -51,34 +51,82 @@ export function AmenitiesShowcase({
           </p>
         </div>
 
-        {/* Showcase grid — 2 colunas mobile, 3 colunas desktop */}
+        {/* Showcase grid — magazine spread cards (08/05/2026 v3).
+            Antes: cards brancos chapados com foto pequena 4:3 + texto
+            embaixo. Depois: full-bleed image cards aspect 4:5, conteudo
+            editorial overlay (numero + nome + linha dourada sempre
+            visiveis), descricao slide-up no hover via grid-rows trick
+            (smooth height animation, zero JS). Padrao Aman/Bulgari.
+
+            Transicoes: easing luxury cubic-bezier(0.22,1,0.36,1) em
+            todas as propriedades. Imagem zoom 1400ms (cinematic),
+            overlay/conteudo 700ms. Ring/glow gold no hover. */}
         {showcase.length > 0 && (
           <div
             className="mx-auto mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-            data-reveal-stagger
+            data-reveal-zigzag
           >
             {showcase.map((amenity, idx) => (
               <article
                 key={amenity.name}
-                className="group overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-neutral-100 transition hover:shadow-md"
+                className="group relative aspect-[4/5] overflow-hidden rounded-3xl bg-neutral-900 shadow-lg ring-1 ring-neutral-200/60 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-[0_25px_60px_-15px_rgba(201,168,118,0.25),0_15px_40px_-15px_rgba(0,0,0,0.35)] hover:ring-[#c9a876]/40"
               >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100">
-                  <Image
-                    src={amenity.image}
-                    alt={`${amenity.name} — render do ${empreendimentoNome}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover transition duration-700 group-hover:scale-[1.03]"
-                    loading={idx < 3 ? "eager" : "lazy"}
-                  />
+                <Image
+                  src={amenity.image}
+                  alt={`${amenity.name} — render do ${empreendimentoNome}`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.08]"
+                  loading={idx < 3 ? "eager" : "lazy"}
+                  data-image-zoom
+                />
+
+                {/* Gradient overlay — leve no estado normal, firma no
+                    hover pra suportar leitura da descricao revelada. */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:from-black/92 group-hover:via-black/45" />
+
+                {/* Numero editorial top-left — magazine reference number
+                    com linha dourada decorativa. Cresce no hover. */}
+                <div className="absolute left-5 top-5 flex items-center gap-3 sm:left-6 sm:top-6">
+                  <span className="font-serif text-[11px] tracking-[0.3em] text-white/65 sm:text-xs">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <span className="h-px w-8 bg-[#c9a876] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:w-14" />
                 </div>
-                <div className="p-5 sm:p-6">
-                  <h3 className="font-serif text-lg font-light tracking-tight text-neutral-900 sm:text-xl">
+
+                {/* Conteudo bottom — nome + linha + descricao revelavel.
+                    Description usa grid-rows trick: 0fr -> 1fr anima
+                    height de forma fluida (CSS-only, sem max-height
+                    arbitrario). Browsers que nao suportam (raros)
+                    degradam pra estado fechado. */}
+                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
+                  <h3 className="font-serif text-2xl font-light italic leading-tight tracking-tight text-white sm:text-[1.6rem]">
                     {amenity.name}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-neutral-500">
-                    {amenity.description}
-                  </p>
+
+                  {/* Linha dourada — extende no hover */}
+                  <div
+                    className="mt-3 h-[2px] w-12 rounded-full bg-[#c9a876] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:w-20"
+                    aria-hidden="true"
+                  />
+
+                  {/* Descricao com grid-rows animation — animacao smooth
+                      de height sem max-height arbitrario. Padrao: parent
+                      grid `0fr -> 1fr` + child wrapper com overflow-hidden
+                      + conteudo real dentro. Padding-top aparece
+                      naturalmente quando expande (clipado quando 0fr).
+
+                      Mobile/tablet (<lg): sempre visivel (grid-rows-[1fr]
+                      + opacity-100). Sem hover em touch, esconder a
+                      descricao bloqueia info pro usuario. Desktop (lg+):
+                      hidden por padrao + revela no hover. */}
+                  <div className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] lg:grid-rows-[0fr] lg:group-hover:grid-rows-[1fr]">
+                    <div className="overflow-hidden">
+                      <p className="pt-3 text-sm leading-relaxed text-white/85 opacity-100 transition-opacity duration-500 ease-out lg:opacity-0 lg:group-hover:opacity-100 lg:group-hover:delay-150">
+                        {amenity.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </article>
             ))}

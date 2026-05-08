@@ -16,6 +16,7 @@ import { RelatedPages } from "@/components/seo/RelatedPages"
 import { PropertyMap } from "@/components/property/PropertyMap"
 import { getPropertyFeatureIcon } from "@/components/property/propertyFeatureIcons"
 import { getEmpreendimentoAssets, getTorreShortSlug, hasEditorialLayout } from "@/data/empreendimento-assets"
+import { getTorreAccent } from "@/components/empreendimento/units/editorial"
 import { PlantasCarousel } from "@/components/empreendimento/PlantasCarousel"
 import { PlantasGallery } from "@/components/empreendimento/PlantasGallery"
 import { VideoLazyEmbed } from "@/components/empreendimento/VideoLazyEmbed"
@@ -25,6 +26,7 @@ import { AmenitiesShowcase } from "@/components/empreendimento/AmenitiesShowcase
 import { LocationStorytelling } from "@/components/empreendimento/LocationStorytelling"
 import { UnitsShowcase } from "@/components/empreendimento/units/UnitsShowcase"
 import { EmpreendimentoMobileMenu } from "@/components/empreendimento/EmpreendimentoMobileMenu"
+import { CountUp } from "@/components/empreendimento/CountUp"
 import type { Property } from "@/types/property"
 import { SITE_URL } from "@/lib/constants"
 
@@ -397,7 +399,7 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
             Plantas
           </Link>
           <Link href="#precos" className="hidden shrink-0 px-1 uppercase opacity-75 transition hover:text-[#c9a876] hover:opacity-100 md:inline-flex">
-            Preços
+            Unidades
           </Link>
           <Link href="#infraestrutura" className="hidden shrink-0 px-1 uppercase opacity-75 transition hover:text-[#c9a876] hover:opacity-100 md:inline-flex">
             Lazer
@@ -427,7 +429,7 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
               whatsUrl={whatsUrl}
               sections={[
                 { href: "#plantas", label: "Plantas" },
-                { href: "#precos", label: "Preços" },
+                { href: "#precos", label: "Unidades" },
                 { href: "#infraestrutura", label: "Lazer" },
                 { href: "#localizacao", label: "Localização" },
               ]}
@@ -534,58 +536,81 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                         : null)
                   if (!tagline) return null
                   return (
-                    <p data-reveal className="mt-10 text-[clamp(22px,2.2vw,38px)] font-light leading-[1.15] tracking-[-0.035em] text-white/95 drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">
+                    <p data-reveal className="mt-10 whitespace-pre-line text-[clamp(22px,2.2vw,38px)] font-light leading-[1.15] tracking-[-0.035em] text-white/95 drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">
                       {tagline}
                     </p>
                   )
                 })()}
-                {tipos.length > 0 && (
-                  <p data-reveal className="mt-5 text-[14px] font-normal leading-[1.6] text-white/[0.72] drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]">
-                    {(() => {
-                      const pluralize = (t: string) => {
-                        const lower = t.toLowerCase()
-                        if (lower === "studio") return "studios"
-                        if (lower === "apartamento") return "apartamentos"
-                        if (lower === "apartamento duplex") return "duplex"
-                        if (lower === "sala comercial") return "salas comerciais"
-                        if (lower === "loja") return "lojas"
-                        return lower.endsWith("s") ? lower : `${lower}s`
-                      }
-                      const visiveis = tipos.slice(0, 3).map(pluralize)
-                      const lista =
-                        visiveis.length === 1
-                          ? visiveis[0]
-                          : visiveis.length === 2
-                            ? visiveis.join(" e ")
-                            : `${visiveis.slice(0, -1).join(", ")} e ${visiveis[visiveis.length - 1]}`
-                      // "em frente ao Parque Barigui" vende mais que "proximos
-                      // ao". Restrito ao Mossungue (vizinho direto do parque).
-                      const proximidade =
-                        bairros[0] === "Mossunguê"
-                          ? "em frente ao Parque Barigui"
-                          : bairros[0]
-                            ? `no ${bairros[0]}`
-                            : "em Curitiba"
-                      return `${lista.charAt(0).toUpperCase()}${lista.slice(1)} ${proximidade}`
-                    })()}
-                  </p>
-                )}
+                {(() => {
+                  // Subhead override editorial (08/05/2026): assets podem
+                  // setar `subheadHero` pra substituir o template
+                  // auto-gerado de tipos + bairro. Usar quando o pitch
+                  // editorial precisa ser mais especifico que o catalogo
+                  // de SKUs (numero de torres, prazo, diferenciador).
+                  if (assets.subheadHero) {
+                    return (
+                      <p data-reveal className="mt-5 text-[14px] font-normal leading-[1.6] text-white/[0.72] drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]">
+                        {assets.subheadHero}
+                      </p>
+                    )
+                  }
+                  if (tipos.length === 0) return null
+                  const pluralize = (t: string) => {
+                    const lower = t.toLowerCase()
+                    if (lower === "studio") return "studios"
+                    if (lower === "apartamento") return "apartamentos"
+                    if (lower === "apartamento duplex") return "duplex"
+                    if (lower === "sala comercial") return "salas comerciais"
+                    if (lower === "loja") return "lojas"
+                    return lower.endsWith("s") ? lower : `${lower}s`
+                  }
+                  const visiveis = tipos.slice(0, 3).map(pluralize)
+                  const lista =
+                    visiveis.length === 1
+                      ? visiveis[0]
+                      : visiveis.length === 2
+                        ? visiveis.join(" e ")
+                        : `${visiveis.slice(0, -1).join(", ")} e ${visiveis[visiveis.length - 1]}`
+                  // "em frente ao Parque Barigui" vende mais que "proximos
+                  // ao". Restrito ao Mossungue (vizinho direto do parque).
+                  const proximidade =
+                    bairros[0] === "Mossunguê"
+                      ? "em frente ao Parque Barigui"
+                      : bairros[0]
+                        ? `no ${bairros[0]}`
+                        : "em Curitiba"
+                  const text = `${lista.charAt(0).toUpperCase()}${lista.slice(1)} ${proximidade}`
+                  return (
+                    <p data-reveal className="mt-5 text-[14px] font-normal leading-[1.6] text-white/[0.72] drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]">
+                      {text}
+                    </p>
+                  )
+                })()}
 
                 {/* CTAs — h-11 fixo + tracking 0.14em + font-semibold no
                     primario (vs era 0.2em font-medium). Secundario com
                     border/bg mais sutis (32%/4%) e text-white/85 pra
                     parecer arquitetonico, nao "pilula SaaS". */}
                 <div data-reveal className="mt-9 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-                  <a
-                    href={whatsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-track="whatsapp_click"
-                    data-source="hero_primary"
-                    className="inline-flex h-11 items-center gap-2.5 rounded-full bg-[#246B4E] px-[34px] text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-xl transition hover:bg-[#2B7D5A] sm:h-12 sm:px-9"
+                  {/* CTA primario hero — leva pro catalogo de unidades
+                      (#precos). Antes era WhatsApp; trocado em 07/05/2026
+                      pra reduzir friccao (usuario quer ver imoveis antes
+                      de falar com corretor).
+
+                      Cor refator 08/05/2026: era verde #246B4E (cor
+                      WhatsApp/conversao) que destoava da paleta editorial
+                      gold/bronze/verdigris da pagina + fica orfao porque
+                      esse CTA e link interno, nao WhatsApp. Trocado pra
+                      bronze solido #8b6f47 (mesmo da torre Colina) — warm,
+                      premium, contrasta com sunset dourado, coerente com
+                      paleta. Hover gold #c9a876 (transicao de profundidade
+                      pra mais luz). */}
+                  <Link
+                    href="#precos"
+                    className="inline-flex h-11 items-center gap-2.5 rounded-full bg-[#8b6f47] px-[34px] text-[11px] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_8px_28px_-8px_rgba(139,111,71,0.55)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#a0825a] hover:shadow-[0_12px_36px_-8px_rgba(201,168,118,0.6)] sm:h-12 sm:px-9"
                   >
-                    Agendar visita privativa
-                  </a>
+                    Ver unidades
+                  </Link>
                   <Link
                     href="#plantas"
                     className="inline-flex h-11 items-center gap-2 rounded-full border border-white/[0.32] bg-white/[0.04] px-[30px] text-[11px] font-medium uppercase tracking-[0.14em] text-white/85 shadow-md backdrop-blur-md transition hover:border-white/60 hover:bg-white/15 sm:h-12 sm:px-8"
@@ -736,7 +761,19 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                 <p className="mb-4 text-[10px] tracking-[0.4em] text-white/45 sm:text-[11px]">
                   VÍDEO DO EMPREENDIMENTO
                 </p>
-                <VideoLazyEmbed videoUrl={videoUrl} title={`Vídeo do ${emp.nome}`} />
+                {/* SEO 08/05/2026: thumbnailOverride com heroImage do
+                    empreendimento. Antes o componente caia no fallback
+                    `i.ytimg.com/vi/{id}/maxresdefault.jpg` que ficava
+                    embarcado como <img> real no HTML — Google preferia
+                    essa imagem (frame do video) sobre o og:image no SERP
+                    card. Apontando pro mesmo asset local que ja serve
+                    de og:image, o SERP card agora exibe a foto da capa
+                    do empreendimento de forma consistente. */}
+                <VideoLazyEmbed
+                  videoUrl={videoUrl}
+                  title={`Vídeo do ${emp.nome}`}
+                  thumbnailOverride={assets?.heroImage}
+                />
               </div>
             )}
           </div>
@@ -907,7 +944,7 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
             <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8" data-reveal-stagger>
               <div className="text-center">
                 <p className="font-serif text-5xl font-extralight tracking-tight text-neutral-900 sm:text-6xl lg:text-7xl">
-                  {assets.torres.length}
+                  <CountUp end={assets.torres.length} duration={1200} />
                 </p>
                 <div className="mx-auto mt-3 h-px w-12 bg-[#c9a876]" />
                 <p className="mt-4 text-[10px] tracking-[0.3em] text-neutral-500 sm:text-[11px]">
@@ -919,7 +956,11 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
               </div>
               <div className="text-center md:border-x md:border-neutral-200">
                 <p className="font-serif text-5xl font-extralight tracking-tight text-neutral-900 sm:text-6xl lg:text-7xl">
-                  8.000<span className="text-2xl text-neutral-500 sm:text-3xl"> m²</span>
+                  <CountUp
+                    end={8000}
+                    duration={1800}
+                    suffix={<span className="text-2xl text-neutral-500 sm:text-3xl"> m²</span>}
+                  />
                 </p>
                 <div className="mx-auto mt-3 h-px w-12 bg-[#c9a876]" />
                 <p className="mt-4 text-[10px] tracking-[0.3em] text-neutral-500 sm:text-[11px]">
@@ -931,7 +972,12 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
               </div>
               <div className="text-center">
                 <p className="font-serif text-5xl font-extralight tracking-tight text-neutral-900 sm:text-6xl lg:text-7xl">
-                  1,4<span className="text-2xl text-neutral-500 sm:text-3xl"> mi m²</span>
+                  <CountUp
+                    end={1.4}
+                    duration={1600}
+                    decimals={1}
+                    suffix={<span className="text-2xl text-neutral-500 sm:text-3xl"> mi m²</span>}
+                  />
                 </p>
                 <div className="mx-auto mt-3 h-px w-12 bg-[#c9a876]" />
                 <p className="mt-4 text-[10px] tracking-[0.3em] text-neutral-500 sm:text-[11px]">
@@ -981,7 +1027,11 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
               </p>
             </div>
 
-            <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3" data-reveal-stagger>
+            {/* Magazine spread v6 (08/05/2026): cards com hover reveal pattern
+                (Aman/Bulgari) + cor signature por torre. Animacao 1: slide-in
+                cascata via data-torre-cascade (left/bottom/right) — ver
+                globals.css. */}
+            <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3" data-torre-cascade>
               {assets.torres.map((torre) => {
                 // Auto-fetch plantas from CRM for this torre's empreendimento.
                 // Static fallback (torre.plantas) is torre-specific by design —
@@ -1004,68 +1054,123 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                 // containsPlace.
                 const torreShortSlug = getTorreShortSlug(torre.nome)
                 const torreAnchor = `torre-${torreShortSlug}`
+                const accent = getTorreAccent(torreShortSlug)
 
                 return (
                   <Link
                     key={torre.nome}
                     id={torreAnchor}
                     href={`/empreendimento/${slug}/${torreShortSlug}`}
-                    className="group relative flex aspect-[4/5] overflow-hidden rounded-3xl bg-neutral-900 shadow-xl scroll-mt-24 transition-all duration-500 hover:shadow-2xl hover:shadow-[#c9a876]/20"
+                    style={
+                      {
+                        "--torre-accent": accent.color,
+                        "--torre-accent-soft": accent.bgSoft,
+                        "--torre-accent-border": accent.borderSoft,
+                      } as React.CSSProperties
+                    }
+                    className="group relative flex aspect-[4/5] overflow-hidden rounded-3xl bg-neutral-900 shadow-xl scroll-mt-24 ring-1 ring-[var(--torre-accent-border)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-2xl hover:[box-shadow:0_25px_60px_-15px_var(--torre-accent-soft),0_15px_40px_-15px_rgba(0,0,0,0.4)]"
                   >
                     {torre.render ? (
                       <Image
                         src={torre.render}
-                        alt={`${torre.nome} — render da torre do ${emp.nome}${construtora ? ` (${construtora})` : ""}${bairros[0] ? ` em ${bairros[0]}, Curitiba` : ""}`}
+                        alt={`${torre.nome} - render da torre do ${emp.nome}${construtora ? ` (${construtora})` : ""}${bairros[0] ? ` em ${bairros[0]}, Curitiba` : ""}`}
                         fill
-                        className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+                        className="object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.08]"
                         sizes="(max-width: 768px) 100vw, 33vw"
                         loading="lazy"
+                        data-image-zoom
                       />
                     ) : null}
 
-                    {/* Gradient overlay — bottom para texto, top para logo */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-black/55" />
+                    {/* Gradient mais leve no estado normal desktop (deixa
+                        imagem respirar). Hover firma pra suportar reveal
+                        overlay. Mobile/tablet sempre firme (info visivel). */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/45 transition-opacity duration-500 lg:from-black/55 lg:via-transparent lg:to-black/30 lg:group-hover:from-black/90 lg:group-hover:via-black/40 lg:group-hover:to-black/55" />
 
-                    {/* Logo da torre — overlay top-center */}
+                    {/* Logo da torre - overlay top-center, drop-shadow accent */}
                     {torre.logo && (
                       <div className="absolute top-6 left-1/2 -translate-x-1/2 sm:top-8">
                         <Image
                           src={torre.logo}
-                          alt={`Logo ${torre.nome} · ${emp.nome}`}
+                          alt={`Logo ${torre.nome} - ${emp.nome}`}
                           width={220}
                           height={88}
-                          className="h-auto max-h-[64px] w-auto max-w-[180px] object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:max-h-[80px] sm:max-w-[220px]"
+                          className="h-auto max-h-[64px] w-auto max-w-[180px] object-contain drop-shadow-[0_2px_16px_rgba(0,0,0,0.65)] sm:max-h-[80px] sm:max-w-[220px]"
                         />
                       </div>
                     )}
 
-                    {/* Conteudo bottom — descricao + CTA */}
-                    <div className="relative z-10 mt-auto flex w-full flex-col p-6 sm:p-8">
+                    {/* MOBILE/TABLET (até md): conteudo bottom completo
+                        sempre visivel. Desktop (lg+): minimal cue. */}
+                    <div className="relative z-10 mt-auto flex w-full flex-col p-6 sm:p-8 lg:transition-all lg:duration-500 lg:ease-[cubic-bezier(0.22,1,0.36,1)] lg:group-hover:translate-y-3 lg:group-hover:opacity-0">
                       {!torre.logo && (
                         <h3 className="mb-4 font-serif text-2xl font-light italic tracking-wider text-white">
                           {torre.nome}
                         </h3>
                       )}
+                      <div className="lg:hidden">
+                        {torre.descricao && (
+                          <p className="mb-5 line-clamp-3 text-sm leading-relaxed text-white/90">
+                            {torre.descricao}
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between gap-3">
+                          {torrePlantas.length > 0 && (
+                            <span className="text-[10px] tracking-[0.25em] uppercase text-white/55">
+                              {torrePlantas.length} {torrePlantas.length === 1 ? "planta" : "plantas"}
+                            </span>
+                          )}
+                          <span
+                            className="ml-auto inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition"
+                            style={{ backgroundColor: accent.color }}
+                          >
+                            Conhecer
+                            <span className="transition-transform group-hover:translate-x-1">{"->"}</span>
+                          </span>
+                        </div>
+                      </div>
+                      {/* Desktop: cue minimal (planta count + arrow accent) */}
+                      <div className="hidden items-end justify-between lg:flex">
+                        {torrePlantas.length > 0 && (
+                          <span className="text-[10px] uppercase tracking-[0.3em] text-white/65">
+                            {torrePlantas.length} {torrePlantas.length === 1 ? "planta" : "plantas"}
+                          </span>
+                        )}
+                        <span
+                          className="ml-auto text-[10px] uppercase tracking-[0.3em]"
+                          style={{ color: accent.color }}
+                        >
+                          {"Conhecer ->"}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* HOVER REVEAL OVERLAY (desktop apenas) - descricao
+                        completa + CTA fazem slide-up + fade-in. Padrao
+                        Aman/Bulgari magazine. */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 hidden translate-y-6 p-6 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:p-8 lg:block lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
                       {torre.descricao && (
-                        <p className="mb-5 line-clamp-3 text-sm leading-relaxed text-white/90">
+                        <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-white/95">
                           {torre.descricao}
                         </p>
                       )}
                       <div className="flex items-center justify-between gap-3">
                         {torrePlantas.length > 0 && (
-                          <span className="text-[10px] tracking-[0.25em] uppercase text-white/55">
+                          <span className="text-[10px] uppercase tracking-[0.3em] text-white/65">
                             {torrePlantas.length} {torrePlantas.length === 1 ? "planta" : "plantas"}
                           </span>
                         )}
-                        <span className="ml-auto inline-flex items-center gap-2 rounded-full bg-[#c9a876] px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white transition group-hover:bg-[#b8966a]">
-                          Conhecer
-                          <span className="transition-transform group-hover:translate-x-1">→</span>
+                        <span
+                          className="ml-auto inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white shadow-lg"
+                          style={{ backgroundColor: accent.color }}
+                        >
+                          {"Conhecer ->"}
                         </span>
                       </div>
                     </div>
 
-                    {/* Hover: borda dourada sutil */}
-                    <div className="pointer-events-none absolute inset-0 rounded-3xl ring-0 ring-[#c9a876]/0 transition-all duration-500 group-hover:ring-2 group-hover:ring-[#c9a876]/50" />
+                    {/* Ring accent no hover (cor signature da torre) */}
+                    <div className="pointer-events-none absolute inset-0 rounded-3xl ring-0 transition-all duration-500 group-hover:ring-2 group-hover:ring-[var(--torre-accent)]/55" />
                   </Link>
                 )
               })}

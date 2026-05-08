@@ -135,7 +135,14 @@ export interface TorreAccent {
  *
  * - Lago    -> Dourado warm (natureza/parque, palette do hub)
  * - Colina  -> Bronze profundo (elegancia residencial premium)
- * - Mirante -> Cinza ardosia (corporativo/comercial)
+ * - Mirante -> Verdigris / cobre oxidado (corporativo, mas vivo —
+ *              historia: cinza puro #6b7280 ficou desbotado vs gold/bronze;
+ *              tentativa 08/05/2026 com #475569 slate-petroleo ainda lia
+ *              como "cinza" porque slate tem chroma muito baixa.
+ *              Fix 08/05/2026 v2: #4f7368 (verdigris/cobre oxidado).
+ *              Hue 165 distinto de gold (75) e bronze (40), saturacao
+ *              ~3x maior que slate, mantem familia "metal patinado"
+ *              coerente com o resto do hub — Aman/Bulgari aesthetic.)
  *
  * Hubs sem mapping registrado caem no default dourado (paleta padrao da
  * pagina de empreendimento). Aceitar chave por nome curto (lago/colina/
@@ -153,9 +160,9 @@ const TORRE_ACCENTS: Record<string, TorreAccent> = {
     borderSoft: "rgba(139, 111, 71, 0.4)",
   },
   mirante: {
-    color: "#6b7280",
-    bgSoft: "rgba(107, 114, 128, 0.08)",
-    borderSoft: "rgba(107, 114, 128, 0.4)",
+    color: "#4f7368",
+    bgSoft: "rgba(79, 115, 104, 0.10)",
+    borderSoft: "rgba(79, 115, 104, 0.45)",
   },
 }
 

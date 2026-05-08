@@ -1,3 +1,4 @@
+import Image from "next/image"
 import type { Property } from "@/types/property"
 import {
   classifyTorreFor,
@@ -38,6 +39,16 @@ interface UnitsShowcaseProps {
  *
  * Server Component — zero JS no client.
  */
+/**
+ * Sprint design 08/05/2026 — Apple frosted glass v4.
+ *
+ * Asset trocado pra folhas.webp (botanical, textura sem elementos
+ * competindo). Aplicado blur forte direto na imagem -> abstract texture
+ * que dialoga com cards/tabela em frosted glass por cima. Padrao iOS 18
+ * /Vision Pro: background visivel + cards translucidos com backdrop blur.
+ */
+const AMBIENT_IMAGE = "/images/empreendimentos/reserva-barigui/folhas.webp"
+
 export function UnitsShowcase({
   properties,
   torres,
@@ -63,8 +74,26 @@ export function UnitsShowcase({
   const totalUnits = properties.length
 
   return (
-    <section id="precos" className="bg-white py-20 md:py-28">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section
+      id="precos"
+      className="relative overflow-hidden py-20 md:py-28"
+    >
+      {/* Bug fix 08/05/2026: section tinha `bg-[#f9f4ea]` sólido + div
+          do background com `-z-10` — a imagem ficava ATRÁS do bg sólido,
+          nunca aparecia. Solução: bg da section vira o próprio div
+          ambient, com Image + overlays sobrepostos no mesmo container.
+          Conteúdo tem `relative z-10` pra ficar acima. */}
+      {/* Magazine spread v6 (Aman/Bulgari Residences pattern, 08/05/2026):
+          Bg pure white, clutter-free, generous white space. Sem imagem
+          ambient — produto fala por si. Linhas douradas top/bottom como
+          unica decoracao da section. Tipografia editorial gigante e
+          contraste de cards com white preserve foco no produto. */}
+      <div className="pointer-events-none absolute inset-0 bg-white" aria-hidden="true">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#c9a876]/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#c9a876]/40 to-transparent" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header da secao mestre */}
         <div className="text-center">
           <p data-reveal className="text-[10px] tracking-[0.4em] text-[#c9a876] sm:text-[11px]">
@@ -84,9 +113,11 @@ export function UnitsShowcase({
           </p>
         </div>
 
-        {/* Blocos editoriais por torre */}
-        <div className="mt-16 space-y-20 md:mt-20 md:space-y-28">
-          {torresWithUnits.map((torre) => {
+        {/* Blocos editoriais por torre — magazine spread v6.
+            Espacamento generoso entre torres + separator dourado decorativo
+            entre cada bloco pra criar ritmo de "capitulos" editoriais. */}
+        <div className="mt-20 md:mt-24">
+          {torresWithUnits.map((torre, torreIndex) => {
             const slug = getTorreShortSlug(torre.nome)
             const torreProps = propertiesByTorre[slug] ?? []
             const featured = pickFeatured(torreProps)
@@ -98,11 +129,28 @@ export function UnitsShowcase({
               <div
                 key={slug}
                 id={`unidades-${slug}`}
-                className="scroll-mt-20"
+                className={`scroll-mt-20 ${torreIndex > 0 ? "mt-24 md:mt-32" : ""}`}
                 data-reveal="soft"
               >
-                {/* Mini-header da torre — caption + linha decorativa em accent
-                    da torre (S5) cria identidade visual propria */}
+                {/* Separator decorativo entre torres — 3 pontos dourado
+                    pattern editorial (Wallpaper magazine style). Aparece
+                    so a partir da segunda torre. */}
+                {torreIndex > 0 && (
+                  <div
+                    aria-hidden="true"
+                    className="mx-auto mb-24 flex items-center justify-center gap-3 md:mb-32"
+                  >
+                    <span className="h-px w-16 bg-[#c9a876]/40" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#c9a876]/60" />
+                    <span className="h-1 w-1 rounded-full bg-[#c9a876]/40" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#c9a876]/60" />
+                    <span className="h-px w-16 bg-[#c9a876]/40" />
+                  </div>
+                )}
+
+                {/* Mini-header da torre — magazine cover style: title
+                    gigante serif italic + caption pequena em accent da
+                    torre + linha decorativa + descricao + entrega */}
                 <div className="mx-auto max-w-3xl text-center">
                   <p
                     className="text-[10px] uppercase tracking-[0.4em] sm:text-[11px]"
@@ -111,22 +159,22 @@ export function UnitsShowcase({
                     {torreProps.length}{" "}
                     {torreProps.length === 1 ? "unidade" : "unidades"} disponíveis
                   </p>
-                  <h3 className="mt-3 font-serif text-2xl font-light italic tracking-tight text-neutral-900 sm:text-3xl">
+                  <h3 className="mt-4 font-serif text-4xl font-light italic leading-[1.05] tracking-tight text-neutral-900 sm:text-5xl lg:text-6xl">
                     {torre.nome}
                   </h3>
-                  {/* Linha decorativa accent da torre */}
+                  {/* Linha decorativa accent da torre — h-[2px] mais firme */}
                   <div
-                    className="mx-auto mt-4 h-px w-12"
-                    style={{ backgroundColor: accent.color, opacity: 0.6 }}
+                    className="mx-auto mt-6 h-[2px] w-16 rounded-full"
+                    style={{ backgroundColor: accent.color, opacity: 0.7 }}
                     aria-hidden="true"
                   />
                   {torre.descricao && (
-                    <p className="mt-5 text-sm leading-relaxed text-neutral-500">
+                    <p className="mt-6 text-[15px] leading-relaxed text-neutral-600">
                       {torre.descricao}
                     </p>
                   )}
                   {entrega && (
-                    <p className="mt-4 text-[11px] uppercase tracking-[0.25em] text-neutral-400">
+                    <p className="mt-5 text-[11px] uppercase tracking-[0.3em] text-neutral-400">
                       Entrega prevista · {entrega}
                     </p>
                   )}

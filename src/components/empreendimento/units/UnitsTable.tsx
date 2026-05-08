@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import type { Property } from "@/types/property"
@@ -53,7 +54,10 @@ export function UnitsTable({
   const accent = getTorreAccent(torreSlug)
 
   return (
-    <ul className="divide-y divide-neutral-100" data-reveal-rows>
+    <ul
+      className="overflow-hidden rounded-3xl bg-white shadow-[0_15px_45px_-20px_rgba(38,32,16,0.14)] ring-1 ring-stone-200/60 divide-y divide-stone-200/55"
+      data-reveal-rows
+    >
       {properties.map((p) => {
         const editorialTitle = getEditorialTitle(p)
         const badgeLabel = resolvedBadge ? getBadgeLabel(resolvedBadge, p) : null
@@ -81,7 +85,7 @@ export function UnitsTable({
         return (
           <li
             key={p.codigo}
-            className="group relative transition-colors duration-300"
+            className="group relative transition-colors duration-500"
             style={
               {
                 "--accent-color": accent.color,
@@ -91,17 +95,36 @@ export function UnitsTable({
           >
             <Link
               href={p.url}
-              className="block py-6 transition-colors duration-300 hover:[background:var(--accent-bg)] sm:py-8 sm:[grid-template-columns:1fr_auto] sm:[display:grid] sm:items-center sm:gap-6 sm:px-2"
+              className="block py-4 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:[background:var(--accent-bg)] sm:py-5 sm:[grid-template-columns:auto_1fr_auto] sm:[display:grid] sm:items-center sm:gap-5 sm:px-2"
             >
-              {/* Border-l accent — aparece no hover */}
+              {/* Border-l accent — barra de 3px mais pronunciada que aparece
+                  no hover (refinement 08/05/2026: era 1px discreto demais) */}
               <span
                 aria-hidden="true"
-                className="absolute inset-y-0 left-0 w-px scale-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [transform-origin:top] group-hover:scale-y-100"
-                style={{ backgroundColor: accent.color, opacity: 0.5 }}
+                className="absolute inset-y-0 left-0 w-[3px] scale-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [transform-origin:top] group-hover:scale-y-100"
+                style={{ backgroundColor: accent.color, opacity: 0.85 }}
               />
 
+              {/* THUMBNAIL — 80x80 (Aman/Bulgari magazine spread v6,
+                  08/05/2026). Foto da unidade ao lado da info, da
+                  contexto visual sem precisar abrir detalhes. Hover
+                  scale sutil pra reforcar interatividade.
+                  Mobile: oculto pra economizar espaco. */}
+              {p.fotoDestaque && (
+                <div className="hidden h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-neutral-100 sm:block sm:ml-3 lg:ml-5">
+                  <Image
+                    src={p.fotoDestaque}
+                    alt=""
+                    width={160}
+                    height={160}
+                    className="h-full w-full object-cover transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.08]"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+
               {/* COLUNA ESQUERDA: tipologia + stats + accolade */}
-              <div className="min-w-0 px-5 sm:px-3 lg:px-5">
+              <div className="min-w-0 px-5 sm:px-0 lg:px-2">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
                   <h4 className="font-serif text-xl font-light italic leading-tight tracking-tight text-neutral-900 sm:text-2xl">
                     {editorialTitle}

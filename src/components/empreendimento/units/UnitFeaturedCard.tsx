@@ -61,35 +61,63 @@ export function UnitFeaturedCard({
   return (
     <Link
       href={property.url}
-      className="group block overflow-hidden rounded-2xl bg-white ring-1 ring-neutral-200/80 transition duration-500 hover:-translate-y-1 hover:shadow-xl hover:ring-neutral-300"
+      style={
+        {
+          "--accent": accent.color,
+          "--accent-soft": accent.bgSoft,
+          "--accent-border": accent.borderSoft,
+        } as React.CSSProperties
+      }
+      className="group relative block overflow-hidden rounded-3xl bg-white shadow-[0_15px_50px_-15px_rgba(38,32,16,0.18)] ring-1 ring-[var(--accent-border)] transition duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[0_25px_70px_-15px_var(--accent-soft),0_15px_50px_-20px_rgba(38,32,16,0.25)] hover:ring-[var(--accent)]/55"
       aria-label={`Ver detalhes ${editorialTitle}, ${property.titulo}`}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr]">
-        {/* ───── COLUNA ESQUERDA — IMAGEM (sem overlay, respira) ───── */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr]">
+        {/* ───── COLUNA ESQUERDA — IMAGEM com gradient sutil ─────
+            Magazine spread v6 (08/05): mobile mantem 4/5 vertical pra
+            respiro de stats. Desktop ratio 1.6/1 (split mais cinematic
+            que 1.4/1 anterior — imagem ganha mais peso).
+
+            08/05 v3: foto comercial do Mirante (cores frias/neutras)
+            ficava desbotada vs Lago/Colina (saturadas). Adicionado overlay
+            tint accent + gradient diagonal sutil pro canto inferior dar
+            peso editorial em qualquer foto, accent-aware. */}
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100 lg:aspect-auto">
           <Image
             src={property.fotoDestaque}
             alt={`${editorialTitle} — ${property.titulo}`}
             fill
             sizes="(max-width: 1024px) 100vw, 60vw"
-            className="object-cover transition duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+            className="object-cover transition duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
             loading="lazy"
             data-image-zoom
           />
 
-          {/* Vinheta sutil radial — afasta foco das bordas, dá profundidade */}
+          {/* Tint accent muito sutil — funde com cor signature da torre,
+              dá unidade visual quando foto não tem cor própria forte */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.18)_100%)]"
+            className="pointer-events-none absolute inset-0 mix-blend-multiply opacity-25"
+            style={{
+              background: `linear-gradient(135deg, transparent 50%, ${accent.color} 100%)`,
+            }}
           />
 
-          {/* Badge canto superior — discreto, accent da torre */}
+          {/* Gradient diagonal escuro — escurece canto inferior direito
+              dando profundidade editorial sem comprometer leitura do badge */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,transparent_55%,rgba(0,0,0,0.22)_100%)]"
+          />
+
+          {/* Badge canto superior — sólido dourado da torre com glow sutil
+              (refinement 08/05/2026: era outline branco translúcido, agora
+              tem peso editorial real). */}
           {badgeLabel && (
             <span
-              className="absolute left-5 top-5 inline-flex items-center rounded-full border bg-white/85 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.25em] backdrop-blur-sm sm:px-4"
+              className="absolute left-5 top-5 inline-flex items-center rounded-full px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white sm:px-4"
               style={{
-                color: accent.color,
-                borderColor: accent.borderSoft,
+                backgroundColor: accent.color,
+                boxShadow: `0 4px 18px -2px ${accent.color}80`,
               }}
             >
               {badgeLabel}
@@ -120,10 +148,10 @@ export function UnitFeaturedCard({
               </p>
             )}
 
-            {/* Linha divisora dourada/accent */}
+            {/* Linha divisora dourada/accent — h-[2px] mais pronunciada */}
             <div
-              className="mt-7 h-px w-12"
-              style={{ backgroundColor: accent.color, opacity: 0.6 }}
+              className="mt-7 h-[2px] w-14 rounded-full"
+              style={{ backgroundColor: accent.color, opacity: 0.7 }}
               aria-hidden="true"
             />
 

@@ -34,9 +34,23 @@ export interface EmpreendimentoAssets {
    * Quando definida, substitui o template "Residencial boutique com N
    * unidades". Usar quando o empreendimento tem narrativa propria mais
    * marcante que o template generico (ex: Reserva Barigui usa
-   * "Um endereço raro diante do Parque Barigui").
+   * "Onde a cidade termina e o parque começa.").
+   *
+   * Suporta `\n` pra quebra de linha editorial (renderizado com
+   * `whitespace-pre-line` no hero). Usar pra criar pausa dramatica
+   * em frase de duas partes.
    */
   taglineHero?: string
+
+  /**
+   * Override pra subhead do hero (linha pequena abaixo da tagline).
+   * Quando definida, substitui o template auto-gerado a partir de
+   * tipos + bairro ("Apartamentos, duplex e studios em frente ao
+   * Parque Barigui"). Usar quando o pitch editorial precisa ser mais
+   * especifico que o catalogo de SKUs (numero de torres, prazo,
+   * diferenciador unico).
+   */
+  subheadHero?: string
 
   /**
    * Sprint design 06/05/2026 — Frente A: amenities-âncora com render
@@ -101,7 +115,8 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
     lifestyleImage: "/images/empreendimentos/reserva-barigui/lifestyle-familia-vista-parque.webp",
     tagline: "CURITIBA | REGIÃO DO BARIGUI",
     subtitulo: "LANÇAMENTO",
-    taglineHero: "Um endereço raro diante do Parque Barigui",
+    taglineHero: "Onde Curitiba encontra\no privilégio do Barigui.",
+    subheadHero: "Três torres independentes • Plantas de 1 a 4 quartos • Entrega em 2027",
     torres: [
       {
         nome: "Reserva Lago",
