@@ -71,6 +71,19 @@ const args = new Set(process.argv.slice(2))
 const DRY_RUN = args.has("--dry-run")
 const FORCE = args.has("--force")
 
+// Filtro opcional por slug — `--slugs=foo,bar,baz` processa apenas esses
+// arquivos. Util pra atualizar 1-N artigos especificos sem reescrever os
+// outros 14 no DB. Adicionado 08/05/2026 — antes o script processava
+// SEMPRE todos os 15 com --force, gerando risco quando havia edits em
+// admin nao espelhados no MDX.
+const SLUGS_FILTER = (() => {
+  for (const a of process.argv.slice(2)) {
+    const m = /^--slugs=(.+)$/.exec(a)
+    if (m) return new Set(m[1].split(",").map((s) => s.trim()).filter(Boolean))
+  }
+  return null
+})()
+
 const sb = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
   auth: { autoRefreshToken: false, persistSession: false },
 })
@@ -310,7 +323,15 @@ async function main() {
   console.log(`Site: ${SITE_URL}`)
   console.log(`Fonte: ${BLOG_DIR}`)
 
-  const files = listMdxFiles()
+  let files = listMdxFiles()
+  if (SLUGS_FILTER) {
+    const before = files.length
+    files = files.filter((f) => SLUGS_FILTER.has(slugFromPath(f)))
+    console.log(
+      `Filtro de slugs ativo: [${[...SLUGS_FILTER].join(", ")}] — ` +
+        `${files.length}/${before} arquivos serao processados`,
+    )
+  }
   console.log(`Arquivos encontrados: ${files.length}\n`)
 
   const stats = { inserted: 0, skipped: 0, failed: 0, wouldInsert: 0 }
