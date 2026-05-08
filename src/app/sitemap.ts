@@ -86,7 +86,14 @@ export default async function sitemap({
 
   // Segment 1: bairros + combinações (tipo, finalidade, quartos, preço)
   if (shardId === 1) {
-    const [bairros, types] = await Promise.all([getAllBairros(), getAllTypes()])
+    const [allBairros, types] = await Promise.all([getAllBairros(), getAllTypes()])
+
+    // Filtra bairros pelo mesmo threshold do generateStaticParams em
+    // src/app/imoveis/[bairro]/page.tsx (b.total >= 2). Sem isso, o sitemap
+    // emite URLs que retornam 404 — auditoria GSC 08/05/2026 detectou 5 URLs
+    // 404 (campina-das-pedras, lindoia, pilarzinho, nacoes, vila-izabel) que
+    // poluíam crawl budget e caíam no relatório "Não encontrada".
+    const bairros = allBairros.filter((b) => b.total >= 2)
 
     const typePages: MetadataRoute.Sitemap = types
       .filter((t) => TIPO_STATIC_PAGES[t.tipo])

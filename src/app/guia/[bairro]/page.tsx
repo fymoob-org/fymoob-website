@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, permanentRedirect } from "next/navigation"
 import { Calendar, Clock, MapPin } from "lucide-react"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import remarkGfm from "remark-gfm"
 import { getGuiaBySlug, getAllGuiaSlugs } from "@/services/guias"
-import { getProperties, getPropertyStats } from "@/services/loft"
+import { getAllBairros, getProperties, getPropertyStats } from "@/services/loft"
 import { generateLandingStats, generateDynamicFAQ, generateFAQPageSchema, generatePillarSchema, safeJsonLd } from "@/lib/seo"
 import { formatPrice } from "@/lib/utils"
 import { mdxComponents } from "@/lib/mdx-components"
@@ -49,7 +49,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function GuiaBairroPage({ params }: PageProps) {
   const { bairro } = await params
   const guia = await getGuiaBySlug(bairro)
-  if (!guia) notFound()
+
+  // Quando nao ha guia MDX pro bairro, ao inves de 404 redireciona pra
+  // /imoveis/<bairro> (308 Permanent Redirect — equivalente SEO a 301).
+  // Auditoria GSC 08/05/2026 detectou 29 URLs /guia/<bairro> indexadas
+  // pelo Google retornando 404. Site antigo Atomicat tinha esse padrao;
+  // redirect preserva equity dos backlinks externos. Caso o bairro tambem
+  // nao tenha rota valida em /imoveis/, mantem 404 real.
+  if (!guia) {
+    const bairros = await getAllBairros()
+    const target = bairros.find((b) => b.slug === bairro)
+    if (target && target.total >= 2) {
+      permanentRedirect(`/imoveis/${target.slug}`)
+    }
+    notFound()
+  }
 
   // Fetch real property data for this neighborhood
   const bairroName = guia.bairro
