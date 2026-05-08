@@ -230,21 +230,31 @@ export function TorreVisualGallery({
             </button>
           </div>
 
-          {/* Imagem principal */}
+          {/* Imagem principal — `fill` em container com altura/largura
+              explicitas (em vez de width/height + w-auto). Bug fix
+              08/05/2026: o pattern anterior (Image width=1600 + w-auto)
+              fazia o <img> usar a dimensao INTRINSECA servida pelo Next
+              (que pode ser bem menor que 1600 dependendo do device size
+              breakpoint), entao em desktop a imagem renderizava ~360px
+              num viewport de 1920px. Com `fill` + `object-contain`,
+              a imagem expande pra preencher o container respeitando
+              aspect ratio. */}
           <div
-            className="flex flex-1 items-center justify-center overflow-hidden px-2 sm:px-16"
+            className="flex flex-1 items-center justify-center px-4 pb-4 sm:px-16 sm:pb-8"
             onClick={(e) => e.stopPropagation()}
           >
-            <Image
-              key={index}
-              src={allImages[index]}
-              alt={altText(index)}
-              width={1600}
-              height={1200}
-              className="max-h-[calc(100dvh-4rem)] w-auto object-contain animate-[fadeIn_0.15s_ease-out]"
-              priority
-              unoptimized={isVistaImage(allImages[index])}
-            />
+            <div className="relative h-full w-full max-w-[min(1600px,calc(100vw-2rem))] sm:max-w-[min(1600px,calc(100vw-8rem))]">
+              <Image
+                key={index}
+                src={allImages[index]}
+                alt={altText(index)}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1600px"
+                className="animate-[fadeIn_0.15s_ease-out] object-contain"
+                priority
+                unoptimized={isVistaImage(allImages[index])}
+              />
+            </div>
           </div>
 
           {/* Setas desktop */}
