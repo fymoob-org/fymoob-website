@@ -170,6 +170,16 @@ Pergunte: *"estou afirmando um número de KB/ms neste PR?"* Se sim, protocolo. S
 /empreendimentos                     → Listagem de empreendimentos
 ```
 
+## Analytics (GA4 + GSC) — single source of truth
+**Antes de propor tracking novo, ler [`docs/analytics/README.md`](docs/analytics/README.md).** Cobre:
+- GA4 Property `535148801` configurada via API: 8 custom dimensions, 2 key events com valor (R$ 500/100), data retention 14m, BigQuery export ativo
+- 5 eventos GA4 disparados: `view_item`, `select_item`, `whatsapp_click`, `generate_lead`, `phone_click`
+- OAuth refresh tokens em `.env.local`: `GA4_REFRESH_TOKEN` (admin+data) + `GSC_REFRESH_TOKEN` (read)
+- Scripts: `ga4-fase1-config.mjs` (idempotente), `ga4-admin-oauth-bootstrap.mjs`, `gsc-coverage-audit.mjs`
+- Helpers: `pushAnalyticsEvent`, `getPageContext`, `priceToBucket` em [`src/lib/analytics.ts`](src/lib/analytics.ts)
+- Trackers globais no layout: `<DeferredGA>`, `<WhatsAppClickTracker>`, `<PhoneClickTracker>`
+- `<PageContextSync>` em paginas de imovel/empreendimento alimenta custom dims automaticamente
+
 ## SEO — Regras obrigatórias
 - Toda página pública: `generateMetadata()` com title, description, og:image únicos
 - Toda página de imóvel: JSON-LD `RealEstateListing` com preço, endereço, geo, quartos, área

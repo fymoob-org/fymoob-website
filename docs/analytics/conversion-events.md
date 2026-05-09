@@ -1,9 +1,17 @@
 # Eventos de conversao GA4 — FYMOOB
 
-> Implementado em 2026-05-04. Validar marcacao no GA4 antes de medir
-> performance dos CTAs.
+> **Status atualizado 08/05/2026.** Doc complementar a `docs/analytics/README.md`
+> (single source of truth da infra). Esta pagina foca no schema dos eventos
+> com history de evolucao.
+>
+> Refator 08/05/2026 (Fase 2 analytics, commit `d668d1b`):
+> - Renomeado `property_code` -> `property_id`, `bairro` -> `neighborhood`
+>   (alinha com custom dimensions registradas no GA4 Admin)
+> - Adicionados eventos `view_item` (Google standard), `select_item`,
+>   `phone_click`
+> - Eventos enriquecidos com 8 custom dims via `getPageContext()`
 
-## 2 eventos custom enviados pro GA4
+## Eventos disparados pelo site
 
 ### 1. `whatsapp_click`
 
@@ -63,22 +71,34 @@ recebimento). Substitui contagem manual.
 | `mobile_inline` | `/imovel/[slug]` mobile | [components/property/MobileInlineContactForm.tsx](../../src/components/property/MobileInlineContactForm.tsx) |
 | `property_contact` | legado em PropertyContact | [components/property/PropertyContact.tsx](../../src/components/property/PropertyContact.tsx) |
 
-## Ações pro admin GA4 (acao manual de Bruno ou Vinicius)
+## Status no GA4 admin (08/05/2026)
 
-Os 2 eventos chegam no GA4 mas precisam ser **marcados como conversao** pra
-aparecer nos relatorios de conversao + permitir audiencias de retargeting:
+**Concluido via `scripts/ga4-fase1-config.mjs`** (commit `d668d1b`):
 
-1. Acessar **GA4 > Admin > Eventos** (events)
-2. Localizar `whatsapp_click` na lista (vai aparecer apos primeiros disparos
-   reais de usuarios — pode levar 24h)
-3. Toggle **"Marcar como conversao"** (Mark as conversion)
-4. Repetir pra `generate_lead`
+- `whatsapp_click` marcado como Key Event com **value R$ 100 BRL**
+- `generate_lead` marcado como Key Event com **value R$ 500 BRL**
+- 8 Custom Dimensions registradas (event-scoped):
+  `property_id`, `property_type`, `neighborhood`, `price_range`, `bedrooms`,
+  `lead_source`, `cta_location`, `listing_purpose`
+- Data Retention 14 meses
+- Google Signals ativado
+- GSC + BigQuery linked
 
-Apos marcado:
-- **Relatorios > Engagement > Conversoes** mostra contagem por dia/semana/mes
-- **Explorations** permite breakdown por `event_label` / `form_id` / `bairro`
-- **Audiencias** podem ser criadas pra retargeting (ex: "usuarios que
-  clicaram WhatsApp mas nao enviaram form")
+**Pendente** (1-3 dias apos deploy do commit):
+
+- `phone_click` virar Key Event — GA4 so deixa marcar key event de eventos
+  que ja chegaram. Apos primeiros cliques tel: em prod, rodar:
+  ```
+  # Adicionar phone_click no array KEY_EVENTS de scripts/ga4-fase1-config.mjs
+  # com value R$ 150 BRL (ligacao = intencao mais quente que WhatsApp)
+  node scripts/ga4-fase1-config.mjs --property=535148801
+  ```
+
+**Ja disponiveis nos relatorios** (24h apos primeiros disparos):
+- **Relatorios > Engagement > Conversoes** — contagem + valor por dia
+- **Explorations** — breakdown por `property_type` / `neighborhood` /
+  `price_range` / `cta_location` / `listing_purpose`
+- **Audiencias** podem ser criadas pra retargeting
 
 ## Filtro de trafego interno
 
