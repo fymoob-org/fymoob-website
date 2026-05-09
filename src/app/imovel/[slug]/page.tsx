@@ -26,6 +26,8 @@ import {
   getPropertyImage,
 } from "@/lib/utils"
 import { PropertyPageAnalytics } from "@/components/analytics/PropertyPageAnalytics"
+import { PageContextSync } from "@/components/analytics/PageContextSync"
+import { priceToBucket } from "@/lib/analytics"
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs"
 import { PropertyHeaderBlock } from "@/components/property/PropertyHeaderBlock"
 import { PropertyHeroWithGallery } from "@/components/property/PropertyHeroWithGallery"
@@ -165,6 +167,34 @@ export default async function PropertyPage({ params }: PageProps) {
         isConsultPrice={isConsultPrice}
         priceBucket={priceBucket}
         price={isConsultPrice ? null : price}
+        propertyType={property.tipo}
+        neighborhood={property.bairro}
+        bedrooms={property.dormitorios ?? undefined}
+        listingPurpose={
+          property.finalidade?.toLowerCase().includes("venda")
+            ? "venda"
+            : property.finalidade?.toLowerCase().includes("loca")
+              ? "aluguel"
+              : undefined
+        }
+        title={property.titulo}
+      />
+
+      {/* Sincroniza contexto da pagina pra trackers globais (WhatsApp,
+          Phone) lerem property_id, neighborhood, etc. ao disparar evento. */}
+      <PageContextSync
+        property_id={property.codigo}
+        property_type={property.tipo}
+        neighborhood={property.bairro}
+        price_range={priceToBucket(isConsultPrice ? null : price)}
+        bedrooms={property.dormitorios ?? undefined}
+        listing_purpose={
+          property.finalidade?.toLowerCase().includes("venda")
+            ? "venda"
+            : property.finalidade?.toLowerCase().includes("loca")
+              ? "aluguel"
+              : undefined
+        }
       />
 
       <RecentlyViewedTracker property={property} />

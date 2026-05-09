@@ -27,6 +27,8 @@ import { LocationStorytelling } from "@/components/empreendimento/LocationStoryt
 import { UnitsShowcase } from "@/components/empreendimento/units/UnitsShowcase"
 import { EmpreendimentoMobileMenu } from "@/components/empreendimento/EmpreendimentoMobileMenu"
 import { CountUp } from "@/components/empreendimento/CountUp"
+import { PageContextSync } from "@/components/analytics/PageContextSync"
+import { priceToBucket } from "@/lib/analytics"
 import type { Property } from "@/types/property"
 import { SITE_URL } from "@/lib/constants"
 
@@ -347,6 +349,17 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(combinedSchema) }} />
+
+      {/* Sincroniza contexto da pagina pra trackers globais (WhatsApp,
+          Phone) lerem neighborhood, price_range, etc. ao disparar evento.
+          Em pagina de hub nao tem property_id (nao eh um imovel especifico),
+          mas neighborhood + price_range + listing_purpose alimentam custom
+          dimensions pra segmentacao de eventos. */}
+      <PageContextSync
+        neighborhood={bairros[0]}
+        price_range={priceToBucket(precoMin)}
+        listing_purpose="venda"
+      />
 
       {/* SMART NAV — sticky no body, FORA do wrapper dark (fix 06/05/2026).
           ANTES: nav estava dentro de <div className="bg-neutral-950"> que

@@ -34,6 +34,10 @@ const WhatsAppClickTracker = dynamic(
   () => import("@/components/analytics/WhatsAppClickTracker").then((m) => ({ default: m.WhatsAppClickTracker })),
   { ssr: true }
 );
+const PhoneClickTracker = dynamic(
+  () => import("@/components/analytics/PhoneClickTracker").then((m) => ({ default: m.PhoneClickTracker })),
+  { ssr: true }
+);
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 
 const satoshi = localFont({
@@ -139,6 +143,7 @@ export default function RootLayout({
         {/* Listener global pra cliques em [data-track="whatsapp_click"]
             — captura Float, Footer, LandingSEOContent, EmpSEOContent etc. */}
         {GA_ID && <WhatsAppClickTracker />}
+        {GA_ID && <PhoneClickTracker />}
         {/* RUM field data (p75 LCP/INP/CLS de usuarios reais) — precondicao
             para validar empiricamente otimizacoes Tier 1+ do roadmap perf.
             Dashboard: Vercel > Project > Speed Insights. */}

@@ -19,6 +19,7 @@ import {
 import type { Property } from "@/types/property"
 import { isVistaImage } from "@/lib/image-optimization"
 import { getPropertyPriceDisplay } from "@/lib/property-price"
+import { pushAnalyticsEvent, priceToBucket } from "@/lib/analytics"
 import { getBadge } from "./card/hooks/usePropertyCard"
 import { CardBadge } from "./card/CardBadge"
 import { PhotoCarousel } from "./card/PhotoCarousel"
@@ -230,9 +231,34 @@ export function PropertyCard({
     (event: React.MouseEvent<HTMLElement>) => {
       const target = event.target as HTMLElement
       if (target.closest('button, a, [role="button"]')) return
+      // GA4 select_item (Google recommended) — sinaliza qual card foi
+      // clicado em qual lista. Funil view_item_list -> select_item ->
+      // view_item permite medir CTR de cards.
+      const navPrice = isRental
+        ? property.precoAluguel ?? 0
+        : property.precoVenda ?? 0
+      pushAnalyticsEvent("select_item", {
+        item_list_name: context,
+        items: [
+          {
+            item_id: property.codigo,
+            item_name: property.titulo || property.codigo,
+            item_category: property.tipo,
+            item_category2: property.bairro,
+            price: navPrice,
+          },
+        ],
+        currency: "BRL",
+        property_id: property.codigo,
+        property_type: property.tipo,
+        neighborhood: property.bairro,
+        price_range: priceToBucket(navPrice) || "",
+        bedrooms: property.dormitorios ?? 0,
+        cta_location: `card_${context}`,
+      })
       router.push(propertyHref)
     },
-    [router, propertyHref]
+    [router, propertyHref, property, context, isRental]
   )
 
   return (
