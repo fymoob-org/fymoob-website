@@ -139,6 +139,17 @@ const nextConfig: NextConfig = {
         destination: "/politica-de-privacidade",
         permanent: true,
       },
+      // /imoveis/preco/acima-de-1-milhao -> /imoveis/preco/1-a-3-milhoes.
+      // Slug de faixa antigo/typo que apareceu indexado no GSC com 404
+      // (Tabela.csv 25/04). Sitemap atual usa "1-a-3-milhoes" e
+      // "acima-3-milhoes" — a faixa "acima-de-1-milhao" nunca existiu
+      // mas Google rastreou via link interno antigo ou typo de prospect.
+      // Redirect pra faixa mais proxima da intent ("acima de 1 milhao").
+      {
+        source: "/imoveis/preco/acima-de-1-milhao",
+        destination: "/imoveis/preco/1-a-3-milhoes",
+        permanent: true,
+      },
       // /imovel/{CODE}/{slug-info}/{venda|aluguel} (Atomicat) -> busca filtrada.
       // CODE = letras maiusculas + digitos (AP00945, CA02611, ST00010).
       // Site novo usa /imovel/{slug-completo}-{CODE} sem barras intermediarias,
