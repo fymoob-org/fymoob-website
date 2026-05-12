@@ -103,10 +103,10 @@ export function UnitsShowcase({
             data-reveal
             className="mt-4 font-serif text-3xl font-light italic tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl"
           >
-            Unidades disponíveis
+            Tipologias disponíveis
           </h2>
           <p data-reveal className="mx-auto mt-4 max-w-2xl text-sm text-neutral-500">
-            {totalUnits} {totalUnits === 1 ? "unidade" : "unidades"} pra morar
+            {totalUnits} {totalUnits === 1 ? "tipologia" : "tipologias"} pra morar
             ou investir, distribuídas entre os {torresWithUnits.length}{" "}
             {torresWithUnits.length === 1 ? "empreendimento" : "empreendimentos"} do
             masterplan {empreendimentoNome}.
@@ -175,7 +175,7 @@ export function UnitsShowcase({
                   )}
                   {entrega && (
                     <p className="mt-5 text-[11px] uppercase tracking-[0.3em] text-neutral-400">
-                      Entrega prevista · {entrega}
+                      {entrega.isSegundaFase ? "2ª fase" : "Entrega prevista"} · {entrega.prazo}
                     </p>
                   )}
                 </div>
@@ -259,9 +259,18 @@ function pickFeatured(properties: Property[]): Property | null {
 /**
  * Extrai prazo de entrega da descricao editorial da torre. Padrao usado
  * em empreendimento-assets.ts: "Entrega prevista para Agosto/26."
+ *
+ * Quando a descricao menciona "1ª fase pronta", retorna flag indicando
+ * que o prazo se refere a SEGUNDA FASE (a primeira ja foi entregue) —
+ * permite render labels como "2ª fase · Agosto/26" em vez de "Entrega
+ * prevista · Agosto/26", deixando explicito que parte ja foi entregue.
  */
-function extractEntregaPrazo(descricao?: string): string | null {
+function extractEntregaPrazo(
+  descricao?: string,
+): { prazo: string; isSegundaFase: boolean } | null {
   if (!descricao) return null
   const match = descricao.match(/entrega prevista para ([^.]+)/i)
-  return match ? match[1].trim() : null
+  if (!match) return null
+  const isSegundaFase = /1[ºªa] fase pronta|primeira fase pronta/i.test(descricao)
+  return { prazo: match[1].trim(), isSegundaFase }
 }

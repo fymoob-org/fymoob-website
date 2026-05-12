@@ -218,9 +218,14 @@ export default async function TorreSubRoute({ params }: TorreSubRouteProps) {
   ]
   const plantasFinal = plantasFromCRM.length > 0 ? plantasFromCRM : t.plantas || []
 
-  // Cronograma da torre extraido da descricao curada
+  // Cronograma da torre extraido da descricao curada. Detecta "1ª fase
+  // pronta" pra diferenciar label de "Entrega prevista" vs "2ª fase"
+  // (caso de torres com fase 1 ja entregue e fase 2 em obras).
   const cronogramaMatch = t.descricao?.match(/entrega prevista para ([^.]+)/i)
   const cronograma = cronogramaMatch?.[1].trim() || null
+  const cronogramaIsSegundaFase = t.descricao
+    ? /1[ºªa] fase pronta|primeira fase pronta/i.test(t.descricao)
+    : false
 
   // Schema RealEstateListing focado na torre — count + faixa de preco apenas
   // dessa torre. Canonical aponta pro hub mas o JSON-LD descreve a torre.
@@ -495,7 +500,9 @@ export default async function TorreSubRoute({ params }: TorreSubRouteProps) {
             {cronograma && (
               <div>
                 <p className="font-serif text-base font-light text-neutral-900">{cronograma}</p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-neutral-500">Entrega prevista</p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-neutral-500">
+                  {cronogramaIsSegundaFase ? "2ª fase prevista" : "Entrega prevista"}
+                </p>
               </div>
             )}
           </div>
