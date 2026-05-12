@@ -132,7 +132,7 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
     tagline: "CURITIBA | REGIÃO DO BARIGUI",
     subtitulo: "LANÇAMENTO",
     taglineHero: "Onde Curitiba encontra\no privilégio do Barigui.",
-    subheadHero: "Três torres independentes • Plantas de 1 a 4 quartos • Entrega em 2027",
+    subheadHero: "Três torres independentes • Plantas de 1 a 4 quartos • Unidades prontas para morar",
     torres: [
       {
         nome: "Reserva Lago",
