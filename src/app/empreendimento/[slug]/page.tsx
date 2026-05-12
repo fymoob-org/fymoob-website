@@ -984,7 +984,7 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                 </p>
                 <div className="mx-auto mt-3 h-px w-12 bg-[#c9a876]" />
                 <p className="mt-4 text-[10px] tracking-[0.3em] text-neutral-500 sm:text-[11px]">
-                  TORRES INDEPENDENTES
+                  EMPREENDIMENTOS INDEPENDENTES
                 </p>
                 <p className="mt-2 text-xs text-neutral-400 sm:text-sm">
                   {assets.torres.map((t) => t.nome.replace(/^Reserva /, "")).join(" · ")}

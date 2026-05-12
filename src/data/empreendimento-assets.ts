@@ -179,7 +179,7 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
     ],
     videoUrl: "https://www.youtube.com/embed/8F1lKx4xgEo",
     mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3603.0946163108147!2d-49.318648700000004!3d-25.4351001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce3d178de8429%3A0x9d7c4792a4141dc0!2sR.%20Clara%20Vendramin%2C%20445%20-%20Mossungu%C3%AA%2C%20Curitiba%20-%20PR%2C%2081200-170!5e0!3m2!1spt-BR!2sbr!4v1670858575948!5m2!1spt-BR!2sbr",
-    descricaoMarketing: "Um empreendimento de alto padrão em uma das regiões mais desejadas de Curitiba, com a natureza do Parque Barigui como moldura.\n\nCom apenas 10 unidades, o Reserva Barigui combina privacidade, conveniência e arquitetura contemporânea no Mossunguê.",
+    descricaoMarketing: "Um empreendimento de alto padrão em uma das regiões mais desejadas de Curitiba, com a natureza do Parque Barigui como moldura.\n\nO Reserva Barigui combina privacidade, conveniência e arquitetura contemporânea no Mossunguê.",
     aerialImage: "/images/empreendimentos/reserva-barigui/avantti-source/hub/aerea-complexo.jpeg",
     amenitiesShowcase: [
       {
