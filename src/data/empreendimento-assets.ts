@@ -31,6 +31,13 @@ export interface EmpreendimentoAssets {
      * Ex: "Residencial • 1-2 quartos", "Corporativo & Lojas".
      */
     categoria?: string
+    /**
+     * Quando true, exibe "Pronto para morar" em vez do prazo de entrega
+     * extraido da descricao. Use pra torres que ja foram entregues mesmo
+     * que a descricao ainda mencione "Entrega prevista para..." (caso
+     * comum durante transicao de empreendimentos vendidos planta -> usado).
+     */
+    prontoParaMorar?: boolean
   }[]
   plantas?: string[]
   videoUrl?: string
@@ -134,6 +141,7 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
         render: "/images/empreendimentos/reserva-barigui/fachada-lago.jpg",
         descricao: "Apartamentos com 1 a 2 quartos, em formato de studio, loft, garden, ou duplex. Entrega prevista para Agosto/26.",
         categoria: "Residencial • 1 a 2 quartos",
+        prontoParaMorar: true,
         plantas: [
           "/images/empreendimentos/reserva-barigui/plantas/lago-1.png",
           "/images/empreendimentos/reserva-barigui/plantas/lago-2.png",
@@ -147,6 +155,7 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
         render: "/images/empreendimentos/reserva-barigui/render-colina.jpg",
         descricao: "Apartamentos de 3 a 4 suítes, com plantas de garden, laje, ou coberturas duplex. Entrega prevista para Julho/27.",
         categoria: "Residencial premium • 3 a 4 suítes",
+        prontoParaMorar: true,
         plantas: [
           "/images/empreendimentos/reserva-barigui/plantas/colina-1.png",
           "/images/empreendimentos/reserva-barigui/plantas/colina-2.png",

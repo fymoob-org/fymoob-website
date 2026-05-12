@@ -1174,12 +1174,21 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                             {torrePlantas.length === 1 ? "planta" : "plantas"}
                           </span>
                         )}
-                        {torrePlantas.length > 0 && entrega && (
+                        {/* Mostra "Pronto para morar" quando flag setada
+                            no asset (torres ja entregues mesmo que descricao
+                            ainda mencione "Entrega prevista para..."). Caso
+                            contrario cai no fallback de prazo extraido da
+                            descricao via regex. */}
+                        {torrePlantas.length > 0 && (torre.prontoParaMorar || entrega) && (
                           <span aria-hidden="true" className="text-neutral-300">
                             ·
                           </span>
                         )}
-                        {entrega && <span>Entrega {entrega}</span>}
+                        {torre.prontoParaMorar ? (
+                          <span>Pronto para morar</span>
+                        ) : entrega ? (
+                          <span>Entrega {entrega}</span>
+                        ) : null}
                       </div>
 
                       {/* CTA — pílula com border accent */}
@@ -1402,24 +1411,32 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
 
             {/* Sprint A.6 — cronograma de entrega extraido das descricoes
                 editoriais (assets.torres[].descricao tem padrao "Entrega
-                prevista para {Mes/Ano}"). Renderiza so se pelo menos uma
+                prevista para {Mes/Ano}"). Torres ja entregues (flag
+                `prontoParaMorar`) sao rotuladas como "pronto para morar"
+                em vez de prazo futuro. Renderiza so se pelo menos uma
                 torre tem cronograma — empreendimentos sem editorial layout
                 nao tem assets.torres entao bloco nao aparece. */}
             {(() => {
               if (!assets?.torres) return null
               const cronograma = assets.torres
                 .map((t) => {
+                  if (t.prontoParaMorar) {
+                    return { nome: t.nome, prazo: "pronto para morar", pronto: true }
+                  }
                   const match = t.descricao?.match(/entrega prevista para ([^.]+)/i)
-                  return match ? { nome: t.nome, prazo: match[1].trim() } : null
+                  return match
+                    ? { nome: t.nome, prazo: match[1].trim(), pronto: false }
+                    : null
                 })
-                .filter((x): x is { nome: string; prazo: string } => x !== null)
+                .filter((x): x is { nome: string; prazo: string; pronto: boolean } => x !== null)
               if (cronograma.length === 0) return null
               return (
                 <p>
                   Cronograma de entrega previsto:{" "}
                   {cronograma.map((c, i) => (
                     <span key={c.nome}>
-                      <strong>{c.nome}</strong> com entrega em {c.prazo}
+                      <strong>{c.nome}</strong>{" "}
+                      {c.pronto ? "pronto para morar" : `com entrega em ${c.prazo}`}
                       {i < cronograma.length - 2 ? ", " : i === cronograma.length - 2 ? " e " : ""}
                     </span>
                   ))}
