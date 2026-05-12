@@ -1053,7 +1053,7 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <p data-reveal className="text-[10px] tracking-[0.4em] text-[#c9a876] sm:text-[11px]">
-                CONHEÇA AS TORRES
+                CONHEÇA OS EMPREENDIMENTOS
               </p>
               <h2 data-reveal className="mt-4 font-serif text-3xl font-light italic tracking-tight text-neutral-900 sm:text-4xl lg:text-5xl">
                 Três empreendimentos independentes
