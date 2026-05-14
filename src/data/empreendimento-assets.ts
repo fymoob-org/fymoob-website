@@ -139,8 +139,8 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
         slug: "reserva-barigui",
         logo: "/images/empreendimentos/reserva-barigui/logo-lago.png",
         render: "/images/empreendimentos/reserva-barigui/fachada-lago.jpg",
-        descricao: "Apartamentos com 1 a 2 quartos, em formato de studio, loft, garden, ou duplex. 1ª fase pronta para morar. 2ª fase com entrega prevista para Agosto/26.",
-        categoria: "Residencial • 1 a 2 quartos",
+        descricao: "Apartamentos de 1 a 3 quartos, em plantas studio, loft, garden, tipo ou duplex, de 35m² a 131m². 1ª fase pronta para morar. 2ª fase com entrega prevista para Agosto/26.",
+        categoria: "Residencial • 1 a 3 quartos",
         prontoParaMorar: true,
         plantas: [
           "/images/empreendimentos/reserva-barigui/plantas/lago-1.png",
@@ -153,8 +153,8 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
         slug: "reserva-colina",
         logo: "/images/empreendimentos/reserva-barigui/logo-colina.png",
         render: "/images/empreendimentos/reserva-barigui/render-colina.jpg",
-        descricao: "Apartamentos de 3 a 4 suítes, com plantas de garden, laje, ou coberturas duplex. 1ª fase pronta para morar. 2ª fase com entrega prevista para Julho/27.",
-        categoria: "Residencial premium • 3 a 4 suítes",
+        descricao: "Apartamentos de 4 quartos, em plantas tipo, garden duplex ou cobertura duplex, de 180m² a 433m². 1ª fase pronta para morar. 2ª fase com entrega prevista para Julho/27.",
+        categoria: "Residencial premium • 4 quartos",
         prontoParaMorar: true,
         plantas: [
           "/images/empreendimentos/reserva-barigui/plantas/colina-1.png",
