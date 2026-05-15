@@ -487,7 +487,36 @@ export function generateLandingDescription(
   return result
 }
 
+/**
+ * Extrai H2/H3 do markdown body pra alimentar `hasPart` no schema Article.
+ * Casa com o id auto-gerado por mdx-components.tsx slugifyHeading.
+ * Limita a top-12 pra evitar bloat de schema em artigos longos.
+ */
+function extractHeadingParts(content: string, slug: string) {
+  const headingRegex = /^(#{2,3})\s+(.+)$/gm
+  const parts: Array<{ "@type": string; "@id": string; name: string }> = []
+  let m
+  while ((m = headingRegex.exec(content)) !== null) {
+    const text = m[2].replace(/\*\*/g, "").replace(/[`*_~]/g, "").trim()
+    const id = text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "")
+    if (!id) continue
+    parts.push({
+      "@type": "WebPageElement",
+      "@id": `${SITE_URL}/blog/${slug}#${id}`,
+      name: text,
+    })
+    if (parts.length >= 12) break
+  }
+  return parts
+}
+
 export function generateBlogPostingSchema(post: BlogPost) {
+  const hasPart = post.content ? extractHeadingParts(post.content, post.slug) : []
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -496,6 +525,7 @@ export function generateBlogPostingSchema(post: BlogPost) {
     image: post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`,
     datePublished: post.date,
     dateModified: post.date,
+    ...(hasPart.length > 0 ? { hasPart } : {}),
     author: {
       "@type": "RealEstateAgent",
       "@id": `${SITE_URL}/sobre#bruno`,

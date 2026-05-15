@@ -184,18 +184,50 @@ export function CTABox({
   )
 }
 
+// Extrai texto plano de children React (string, array, elementos
+// nested). Usado pra gerar id de heading SSR sem rehype-slug.
+function extractText(node: React.ReactNode): string {
+  if (typeof node === "string") return node
+  if (typeof node === "number") return String(node)
+  if (Array.isArray(node)) return node.map(extractText).join("")
+  if (node && typeof node === "object" && "props" in node) {
+    return extractText((node as { props: { children?: React.ReactNode } }).props.children)
+  }
+  return ""
+}
+
+function slugifyHeading(children: React.ReactNode): string {
+  return extractText(children)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+}
+
 export const mdxComponents: MDXComponents = {
-  h2: (props) => (
+  // h2/h3 com id auto-gerado pra anchor links SSR-friendly.
+  // Necessario pra:
+  // (1) TableOfContents client-side encontrar via getElementById
+  // (2) BlogPosting schema com hasPart (sitelinks de seção em desktop)
+  // (3) deep-link de outras paginas pro meio do artigo
+  h2: ({ children, ...props }) => (
     <h2
-      className="mt-12 mb-4 font-display text-2xl font-bold tracking-tight text-neutral-950"
+      id={slugifyHeading(children)}
+      className="mt-12 mb-4 font-display text-2xl font-bold tracking-tight text-neutral-950 scroll-mt-20"
       {...props}
-    />
+    >
+      {children}
+    </h2>
   ),
-  h3: (props) => (
+  h3: ({ children, ...props }) => (
     <h3
-      className="mt-8 mb-3 font-display text-xl font-semibold text-neutral-950"
+      id={slugifyHeading(children)}
+      className="mt-8 mb-3 font-display text-xl font-semibold text-neutral-950 scroll-mt-20"
       {...props}
-    />
+    >
+      {children}
+    </h3>
   ),
   p: (props) => (
     <p className="mb-4 text-base leading-relaxed text-neutral-700" {...props} />
