@@ -143,9 +143,11 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
         categoria: "Residencial • 1 a 3 quartos",
         prontoParaMorar: true,
         plantas: [
-          "/images/empreendimentos/reserva-barigui/plantas/lago-1.png",
-          "/images/empreendimentos/reserva-barigui/plantas/lago-2.png",
-          "/images/empreendimentos/reserva-barigui/plantas/lago-3.png",
+          "/images/empreendimentos/reserva-barigui/plantas/lago-studio-36m.png",
+          "/images/empreendimentos/reserva-barigui/plantas/lago-1quarto-48m.png",
+          "/images/empreendimentos/reserva-barigui/plantas/lago-loft-58m.png",
+          "/images/empreendimentos/reserva-barigui/plantas/lago-2suites-95m.jpg",
+          "/images/empreendimentos/reserva-barigui/plantas/lago-duplex-131m.png",
         ],
       },
       {
@@ -157,9 +159,12 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
         categoria: "Residencial premium • 4 quartos",
         prontoParaMorar: true,
         plantas: [
-          "/images/empreendimentos/reserva-barigui/plantas/colina-1.png",
-          "/images/empreendimentos/reserva-barigui/plantas/colina-2.png",
-          "/images/empreendimentos/reserva-barigui/plantas/colina-3.png",
+          "/images/empreendimentos/reserva-barigui/plantas/colina-tipo-4q.png",
+          "/images/empreendimentos/reserva-barigui/plantas/colina-garden-duplex-1.png",
+          "/images/empreendimentos/reserva-barigui/plantas/colina-garden-duplex-2.png",
+          "/images/empreendimentos/reserva-barigui/plantas/colina-cobertura-duplex-1.png",
+          "/images/empreendimentos/reserva-barigui/plantas/colina-cobertura-duplex-2.png",
+          "/images/empreendimentos/reserva-barigui/plantas/colina-cobertura-duplex-3.png",
         ],
       },
       {
