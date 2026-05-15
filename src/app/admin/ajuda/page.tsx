@@ -6,6 +6,30 @@ import remarkGfm from "remark-gfm"
 import { HelpCircle } from "lucide-react"
 import { ZoomableImage } from "./ZoomableImage"
 
+// Extrai texto plano de children React pra gerar id de anchor.
+// Casa com o slug que [Texto](#texto) no markdown gera, fazendo o índice
+// funcionar sem precisar de rehype-slug.
+function extractText(node: React.ReactNode): string {
+  if (typeof node === "string") return node
+  if (typeof node === "number") return String(node)
+  if (Array.isArray(node)) return node.map(extractText).join("")
+  if (node && typeof node === "object" && "props" in node) {
+    return extractText(
+      (node as { props: { children?: React.ReactNode } }).props.children,
+    )
+  }
+  return ""
+}
+
+function slugifyHeading(children: React.ReactNode): string {
+  return extractText(children)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+}
+
 export const metadata: Metadata = {
   title: { absolute: "Ajuda — Painel Admin · FYMOOB" },
   robots: { index: false, follow: false },
@@ -69,9 +93,33 @@ export default async function AdminAjudaPage() {
           source={source}
           options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
           components={{
-            h1: (p) => <h1 {...p} className="mt-12 mb-4 font-display text-3xl font-bold text-slate-900 dark:text-slate-100" />,
-            h2: (p) => <h2 {...p} className="mt-10 mb-3 font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100" />,
-            h3: (p) => <h3 {...p} className="mt-8 mb-2 font-display text-xl font-semibold text-slate-900 dark:text-slate-100" />,
+            h1: ({ children, ...p }) => (
+              <h1
+                {...p}
+                id={slugifyHeading(children)}
+                className="mt-12 mb-4 scroll-mt-24 font-display text-3xl font-bold text-slate-900 dark:text-slate-100"
+              >
+                {children}
+              </h1>
+            ),
+            h2: ({ children, ...p }) => (
+              <h2
+                {...p}
+                id={slugifyHeading(children)}
+                className="mt-10 mb-3 scroll-mt-24 font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100"
+              >
+                {children}
+              </h2>
+            ),
+            h3: ({ children, ...p }) => (
+              <h3
+                {...p}
+                id={slugifyHeading(children)}
+                className="mt-8 mb-2 scroll-mt-24 font-display text-xl font-semibold text-slate-900 dark:text-slate-100"
+              >
+                {children}
+              </h3>
+            ),
             p: (p) => <p {...p} className="mb-4 text-base leading-relaxed text-slate-700 dark:text-slate-300" />,
             a: (p) => <a {...p} className="font-medium text-brand-primary underline underline-offset-2 hover:text-brand-primary-hover" />,
             ul: (p) => <ul {...p} className="mb-4 list-disc space-y-1.5 pl-6" />,

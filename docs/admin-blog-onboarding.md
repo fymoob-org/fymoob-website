@@ -13,20 +13,20 @@
 ## Índice
 
 1. [Acesso e login](#1-acesso-e-login)
-2. [Visão geral — lista de artigos](#2-visão-geral--lista-de-artigos)
+2. [Visão geral — lista de artigos](#2-visao-geral-lista-de-artigos)
 3. [Criar um artigo novo](#3-criar-um-artigo-novo)
 4. [Usar o editor (BlockNote)](#4-usar-o-editor-blocknote)
 5. [Blocos custom da FYMOOB](#5-blocos-custom-da-fymoob)
-6. [SEO Score — o que é e como subir](#6-seo-score--o-que-é-e-como-subir)
-7. [Configurar metadados do artigo (SEO, capa, autor)](#7-configurar-metadados-do-artigo)
-8. [Salvar, publicar e programar publicação](#8-salvar-publicar-e-programar-publicação)
-9. [Editar artigo já publicado](#9-editar-artigo-já-publicado)
-10. [Histórico de revisões / desfazer](#10-histórico-de-revisões)
+6. [SEO Score — o que é e como subir](#6-seo-score-o-que-e-e-como-subir)
+7. [Configurar metadados do artigo](#7-configurar-metadados-do-artigo)
+8. [Salvar, publicar e programar publicação](#8-salvar-publicar-e-programar-publicacao)
+9. [Editar artigo já publicado](#9-editar-artigo-ja-publicado)
+10. [Histórico de revisões](#10-historico-de-revisoes)
 11. [Excluir artigo](#11-excluir-artigo)
 12. [Gerenciar autores](#12-gerenciar-autores)
-13. [Upload de imagens (capa e inline)](#13-upload-de-imagens)
-14. [Erros comuns e solução](#14-erros-comuns)
-15. [Glossário](#15-glossário)
+13. [Upload de imagens](#13-upload-de-imagens)
+14. [Erros comuns](#14-erros-comuns)
+15. [Glossário](#15-glossario)
 
 ---
 
