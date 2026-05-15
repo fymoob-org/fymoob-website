@@ -35,6 +35,19 @@ export default async function AdminAjudaPage() {
     .replace(/\(\.\/admin-blog-screenshots\//g, "(/admin-help/")
     .replace(/\(docs\/admin-blog-screenshots\//g, "(/admin-help/")
 
+  // Sanitiza caracteres que MDX trata como JSX e quebram em runtime:
+  // - `<algo>` solto (não wrapped em código) parece tag JSX inválida e
+  //   dispara "An error occurred in the Server Components render".
+  // - `<algo@algo>` é um link autolink válido em GFM — preserva.
+  // - Dentro de blocos `code` (backtick) e ``` está protegido nativamente.
+  // Heurística: escapa `<` que vem antes de letra E NÃO precedido por backtick
+  // e que não é parte de tag HTML aceita por MDX (poucos casos relevantes
+  // no doc — basicamente fazer escape genérico é o caminho seguro).
+  source = source.replace(
+    /(?<!`)<([a-z][a-z0-9]*)(?!\s*\/?>?\s*\w+=)/gi,
+    "&lt;$1",
+  )
+
   return (
     <div className="mx-auto max-w-4xl px-6 py-10">
       <header className="mb-8 flex items-center gap-3 border-b border-slate-200 pb-6 dark:border-admin-border">

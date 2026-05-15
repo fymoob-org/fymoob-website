@@ -30,6 +30,13 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Inclui o markdown da página /admin/ajuda no bundle do Vercel.
+  // Sem isso, fs.readFile falha em runtime ("file not found") porque
+  // arquivos fora de src/, app/ e public/ não são empacotados por
+  // default no Vercel build.
+  outputFileTracingIncludes: {
+    "/admin/ajuda": ["./docs/admin-blog-onboarding.md"],
+  },
   // Source maps so em analise local (ANALYZE=true) — NAO em prod default.
   // Expor .js.map em prod da ao atacante reconnaissance gratuito (codigo
   // descompilado + nomes de variaveis + shapes de endpoint). Ligue via

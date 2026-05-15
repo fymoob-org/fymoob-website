@@ -270,7 +270,7 @@ Diferença entre salvar rascunho × publicar × programar.
 #### Publicar agora
 1. Click **"Publicar"**
 2. Sistema verifica SEO Score ≥ 80
-3. Se OK, status vira `published` e o artigo fica visível em **fymoob.com.br/blog/<slug>** em poucos minutos
+3. Se OK, status vira `published` e o artigo fica visível em **fymoob.com.br/blog/{slug}** em poucos minutos
 4. Se SEO Score < 80 → modal explica o que falta corrigir antes
 
 #### Programar publicação
