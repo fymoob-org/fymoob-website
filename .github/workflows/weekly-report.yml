@@ -55,6 +55,24 @@ jobs:
           GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
           GA4_SITE_PRINCIPAL_PROPERTY_ID: ${{ secrets.GA4_SITE_PRINCIPAL_PROPERTY_ID }}
         run: |
+          # Diagnostico: conta chars de cada secret sem expor valor.
+          # 0 = secret faltando ou vazio no GitHub Settings -> Secrets.
+          echo "Diagnostico de secrets (apenas chars, valor mascarado):"
+          echo "  GA4_CLIENT_ID:                  ${#GA4_CLIENT_ID} chars"
+          echo "  GA4_CLIENT_SECRET:              ${#GA4_CLIENT_SECRET} chars"
+          echo "  GA4_REFRESH_TOKEN:              ${#GA4_REFRESH_TOKEN} chars"
+          echo "  GSC_REFRESH_TOKEN:              ${#GSC_REFRESH_TOKEN} chars"
+          echo "  GA4_SITE_PRINCIPAL_PROPERTY_ID: ${#GA4_SITE_PRINCIPAL_PROPERTY_ID} chars"
+
+          # Fail fast se algum secret essencial faltando
+          if [ -z "$GA4_CLIENT_ID" ] || [ -z "$GA4_CLIENT_SECRET" ] || [ -z "$GSC_REFRESH_TOKEN" ] || [ -z "$GA4_REFRESH_TOKEN" ] || [ -z "$GA4_SITE_PRINCIPAL_PROPERTY_ID" ]; then
+            echo ""
+            echo "✗ Um ou mais secrets estao vazios."
+            echo "  Vai em Settings -> Secrets and variables -> Actions"
+            echo "  e configura os 5 secrets EXATAMENTE com esses nomes (caixa alta, underscore)."
+            exit 1
+          fi
+
           cat > .env.local <<EOF
           GA4_CLIENT_ID=${GA4_CLIENT_ID}
           GA4_CLIENT_SECRET=${GA4_CLIENT_SECRET}
@@ -63,7 +81,7 @@ jobs:
           GA4_SITE_PRINCIPAL_PROPERTY_ID=${GA4_SITE_PRINCIPAL_PROPERTY_ID}
           GSC_SITE_URL=sc-domain:fymoob.com.br
           EOF
-          echo "✓ .env.local criado (${#GA4_REFRESH_TOKEN} chars GA4 token, ${#GSC_REFRESH_TOKEN} chars GSC token)"
+          echo "✓ .env.local criado"
 
       - name: Generate weekly report
         run: |
