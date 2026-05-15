@@ -263,27 +263,11 @@ const assetsMap: Record<string, EmpreendimentoAssets> = {
   },
 }
 
-// Sub-empreendimentos with simple asset entries (plantas only, no full editorial)
-assetsMap["reserva-colina"] = {
-  heroImage: "/images/empreendimentos/reserva-barigui/render-colina.jpg",
-  parallaxImages: [],
-  plantas: [
-    "/images/empreendimentos/reserva-barigui/plantas/colina-1.png",
-    "/images/empreendimentos/reserva-barigui/plantas/colina-2.png",
-    "/images/empreendimentos/reserva-barigui/plantas/colina-3.png",
-  ],
-}
-
-assetsMap["reserva-mirante"] = {
-  heroImage: "/images/empreendimentos/reserva-barigui/render-mirante.jpg",
-  parallaxImages: [],
-  plantas: [
-    "/images/empreendimentos/reserva-barigui/plantas/mirante-1.webp",
-    "/images/empreendimentos/reserva-barigui/plantas/mirante-2.webp",
-    "/images/empreendimentos/reserva-barigui/plantas/mirante-3.webp",
-    "/images/empreendimentos/reserva-barigui/plantas/mirante-4.webp",
-  ],
-}
+// reserva-colina e reserva-mirante NAO precisam de entries proprias —
+// next.config.ts redireciona /empreendimento/reserva-{colina,mirante}
+// permanent 301 pro hub reserva-barigui com anchor. Entries antigas foram
+// removidas em 15/05/2026 (paths apontavam pra arquivos ja renomeados,
+// gerando dead code).
 
 export function getEmpreendimentoAssets(slug: string): EmpreendimentoAssets | null {
   return assetsMap[slug] || null

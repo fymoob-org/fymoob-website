@@ -7,7 +7,7 @@ import {
   getAllEmpreendimentos,
   getPropertiesByEmpreendimento,
 } from "@/services/loft"
-import { slugify, formatPrice, formatArea } from "@/lib/utils"
+import { slugify, formatPrice, formatArea, formatCompactPrice } from "@/lib/utils"
 import { isVistaImage } from "@/lib/image-optimization"
 import { generateItemListSchema, generateLandingStats, generateDynamicFAQ, safeJsonLd, generateBreadcrumbSchema } from "@/lib/seo"
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs"
@@ -79,21 +79,20 @@ export async function generateMetadata({ params }: EmpreendimentoPageProps): Pro
   const assets = getEmpreendimentoAssets(slug)
   const construtoraText = emp.construtora ? ` ${emp.construtora}` : ""
   const precoMin = emp.precoMin ? formatPrice(emp.precoMin) : ""
+  const precoMinCompact = emp.precoMin ? formatCompactPrice(emp.precoMin) : ""
   const precoText = precoMin ? ` a partir de ${precoMin}` : ""
 
-  // Title structure varies by signal density (Sprint A — 2026-05-03):
-  // - Sem construtora: nome + bairro + N + preco (Fase 19.P2.B.3, +10-15% CTR
-  //   via numero, validado Backlinko)
-  // - Com construtora: nome + construtora + bairro + N (captura query do
-  //   tipo "{nome} {construtora}" — top Google Ads pra Reserva Barigui).
-  //   Preco fica na description; title sem numero respeita o feedback de
-  //   GSC (number-driven hook so na description quando ja temos signal de
-  //   marca forte).
-  const totalText = emp.total > 0 ? `${emp.total} ` : ""
-  const tituloUnidade = emp.total === 1 ? "Apartamento" : "Apartamentos"
-  const title = emp.construtora
-    ? `${emp.nome} ${emp.construtora} ${bairroText}: ${totalText}${tituloUnidade} | FYMOOB`
-    : `${emp.nome} ${bairroText}: ${totalText}${tituloUnidade}${precoMin ? ` a Partir de ${precoMin}` : " Disponíveis"} | FYMOOB`
+  // Title compacto (target <=65 chars antes do suffix " | FYMOOB" do layout).
+  // Pattern Nivel 1 (15/05/2026): nome do empreendimento como keyword head,
+  // bairro como qualificador, N + preco compacto pra prova social.
+  // Audit em 95 empreendimentos mostrou 60 com title >65 chars no padrao
+  // antigo "{Nome} {Construtora} {Bairro}: N Apartamentos a Partir de R$ X | FYMOOB".
+  const unidadeAbbr = emp.total === 1 ? "apto" : "aptos"
+  const totalText = emp.total > 0 ? `${emp.total} ${unidadeAbbr}` : "Apartamentos"
+  const precoPart = precoMinCompact ? ` de ${precoMinCompact}+` : ""
+  // " | FYMOOB" (9 chars) e adicionado pelo layout root via title template.
+  // generateMetadata aqui retorna title sem suffix.
+  const title = `${emp.nome}, ${bairroText}: ${totalText}${precoPart} | FYMOOB`
 
   // Description: 1ª frase responde "o que é + construtora + onde + preco",
   // 2ª frase ressalta intenções (plantas, fotos), 3ª prova (FYMOOB).
@@ -1568,6 +1567,33 @@ export default async function EmpreendimentoPage({ params }: EmpreendimentoPageP
                 }))}
               />
             ) : null
+          })()}
+
+          {(() => {
+            // Nivel 1 (15/05/2026) — outros empreendimentos no MESMO bairro.
+            // Relevancia semantica forte: usuario pesquisando "X bairro" pode
+            // querer ver alternativas no mesmo lugar. Aplica em qualquer
+            // bairro com >=2 empreendimentos no CRM (sem hardcode).
+            const bairroAtual = bairros[0]
+            if (!bairroAtual) return null
+            const empsSameBairro = empreendimentos
+              .filter(
+                (e) =>
+                  e.slug !== slug &&
+                  e.bairros.includes(bairroAtual) &&
+                  e.total >= 1,
+              )
+              .slice(0, 6)
+            if (empsSameBairro.length === 0) return null
+            return (
+              <RelatedPages
+                title={`Outros empreendimentos em ${bairroAtual}`}
+                links={empsSameBairro.map((e) => ({
+                  href: `/empreendimento/${e.slug}`,
+                  label: `${e.nome}${e.construtora ? ` — ${e.construtora}` : ""}`,
+                }))}
+              />
+            )
           })()}
 
           {(() => {
