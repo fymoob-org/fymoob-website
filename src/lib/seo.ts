@@ -371,35 +371,36 @@ export function generateLandingTitle(
   bairro?: string,
   count?: number
 ): string {
-  if (tipo && bairro) {
-    const plural = tipo === "Apartamento" ? "Apartamentos" :
-      tipo === "Casa" ? "Casas" :
-      tipo === "Sobrado" ? "Sobrados" :
-      tipo === "Terreno" ? "Terrenos" : `${tipo}s`
+  // Fase 21 (15/05/2026): front-load keyword pra reduzir reescrita do
+  // Google (76% em Q1/2025 quando termo-âncora vinha depois do número).
+  // Padrão antigo "{N} {tipo} em Curitiba" vira "{tipo} em Curitiba: {N}".
+  const tipoPlural = tipo
+    ? (tipo === "Apartamento" ? "Apartamentos"
+      : tipo === "Casa" ? "Casas"
+      : tipo === "Sobrado" ? "Sobrados"
+      : tipo === "Terreno" ? "Terrenos"
+      : `${tipo}s`)
+    : null
+
+  if (tipoPlural && bairro) {
     if (count) {
-      return `${count} ${plural} no ${bairro}, Curitiba`
+      return `${tipoPlural} no ${bairro}, Curitiba: ${count} opções`
     }
-    return `${plural} no ${bairro}, Curitiba`
+    return `${tipoPlural} no ${bairro}, Curitiba`
   }
   if (bairro) {
     if (count) {
-      // Curto (32-40 chars) — quando combinado com " | FYMOOB Imobiliária"
-      // do template, total fica ~52-60 chars (dentro do sweet spot 40-65).
-      return `${count} Imóveis no ${bairro}, Curitiba`
+      return `Imóveis no ${bairro}, Curitiba: ${count} opções`
     }
-    return `Imóveis à Venda e Aluguel no ${bairro}, Curitiba`
+    return `Imóveis à venda e aluguel no ${bairro}, Curitiba`
   }
-  if (tipo) {
-    const plural = tipo === "Apartamento" ? "Apartamentos" :
-      tipo === "Casa" ? "Casas" :
-      tipo === "Sobrado" ? "Sobrados" :
-      tipo === "Terreno" ? "Terrenos" : `${tipo}s`
+  if (tipoPlural) {
     if (count) {
-      return `${count} ${plural} à Venda e Aluguel em Curitiba`
+      return `${tipoPlural} em Curitiba: ${count} à venda e aluguel`
     }
-    return `${plural} à Venda e Aluguel em Curitiba`
+    return `${tipoPlural} à venda e aluguel em Curitiba`
   }
-  return "Imóveis à Venda e Aluguel em Curitiba"
+  return "Imóveis à venda e aluguel em Curitiba"
 }
 
 /**

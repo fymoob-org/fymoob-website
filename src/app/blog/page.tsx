@@ -12,13 +12,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const posts = await getAllPosts()
   const count = posts.length
   const title = count > 0
-    ? `Blog FYMOOB: ${count} guias sobre imóveis em Curitiba`
-    : "Blog FYMOOB | Guias sobre imóveis em Curitiba"
+    ? `Blog FYMOOB: ${count} guias de imóveis e bairros em Curitiba`
+    : "Blog FYMOOB: guias de imóveis e bairros em Curitiba"
 
   return {
     title,
     description:
-      "Guias práticos sobre financiamento, ITBI, bairros, custo de vida e mercado imobiliário de Curitiba. Conteúdo atualizado pela FYMOOB Imobiliária.",
+      "Guias sobre financiamento (CET, MCMV), ITBI, propter rem e bairros de Curitiba: Batel, Água Verde, Bigorrilho. Conteúdo atualizado mensalmente.",
     alternates: {
       canonical: "/blog",
     },
