@@ -1,146 +1,126 @@
 # Setup — Analytics Intelligence (Sprint 1 Linha A)
 
-> Como configurar o service account Google que da acesso a **GSC + GA4** num
-> so JSON. Necessario pra rodar o skill `/weekly-report`.
+> Auth pra os scripts `scripts/intel/gsc-pull.mjs` e `scripts/intel/ga4-pull.mjs`.
+> Usados pelo skill `/weekly-report` pra coletar evidências reais de GSC + GA4.
 
-## O que voce vai criar
+## Decisão de autenticação: OAuth refresh token (não Service Account)
 
-1 **Service Account** no Google Cloud, com permissoes em:
-- **GSC** (Search Console API) — leitura
-- **GA4** (Google Analytics Data API) — leitura
+**Auth atual:** OAuth refresh token de uma conta Google (no caso `dev.viniciusdamas@gmail.com`, owner do GSC + GA4 da FYMOOB) armazenado no `.env.local`.
 
-Output: 1 arquivo JSON que vira env var `GOOGLE_SERVICE_ACCOUNT_JSON`.
+**Por que NÃO Service Account:**
 
-## Passo 1 — Criar projeto Google Cloud (se nao tiver)
+O Google tem um bug ativo desde **23 de abril de 2026** que rejeita Service Accounts novas no Search Console e no Google Analytics 4. Quando você tenta adicionar uma SA recém-criada como usuário (Settings → Users → Add user), retorna:
 
-1. Acessar https://console.cloud.google.com/
-2. Top bar > **Select a project** > **NEW PROJECT**
-3. Nome: `fymoob-intel` (ou nome que preferir)
-4. **CREATE**
+- "Esse email não corresponde a uma Conta do Google" (português)
+- "Email doesn't match a Google account" / "email not found" (inglês)
 
-> Se ja tem um projeto pra GA4 anteriormente, pode reusar — pula pro passo 2.
+Google reconheceu publicamente que "tweaking settings will not help" e está investigando, sem ETA de fix. Threads oficiais reportando:
 
-## Passo 2 — Habilitar as 2 APIs
+- [Search Central — thread 429294699](https://support.google.com/webmasters/thread/429294699)
+- [Search Central — thread 429020059](https://support.google.com/webmasters/thread/429020059)
+- [Analytics Community — thread 430678559](https://support.google.com/analytics/thread/430678559)
 
-No projeto criado, em **APIs & Services > Library**:
+Service Accounts criadas **antes de 20/abr/2026** continuam funcionando. Como não temos nenhuma SA antiga válida pra GSC/GA4 da FYMOOB, optamos por OAuth.
 
-1. Buscar **"Google Search Console API"** > Enable
-2. Buscar **"Google Analytics Data API"** > Enable
+**Quando reavaliar:** quando Google corrigir o bug. Reabrir esse doc e considerar migrar pra SA (mais limpo arquiteturalmente, não depende de conta humana).
 
-Confirmar em **APIs & Services > Enabled APIs** que ambas aparecem.
+## Setup local
 
-## Passo 3 — Criar service account
+### Pré-requisitos
 
-1. **IAM & Admin > Service Accounts > + CREATE SERVICE ACCOUNT**
-2. Nome: `fymoob-analytics-reader`
-3. ID: deixa auto-gerado
-4. Description: `Read-only access to GSC + GA4 for weekly reports`
-5. **CREATE AND CONTINUE**
-6. **Skip permissions no projeto** (nao precisa role no Google Cloud project — vamos dar permissao DENTRO do GSC e GA4 separadamente)
-7. **DONE**
+- Conta Google que é **owner ou admin** das properties:
+  - GSC: `sc-domain:fymoob.com.br`
+  - GA4: property `535148801`
+- Google Cloud Project (qualquer um) com:
+  - Google Search Console API habilitada
+  - Google Analytics Data API habilitada
+  - OAuth 2.0 Client ID criado (tipo "Desktop app")
 
-## Passo 4 — Gerar key JSON
-
-1. Na lista de Service Accounts, clicar no recem-criado
-2. Tab **Keys** > **ADD KEY > Create new key**
-3. Tipo: **JSON**
-4. **CREATE** — baixa arquivo automatico (ex: `fymoob-intel-abcdef123456.json`)
-5. **Guardar com seguranca** — esse JSON da acesso de leitura aos dados. Tratar como credencial.
-
-## Passo 5 — Dar permissao em GSC
-
-1. Abrir o JSON baixado e copiar o `client_email` (formato: `fymoob-analytics-reader@fymoob-intel.iam.gserviceaccount.com`)
-2. Acessar https://search.google.com/search-console
-3. Selecionar property `sc-domain:fymoob.com.br`
-4. **Settings > Users and permissions > ADD USER**
-5. Email: colar o `client_email`
-6. Permission: **Restricted** (suficiente pra leitura)
-7. **ADD**
-
-## Passo 6 — Dar permissao em GA4
-
-1. Abrir https://analytics.google.com/
-2. Selecionar property FYMOOB
-3. **Admin (engrenagem) > Property > Property Access Management > +**
-4. Email: colar o `client_email`
-5. Direct roles and data restrictions: **Viewer**
-6. **ADD**
-
-## Passo 7 — Pegar o GA4 Property ID
-
-1. Em GA4 **Admin > Property Settings**
-2. Copiar o **Property ID** (numerico, formato `123456789`)
-
-## Passo 8 — Configurar `.env.local`
-
-Adicionar 3 vars:
+### Variáveis necessárias em `.env.local`
 
 ```bash
-# Cole o JSON inteiro entre aspas SIMPLES (preserve formatting, sem escapar)
-GOOGLE_SERVICE_ACCOUNT_JSON='{"type":"service_account","project_id":"fymoob-intel","private_key_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n","client_email":"fymoob-analytics-reader@...","client_id":"...","auth_uri":"...","token_uri":"...","auth_provider_x509_cert_url":"...","client_x509_cert_url":"..."}'
-
-GSC_SITE_URL=sc-domain:fymoob.com.br
-
-GA4_PROPERTY_ID=123456789
+GA4_CLIENT_ID=<client_id do OAuth 2.0 Client>
+GA4_CLIENT_SECRET=<client_secret do mesmo>
+GA4_REFRESH_TOKEN=<refresh token gerado>
+GSC_REFRESH_TOKEN=<refresh token separado, mesma client_id mas escopo GSC>
+GA4_SITE_PRINCIPAL_PROPERTY_ID=535148801
+GSC_SITE_URL=sc-domain:fymoob.com.br  # opcional, default já é esse
 ```
 
-> **Aspas simples sao importantes.** O JSON do service account contem aspas
-> duplas internas — aspas simples por fora preservam o conteudo sem
-> escaping.
+> Mesmo OAuth Client cobre as 2 APIs. Você roda o bootstrap 2 vezes — uma vez
+> com escopo `analytics.readonly` (gera GA4_REFRESH_TOKEN) e outra com
+> `webmasters.readonly` (gera GSC_REFRESH_TOKEN).
 
-## Passo 9 — Testar setup
+### Bootstrap dos refresh tokens
 
-Rodar os 3 scripts pra validar:
+Scripts já existentes:
 
 ```bash
-# GSC — se o JSON funcionou, sai um JSON com summary + topQueries
-node scripts/intel/gsc-pull.mjs --output tmp/intel/gsc-test.json
+# GA4 — abre browser, autoriza, salva GA4_REFRESH_TOKEN no .env.local
+node scripts/ga4-oauth-bootstrap.mjs
 
-# GA4 real
-node scripts/intel/ga4-pull.mjs --output tmp/intel/ga4-test.json
-
-# Audit (le do JSON ja gerado pelo python script)
-node scripts/intel/audit-snapshot.mjs --output tmp/intel/audit-test.json
+# GSC — idem pra Search Console
+node scripts/gsc-oauth-bootstrap.mjs
 ```
+
+Se algum refresh token for invalidado (acontece quando: revogar app na conta
+Google, mexer pesado em IAM/Cloud, ou ficar 6 meses sem usar), re-rodar o
+bootstrap correspondente.
+
+### Smoke test
+
+```bash
+# Cada um gera um JSON em tmp/intel/
+node scripts/intel/gsc-pull.mjs --output tmp/intel/gsc-smoke.json
+node scripts/intel/ga4-pull.mjs --output tmp/intel/ga4-smoke.json
+node scripts/intel/audit-snapshot.mjs --output tmp/intel/audit-smoke.json
+```
+
+Output esperado: 3 JSONs salvos com tamanho ~5-15 KB.
 
 Se algum falhar:
-- **GSC: "User does not have sufficient permission"** — repetir Passo 5
-- **GA4: "permission denied"** — repetir Passo 6 + Passo 7
-- **GA4: "API not enabled"** — repetir Passo 2
-- **JSON parsing error** — verificar aspas simples no `.env.local`
+- **`invalid_grant`** → refresh token invalidado, re-rodar o bootstrap correspondente
+- **`permission denied` / 403** → conta logada não é owner/admin da property — confirmar acesso no GSC/GA4
+- **`audit muito velho`** → re-rodar `python scripts/seo-gaps-audit.py --all` antes
 
-## Passo 10 — Configurar em prod (Vercel + GitHub Actions, futuro Sprint 2)
+## Setup em produção (GitHub Actions)
 
-Quando o skill estiver estavel e quisermos cron weekly:
+Pra rodar cron weekly automático:
 
-**Vercel** (se cron via Vercel):
-- Settings > Environment Variables
-- Adicionar as 3 vars (production environment)
+1. **Repository secrets** (Settings → Secrets and variables → Actions):
+   - `GA4_CLIENT_ID`
+   - `GA4_CLIENT_SECRET`
+   - `GA4_REFRESH_TOKEN`
+   - `GSC_REFRESH_TOKEN`
+   - `GA4_SITE_PRINCIPAL_PROPERTY_ID`
 
-**GitHub Actions** (recomendado pra cron de verdade):
-- Settings > Secrets and variables > Actions > New repository secret
-- Adicionar as 3 vars
-- Workflow `.github/workflows/weekly-report.yml` chama os scripts
+2. **Workflow** `.github/workflows/weekly-report.yml` (TODO Sprint 2):
+   - Cron `0 6 * * 1` (toda segunda 06:00 UTC = 03:00 BRT)
+   - Roda os 3 scripts, invoca skill ou versão script direta
+   - Commita o markdown gerado em `docs/seo/reports/YYYY-WWW.md`
 
-## Estimativa de custo
+**Sobre expiração:** refresh token OAuth não expira **enquanto for usado pelo
+menos 1 vez a cada 6 meses**. Com cron weekly, esse problema nunca acontece.
 
-- GSC API: **gratuita** (quotas amplas)
-- GA4 API: **gratuita** (quotas amplas pra propriedades padrao)
-- Service account: **gratuito**
+## Custo
 
-Custo do skill em si: ~$0,30/run (Anthropic API). Detalhes na SKILL.md.
-
-## Seguranca
-
-- O JSON da SA da acesso **somente leitura** (configuramos como Restricted/Viewer). Se vazar, atacante so consegue ler stats GSC/GA4 da FYMOOB — nao escrever, nao deletar, nao acessar Loft/Supabase.
-- Ainda assim, tratar como credencial: nunca commitar, rotacionar 1×/ano (Google Cloud > Service Accounts > Keys > criar nova, deletar antiga).
-- Nao expor pro client. Scripts rodam server-side.
+- GSC API: gratuita (quotas amplas)
+- GA4 Data API: gratuita (quotas amplas pra propriedades padrão)
+- OAuth: gratuito
+- Anthropic API (skill): ~$0,30 por run, ~$1,20/mês weekly
 
 ## Troubleshooting
 
 | Erro | Causa | Fix |
 |---|---|---|
-| `GOOGLE_SERVICE_ACCOUNT_JSON nao definida` | env nao carregado | Confirmar `.env.local` na raiz, ou `source .env.local` antes |
-| `Invalid JWT signature` | JSON corrompido (escaping errado) | Re-baixar JSON, colar entre aspas simples |
-| GSC retorna `0 rows` | Periodo sem dados ou permission errada | Validar via GSC web — site tem dados na janela? |
-| GA4 retorna 0 events em `whatsapp_click` | Eventos ainda nao chegaram (latencia ate 48h) ou nao foram disparados | Validar com `window.dataLayer` no console em prod, esperar 24-48h pos primeiro disparo |
+| `invalid_grant` no GSC ou GA4 | Refresh token revogado/inválido | Re-rodar `gsc-oauth-bootstrap.mjs` ou `ga4-oauth-bootstrap.mjs` |
+| `Faltam GA4_CLIENT_ID...` | `.env.local` não tem as vars | Conferir nomes exatos, sem aspas, sem espaços |
+| GSC retorna 0 rows | Período sem dados ou property errada | Validar via GSC web — site tem dados na janela? |
+| GA4 retorna 0 events | Eventos custom ainda não chegaram (latência até 48h) | Validar com `window.dataLayer` no console em prod, esperar 24-48h |
+| Email not found ao adicionar SA | Bug ativo do Google desde 23/abr/2026 | Não tem fix. Manter OAuth (já configurado). |
+
+## Histórico de decisões
+
+- **2026-05-04:** Setup inicial com Service Account documentado (commit `271070d`).
+- **2026-05-08:** OAuth bootstrap criado (`ga4-oauth-bootstrap.mjs`, `gsc-oauth-bootstrap.mjs`) pra contornar limitação do SA em GA4 admin. GSC continuou com SA na intenção.
+- **2026-05-15:** Tentativa de migrar 100% pra SA falhou — bug do Google ativo desde 23/abr rejeita SAs novas em GSC + GA4. Migrado scripts `intel/{gsc,ga4}-pull.mjs` definitivamente pra OAuth. SA não usada mais.
