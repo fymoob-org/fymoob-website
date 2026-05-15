@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Sun,
   Moon,
+  HelpCircle,
 } from "lucide-react"
 import { useAdminTheme } from "./AdminThemeProvider"
 
@@ -101,6 +102,12 @@ export function AdminSidebar({ userEmail, signOutAction }: AdminSidebarProps) {
           </NavLink>
           <NavLink href="/admin/blog/autores" icon={Users} expanded={expanded}>
             Autores
+          </NavLink>
+        </NavGroup>
+
+        <NavGroup label="Suporte" expanded={expanded}>
+          <NavLink href="/admin/ajuda" icon={HelpCircle} expanded={expanded}>
+            Ajuda
           </NavLink>
         </NavGroup>
 
