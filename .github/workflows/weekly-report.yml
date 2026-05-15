@@ -1,0 +1,91 @@
+name: Weekly SEO Report
+
+# Gera relatório semanal SEO automatizado toda segunda-feira 06:00 UTC
+# (= 03:00 BRT). Pipeline determinístico (zero LLM):
+# - scripts/intel/gsc-pull.mjs  -> tmp/intel/gsc-YYYY-WWW.json
+# - scripts/intel/ga4-pull.mjs  -> tmp/intel/ga4-YYYY-WWW.json
+# - scripts/intel/audit-snapshot.mjs -> tmp/intel/audit-YYYY-WWW.json
+# - scripts/intel/generate-weekly-report.mjs -> docs/seo/reports/YYYY-WWW.md
+#
+# Idempotente: se relatório da semana já existe, pipeline não sobrescreve
+# (a menos que workflow_dispatch passe `force: true`). Permite análise
+# manual ser aplicada por cima sem ser sobrescrita.
+#
+# Auth: OAuth refresh tokens via secrets (não Service Account — Google
+# tem bug ativo desde 23/abr/2026 rejeitando SAs novas em GSC/GA4).
+# Ver docs/analytics/intel-setup.md.
+
+on:
+  schedule:
+    # 06:00 UTC toda segunda — GSC tem dados confiáveis até D-3 (sábado),
+    # então domingo já tem semana fechada.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Sobrescrever relatório se já existir"
+        type: boolean
+        default: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci --no-audit --no-fund
+
+      - name: Compose .env.local (intel scripts esperam arquivo)
+        env:
+          GA4_CLIENT_ID: ${{ secrets.GA4_CLIENT_ID }}
+          GA4_CLIENT_SECRET: ${{ secrets.GA4_CLIENT_SECRET }}
+          GA4_REFRESH_TOKEN: ${{ secrets.GA4_REFRESH_TOKEN }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          GA4_SITE_PRINCIPAL_PROPERTY_ID: ${{ secrets.GA4_SITE_PRINCIPAL_PROPERTY_ID }}
+        run: |
+          cat > .env.local <<EOF
+          GA4_CLIENT_ID=${GA4_CLIENT_ID}
+          GA4_CLIENT_SECRET=${GA4_CLIENT_SECRET}
+          GA4_REFRESH_TOKEN=${GA4_REFRESH_TOKEN}
+          GSC_REFRESH_TOKEN=${GSC_REFRESH_TOKEN}
+          GA4_SITE_PRINCIPAL_PROPERTY_ID=${GA4_SITE_PRINCIPAL_PROPERTY_ID}
+          GSC_SITE_URL=sc-domain:fymoob.com.br
+          EOF
+          echo "✓ .env.local criado (${#GA4_REFRESH_TOKEN} chars GA4 token, ${#GSC_REFRESH_TOKEN} chars GSC token)"
+
+      - name: Generate weekly report
+        run: |
+          if [ "${{ inputs.force }}" = "true" ]; then
+            node scripts/intel/generate-weekly-report.mjs --force
+          else
+            node scripts/intel/generate-weekly-report.mjs
+          fi
+
+      - name: Commit + push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain docs/seo/reports/)" ]; then
+            WEEK=$(node -e "const d=new Date();const t=new Date(d);const dn=(d.getUTCDay()+6)%7;t.setUTCDate(t.getUTCDate()-dn+3);const ft=t.valueOf();t.setUTCMonth(0,1);if(t.getUTCDay()!==4){t.setUTCMonth(0,1+((4-t.getUTCDay())+7)%7)}console.log(\`\${new Date(ft).getUTCFullYear()}-W\${String(1+Math.ceil((ft-t)/604800000)).padStart(2,'0')}\`)")
+            git add docs/seo/reports/
+            git commit -m "docs(seo): weekly report $WEEK — auto via GitHub Actions"
+            git push
+          else
+            echo "Relatório já existe — sem commit (use workflow_dispatch com force=true pra atualizar)."
+          fi
+
+      - name: Cleanup .env.local
+        if: always()
+        run: rm -f .env.local

@@ -85,19 +85,40 @@ Se algum falhar:
 
 ## Setup em produção (GitHub Actions)
 
-Pra rodar cron weekly automático:
+Cron weekly **já implementado** em `.github/workflows/weekly-report.yml` (15/05/2026):
 
-1. **Repository secrets** (Settings → Secrets and variables → Actions):
-   - `GA4_CLIENT_ID`
-   - `GA4_CLIENT_SECRET`
-   - `GA4_REFRESH_TOKEN`
-   - `GSC_REFRESH_TOKEN`
-   - `GA4_SITE_PRINCIPAL_PROPERTY_ID`
+- Cron `0 6 * * 1` (toda segunda 06:00 UTC = 03:00 BRT)
+- Pipeline determinístico (zero LLM): roda os 3 scripts intel +
+  `scripts/intel/generate-weekly-report.mjs` que compõe o markdown
+- Commita em `docs/seo/reports/YYYY-WWW.md` via `github-actions[bot]`
+- **Idempotente:** não sobrescreve relatório existente (preserva análise
+  manual). Pra forçar regen, usar `workflow_dispatch` com `force: true`
 
-2. **Workflow** `.github/workflows/weekly-report.yml` (TODO Sprint 2):
-   - Cron `0 6 * * 1` (toda segunda 06:00 UTC = 03:00 BRT)
-   - Roda os 3 scripts, invoca skill ou versão script direta
-   - Commita o markdown gerado em `docs/seo/reports/YYYY-WWW.md`
+### Secrets necessários no GitHub
+
+Settings → Secrets and variables → Actions → New repository secret:
+
+| Nome | Valor |
+|---|---|
+| `GA4_CLIENT_ID` | Mesmo do `.env.local` |
+| `GA4_CLIENT_SECRET` | Mesmo do `.env.local` |
+| `GA4_REFRESH_TOKEN` | Mesmo do `.env.local` |
+| `GSC_REFRESH_TOKEN` | Mesmo do `.env.local` |
+| `GA4_SITE_PRINCIPAL_PROPERTY_ID` | `535148801` |
+
+Como copiar valor sem expor no terminal:
+```bash
+# Mostrar valor de cada var pra colar no GitHub UI (cuidado pra não logar):
+grep -E "^(GA4_CLIENT_ID|GA4_CLIENT_SECRET|GA4_REFRESH_TOKEN|GSC_REFRESH_TOKEN|GA4_SITE_PRINCIPAL_PROPERTY_ID)=" .env.local
+```
+
+### Validar workflow
+
+Depois de configurar os secrets, rodar manual no GitHub Actions:
+1. Ir em Actions → "Weekly SEO Report" → "Run workflow"
+2. Marcar `force: true` (pra criar relatório atual mesmo se já existir)
+3. Aguardar ~3 min
+4. Verificar commit `docs(seo): weekly report YYYY-WWW` no histórico
 
 **Sobre expiração:** refresh token OAuth não expira **enquanto for usado pelo
 menos 1 vez a cada 6 meses**. Com cron weekly, esse problema nunca acontece.
