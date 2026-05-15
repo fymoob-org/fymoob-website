@@ -91,18 +91,35 @@ jobs:
             node scripts/intel/generate-weekly-report.mjs
           fi
 
-      - name: Commit + push
+      - name: Commit + push (com rebase pra evitar race condition)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain docs/seo/reports/)" ]; then
-            WEEK=$(node -e "const d=new Date();const t=new Date(d);const dn=(d.getUTCDay()+6)%7;t.setUTCDate(t.getUTCDate()-dn+3);const ft=t.valueOf();t.setUTCMonth(0,1);if(t.getUTCDay()!==4){t.setUTCMonth(0,1+((4-t.getUTCDay())+7)%7)}console.log(\`\${new Date(ft).getUTCFullYear()}-W\${String(1+Math.ceil((ft-t)/604800000)).padStart(2,'0')}\`)")
-            git add docs/seo/reports/
-            git commit -m "docs(seo): weekly report $WEEK — auto via GitHub Actions"
-            git push
-          else
+          if [ -z "$(git status --porcelain docs/seo/reports/)" ]; then
             echo "Relatório já existe — sem commit (use workflow_dispatch com force=true pra atualizar)."
+            exit 0
           fi
+
+          WEEK=$(node -e "const d=new Date();const t=new Date(d);const dn=(d.getUTCDay()+6)%7;t.setUTCDate(t.getUTCDate()-dn+3);const ft=t.valueOf();t.setUTCMonth(0,1);if(t.getUTCDay()!==4){t.setUTCMonth(0,1+((4-t.getUTCDay())+7)%7)}console.log(\`\${new Date(ft).getUTCFullYear()}-W\${String(1+Math.ceil((ft-t)/604800000)).padStart(2,'0')}\`)")
+          git add docs/seo/reports/
+          git commit -m "docs(seo): weekly report $WEEK — auto via GitHub Actions"
+
+          # Retry com rebase pra absorver commits remotos que apareceram
+          # durante a execução do workflow (race condition comum em cron).
+          for attempt in 1 2 3; do
+            echo "Tentativa $attempt de push..."
+            if git push; then
+              echo "✓ Push OK"
+              exit 0
+            fi
+            echo "Push falhou — pull --rebase e retry"
+            git pull --rebase origin main || {
+              echo "✗ Pull --rebase falhou (conflito?). Abortando."
+              exit 1
+            }
+          done
+          echo "✗ 3 tentativas de push falharam."
+          exit 1
 
       - name: Cleanup .env.local
         if: always()
