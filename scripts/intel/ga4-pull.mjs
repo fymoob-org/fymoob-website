@@ -170,9 +170,11 @@ const eventTotalsBody = (start, end) => ({
   },
 })
 
+// O codigo dispara `cta_location` (custom dim registrada em GA4 Admin),
+// nao `click_source`. Ver src/components/analytics/WhatsAppClickTracker.tsx.
 const waSourceBody = (start, end) => ({
   dateRanges: [{ startDate: start, endDate: end }],
-  dimensions: [{ name: "customEvent:click_source" }],
+  dimensions: [{ name: "customEvent:cta_location" }],
   metrics: [{ name: "eventCount" }],
   dimensionFilter: {
     filter: { fieldName: "eventName", stringFilter: { value: "whatsapp_click" } },
