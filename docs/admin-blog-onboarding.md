@@ -73,10 +73,10 @@ Entender o que cada coluna da lista mostra + como filtrar.
 
 | Status | Cor | O que significa |
 |---|---|---|
-| `draft` | cinza | Rascunho — só você vê. Não publicado |
-| `scheduled` | azul | Programado pra publicar em data futura |
-| `published` | verde | Publicado e visível em fymoob.com.br/blog |
-| `archived` | vermelho | Arquivado, removido do site (mas guardado no banco) |
+| **Rascunho** | âmbar | Só você vê. Não publicado |
+| **Agendado** | azul | Programado pra publicar em data futura |
+| **Publicado** | verde | Visível em fymoob.com.br/blog |
+| **Arquivado** | cinza | Removido do site, mas guardado no banco |
 
 ---
 

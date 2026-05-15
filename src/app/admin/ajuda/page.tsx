@@ -4,6 +4,7 @@ import type { Metadata } from "next"
 import { MDXRemote } from "next-mdx-remote/rsc"
 import remarkGfm from "remark-gfm"
 import { HelpCircle } from "lucide-react"
+import { ZoomableImage } from "./ZoomableImage"
 
 export const metadata: Metadata = {
   title: { absolute: "Ajuda — Painel Admin · FYMOOB" },
@@ -57,8 +58,8 @@ export default async function AdminAjudaPage() {
             Ajuda — Painel Admin
           </h1>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Manual passo a passo pra usar o admin do blog. Atualizado conforme o
-            painel evolui — qualquer dúvida, mensagem pro Vinicius.
+            Manual passo a passo pra usar o admin do blog. Atualizado conforme
+            o painel evolui.
           </p>
         </div>
       </header>
@@ -86,8 +87,7 @@ export default async function AdminAjudaPage() {
             th: (p) => <th {...p} className="border-b border-slate-300 bg-slate-50 px-3 py-2 text-left font-semibold dark:border-admin-border dark:bg-admin-elevated" />,
             td: (p) => <td {...p} className="border-b border-slate-100 px-3 py-2 dark:border-admin-border" />,
             code: (p) => <code {...p} className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm text-slate-800 dark:bg-admin-elevated dark:text-slate-200" />,
-            // eslint-disable-next-line @next/next/no-img-element
-            img: (p) => <img {...p} alt={p.alt || ""} className="my-4 rounded-lg border border-slate-200 shadow-sm dark:border-admin-border" loading="lazy" />,
+            img: (p) => <ZoomableImage src={p.src} alt={p.alt} />,
             hr: (p) => <hr {...p} className="my-8 border-slate-200 dark:border-admin-border" />,
           }}
         />
