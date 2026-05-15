@@ -42,8 +42,6 @@ Como entrar no painel admin a partir de qualquer dispositivo.
 3. Use email + senha cadastrados. Se ainda não tem acesso, envie um email solicitando pra **dev.viniciusdamas@gmail.com**.
 4. Após logar, cai direto na lista de artigos.
 
-### 📸 Prints necessários
-
 ![Tela de login do admin](./admin-blog-screenshots/01-login-tela.png)
 ![Dashboard inicial após login](./admin-blog-screenshots/02-dashboard-admin.png)
 
@@ -64,8 +62,6 @@ Entender o que cada coluna da lista mostra + como filtrar.
 1. Na URL `/admin/blog` você vê todos os artigos.
 2. Colunas visíveis: Título, Autor, Status (draft/scheduled/published), Última atualização, Ações.
 3. Use filtros no topo pra ver apenas status específico (rascunhos, agendados, publicados).
-
-### 📸 Prints necessários
 
 ![Lista completa de artigos](./admin-blog-screenshots/03-lista-artigos-completa.png)
 
@@ -97,8 +93,6 @@ Criar um artigo do zero.
 4. Comece a escrever no editor (cursor já está posicionado)
 5. Não esquece de salvar (Ctrl+S ou botão "Salvar rascunho")
 
-### 📸 Prints necessários
-
 ![Editor vazio após criar artigo novo](./admin-blog-screenshots/06-editor-vazio.png)
 
 ![Painel lateral com aba Conteúdo](./admin-blog-screenshots/07-painel-lateral-conteudo.png)
@@ -128,8 +122,6 @@ Como funciona o editor estilo Notion: blocos, atalhos, formatação.
    - `-` ou `*` + espaço = lista bullet
    - `1.` + espaço = lista numerada
 4. **Selecione texto** pra abrir menu de formatação (negrito, itálico, link).
-
-### 📸 Prints necessários
 
 ![Slash menu aberto após digitar `/`](./admin-blog-screenshots/10-slash-menu-aberto.png)
 
@@ -168,8 +160,6 @@ Como funciona o editor estilo Notion: blocos, atalhos, formatação.
 3. Role o menu até "FYMOOB" (blocos custom aparecem no final)
 4. Click no que quer adicionar
 5. Preencha os campos do bloco
-
-### 📸 Prints necessários (1 por bloco — 6 prints)
 
 ![Bloco Methodology Box no editor](./admin-blog-screenshots/14-bloco-methodology.png)
 
@@ -212,8 +202,6 @@ Cada artigo tem uma nota de **0 a 100** calculada automaticamente. Verifica:
 
 No editor, painel lateral direito mostra o score + checklist do que falta.
 
-### 📸 Prints necessários
-
 > 📸 _Prints pendentes: SEO Score painel, checklist com pendentes, e estado "score 100"._
 
 ### Regra importante
@@ -239,8 +227,6 @@ Preencher capa, descrição SEO, autor, categoria, tags.
    - **Data de publicação** (define ordem no blog)
    - **Tags** (3-5, separadas por vírgula)
    - **Categoria** (uma só)
-
-### 📸 Prints necessários
 
 ![Aba Conteúdo do painel lateral (default)](./admin-blog-screenshots/23-aba-conteudo.png)
 
@@ -284,8 +270,6 @@ Diferença entre salvar rascunho × publicar × programar.
 3. Status vira `scheduled` — sistema publica automaticamente naquela hora
 4. Cron roda diariamente às 06:00 BRT — então use datas futuras
 
-### 📸 Prints necessários
-
 ![Botões de ação no topo (Histórico, Preview, Salvar, Agendar, Publicar)](./admin-blog-screenshots/08-toolbar-acoes.png)
 
 ### Dica
@@ -309,8 +293,6 @@ Mexer em artigo que já está no ar sem quebrar nada.
 5. Click **"Salvar e publicar alterações"**
 6. Versão nova substitui a antiga em alguns minutos no site
 
-### 📸 Prints necessários
-
 ![Editor de um artigo publicado existente](./admin-blog-screenshots/09-editor-artigo-existente.png)
 
 ### Cuidado!
@@ -333,8 +315,6 @@ Voltar versão anterior se algo deu errado.
 4. Click **"Restaurar esta versão"** se quiser voltar pra ela
 5. Versão atual fica salva como nova revisão (não perde nada)
 
-### 📸 Prints necessários
-
 ![Painel de histórico de revisões aberto](./admin-blog-screenshots/34-historico-lateral.png)
 
 ---
@@ -351,8 +331,6 @@ Remover artigo do site (sem perder o dado).
 3. Confirma — status vira `archived`
 4. Artigo some do site, mas continua salvo no banco
 5. Pra **deletar de vez** (sem volta): fala com Vinicius (só admin Supabase apaga linha do banco)
-
-### 📸 Prints necessários
 
 ![Botão Excluir destacado na lista de artigos](./admin-blog-screenshots/37-botao-excluir-lista.png)
 
@@ -387,8 +365,6 @@ Menu lateral → **"Autores"** ou URL `/admin/blog/autores`.
    - **Expertise** (lista de áreas: Mercado Imobiliário, SEO, etc.)
    - **Links sociais** (LinkedIn, Instagram, etc.)
 3. Salvar
-
-### 📸 Prints necessários
 
 ![Lista completa de autores em /admin/blog/autores](./admin-blog-screenshots/39-lista-autores.png)
 
@@ -429,8 +405,6 @@ Onde fazer upload de capas, imagens inline, fotos de autor.
 3. Upload do arquivo
 4. Pode redimensionar arrastando as bordas
 5. **Adicionar alt text** (descritivo, importante pra SEO)
-
-### 📸 Prints necessários
 
 > 📸 _Prints pendentes: modal de upload de capa, imagem inline com alt text, redimensionar imagem._
 
