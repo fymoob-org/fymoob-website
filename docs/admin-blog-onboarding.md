@@ -1,16 +1,10 @@
 # Onboarding — Painel Admin do Blog FYMOOB
 
 > Manual passo a passo pra criar, editar, programar e excluir artigos do blog.
-> Pra **Bruno + Wagner** (e qualquer pessoa nova que vier mexer no admin).
 >
 > **Última atualização:** 2026-05-15
 > **Versão do admin:** Fase 18 (BlockNote + Supabase)
 > **Screenshots:** [docs/admin-blog-screenshots/](./admin-blog-screenshots/) (30 prints capturados em 15/05/2026)
->
-> ---
->
-> 📺 **Vídeo tour** (Loom de 10 min): **pendente** — Bruno ou Vinicius grava
-> mostrando o fluxo completo end-to-end e cola link aqui.
 >
 > Esse doc é referência rápida pra consultar quando esquecer "como faço X".
 
@@ -45,13 +39,13 @@ Como entrar no painel admin a partir de qualquer dispositivo.
 
 1. Acesse: **https://fymoob.com.br/admin**
 2. Você verá a tela de login.
-3. Use email + senha cadastrados (se não tem, peça pro Vinicius).
+3. Use email + senha cadastrados. Se ainda não tem acesso, envie um email solicitando pra **dev.viniciusdamas@gmail.com**.
 4. Após logar, cai direto na lista de artigos.
 
 ### 📸 Prints necessários
 
-- [ ] **01-login-tela.png** — tela `/admin/login` com campos email/senha visíveis
-- [ ] **02-dashboard-pos-login.png** — primeira tela após login bem-sucedido
+![Tela de login do admin](./admin-blog-screenshots/01-login-tela.png)
+![Dashboard inicial após login](./admin-blog-screenshots/02-dashboard-admin.png)
 
 ### Dicas
 
@@ -73,9 +67,11 @@ Entender o que cada coluna da lista mostra + como filtrar.
 
 ### 📸 Prints necessários
 
-- [ ] **03-lista-artigos-completa.png** — tela inteira de `/admin/blog`
-- [ ] **04-filtros-de-status.png** — close nos filtros de status (draft/scheduled/published)
-- [ ] **05-botao-novo-artigo.png** — botão "Criar novo artigo" destacado
+![Lista completa de artigos](./admin-blog-screenshots/03-lista-artigos-completa.png)
+
+![Barra de filtros e busca](./admin-blog-screenshots/04-filtros-busca.png)
+
+![Botão Novo artigo no topo direito](./admin-blog-screenshots/05-novo-artigo-botao.png)
 
 ### Glossário rápido (status)
 
@@ -103,10 +99,11 @@ Criar um artigo do zero.
 
 ### 📸 Prints necessários
 
-- [ ] **06-modal-novo-artigo.png** — modal/tela inicial ao clicar "Novo artigo"
-- [ ] **07-campo-titulo-vazio.png** — editor com título vazio aguardando input
-- [ ] **08-slug-auto-gerado.png** — campo slug mostrando preenchimento automático
-- [ ] **09-editor-vazio.png** — editor BlockNote pronto pra escrever
+![Editor vazio após criar artigo novo](./admin-blog-screenshots/06-editor-vazio.png)
+
+![Painel lateral com aba Conteúdo](./admin-blog-screenshots/07-painel-lateral-conteudo.png)
+
+![Barra de ações no topo (Histórico, Preview, Salvar, Agendar, Publicar)](./admin-blog-screenshots/08-toolbar-acoes.png)
 
 ### Dica importante
 
@@ -134,10 +131,11 @@ Como funciona o editor estilo Notion: blocos, atalhos, formatação.
 
 ### 📸 Prints necessários
 
-- [ ] **10-slash-menu-aberto.png** — menu de blocos aberto (após digitar `/`)
-- [ ] **11-formatacao-texto.png** — texto selecionado mostrando bold/italic/link
-- [ ] **12-titulos-hierarquia.png** — exemplo de H2/H3 renderizados
-- [ ] **13-listas-exemplo.png** — listas bullet + numeradas no editor
+![Slash menu aberto após digitar `/`](./admin-blog-screenshots/10-slash-menu-aberto.png)
+
+![Seção FYMOOB do slash menu (6 blocos custom)](./admin-blog-screenshots/11-slash-menu-blocos-fymoob.png)
+
+![Editor playground (sandbox de teste sem afetar artigos reais)](./admin-blog-screenshots/12-editor-playground.png)
 
 ### Dicas
 
@@ -173,12 +171,17 @@ Como funciona o editor estilo Notion: blocos, atalhos, formatação.
 
 ### 📸 Prints necessários (1 por bloco — 6 prints)
 
-- [ ] **14-bloco-methodology.png** — Methodology Box no editor + como fica no site
-- [ ] **15-bloco-callout.png** — Callout Box no editor + site
-- [ ] **16-bloco-cta.png** — CTA Box no editor + site
-- [ ] **17-bloco-changelog.png** — Changelog no editor + site
-- [ ] **18-bloco-faq.png** — FAQ Item no editor + site
-- [ ] **19-bloco-imovel-destaque.png** — Imóvel Destaque no editor + site
+![Bloco Methodology Box no editor](./admin-blog-screenshots/14-bloco-methodology.png)
+
+![Bloco Callout/Aviso no editor](./admin-blog-screenshots/15-bloco-callout.png)
+
+![Bloco CTA (Call to Action) no editor](./admin-blog-screenshots/16-bloco-cta.png)
+
+![Bloco Changelog/Histórico de atualizações no editor](./admin-blog-screenshots/17-bloco-changelog.png)
+
+![Bloco FAQ (Pergunta + Resposta) no editor](./admin-blog-screenshots/18-bloco-faq.png)
+
+![Bloco Imóvel em destaque no editor](./admin-blog-screenshots/19-bloco-imovel-destaque.png)
 
 ### Dica
 
@@ -211,9 +214,7 @@ No editor, painel lateral direito mostra o score + checklist do que falta.
 
 ### 📸 Prints necessários
 
-- [ ] **20-seo-score-painel.png** — painel lateral com score visível
-- [ ] **21-seo-checklist-itens-pendentes.png** — checklist mostrando itens com ✗ (pendente)
-- [ ] **22-seo-score-100.png** — artigo com score 100 (referência do "ideal")
+> 📸 _Prints pendentes: SEO Score painel, checklist com pendentes, e estado "score 100"._
 
 ### Regra importante
 
@@ -241,11 +242,15 @@ Preencher capa, descrição SEO, autor, categoria, tags.
 
 ### 📸 Prints necessários
 
-- [ ] **23-aba-metadados.png** — aba de metadados aberta
-- [ ] **24-upload-capa.png** — botão de upload + preview da capa
-- [ ] **25-meta-description.png** — campo description com contador 150-160 chars
-- [ ] **26-selecao-autor.png** — dropdown selecionar autor
-- [ ] **27-tags-categoria.png** — campos de tags + categoria
+![Aba Conteúdo do painel lateral (default)](./admin-blog-screenshots/23-aba-conteudo.png)
+
+![Aba Detalhes do painel lateral](./admin-blog-screenshots/24-aba-detalhes.png)
+
+![Aba Confiabilidade (E-E-A-T e Research Protocol)](./admin-blog-screenshots/25-aba-confiabilidade.png)
+
+![Aba Google (SEO técnico, OG image, schema)](./admin-blog-screenshots/26-aba-google.png)
+
+![Painel direito completo full-page](./admin-blog-screenshots/42-painel-detalhes-completo.png)
 
 ### Dicas
 
@@ -281,10 +286,7 @@ Diferença entre salvar rascunho × publicar × programar.
 
 ### 📸 Prints necessários
 
-- [ ] **28-botoes-acao.png** — botões "Salvar / Publicar / Programar" no topo
-- [ ] **29-modal-publicar-confirmacao.png** — confirmação antes de publicar
-- [ ] **30-bloqueio-seo-score.png** — modal mostrando "SEO Score 65, não pode publicar"
-- [ ] **31-programar-data-hora.png** — date picker pra agendar publicação
+![Botões de ação no topo (Histórico, Preview, Salvar, Agendar, Publicar)](./admin-blog-screenshots/08-toolbar-acoes.png)
 
 ### Dica
 
@@ -309,8 +311,7 @@ Mexer em artigo que já está no ar sem quebrar nada.
 
 ### 📸 Prints necessários
 
-- [ ] **32-editar-publicado.png** — abrir artigo publicado pra edição
-- [ ] **33-botao-salvar-republicar.png** — botão "Salvar e publicar alterações"
+![Editor de um artigo publicado existente](./admin-blog-screenshots/09-editor-artigo-existente.png)
 
 ### Cuidado!
 
@@ -334,9 +335,7 @@ Voltar versão anterior se algo deu errado.
 
 ### 📸 Prints necessários
 
-- [ ] **34-historico-lateral.png** — painel de histórico aberto
-- [ ] **35-comparar-versoes.png** — preview de uma versão antiga
-- [ ] **36-restaurar-versao.png** — botão restaurar destacado
+![Painel de histórico de revisões aberto](./admin-blog-screenshots/34-historico-lateral.png)
 
 ---
 
@@ -355,8 +354,9 @@ Remover artigo do site (sem perder o dado).
 
 ### 📸 Prints necessários
 
-- [ ] **37-botao-arquivar.png** — botão arquivar destacado
-- [ ] **38-modal-confirmar-arquivar.png** — modal de confirmação
+![Botão Excluir destacado na lista de artigos](./admin-blog-screenshots/37-botao-excluir-lista.png)
+
+![Confirmação ao clicar Excluir](./admin-blog-screenshots/38-modal-excluir.png)
 
 ### Cuidado!
 
@@ -390,9 +390,11 @@ Menu lateral → **"Autores"** ou URL `/admin/blog/autores`.
 
 ### 📸 Prints necessários
 
-- [ ] **39-lista-autores.png** — `/admin/blog/autores` com todos os autores
-- [ ] **40-form-novo-autor.png** — formulário de criar autor completo
-- [ ] **41-edicao-autor-existente.png** — editar autor
+![Lista completa de autores em /admin/blog/autores](./admin-blog-screenshots/39-lista-autores.png)
+
+![Tela de edição de um autor existente](./admin-blog-screenshots/40-autor-edicao.png)
+
+![Form completo do autor (full-page)](./admin-blog-screenshots/41-autor-form-completo.png)
 
 ### Dica
 
@@ -430,9 +432,7 @@ Onde fazer upload de capas, imagens inline, fotos de autor.
 
 ### 📸 Prints necessários
 
-- [ ] **42-upload-capa-modal.png** — modal de upload de capa
-- [ ] **43-imagem-inline-com-alt.png** — imagem inline com campo alt text
-- [ ] **44-redimensionar-imagem.png** — imagem com bordas arrastáveis
+> 📸 _Prints pendentes: modal de upload de capa, imagem inline com alt text, redimensionar imagem._
 
 ### Dicas
 
@@ -502,55 +502,6 @@ Onde fazer upload de capas, imagens inline, fotos de autor.
 
 ---
 
-## Status dos screenshots (atualizado 2026-05-15)
+## Histórico de versões
 
-**30 prints capturados via Playwright em produção.** Disponíveis em `docs/admin-blog-screenshots/`. Mapeamento:
-
-### Capturados ✅
-
-| # | Arquivo | Seção do doc |
-|---|---|---|
-| 01 | `01-login-tela.png` | 1. Acesso e login |
-| 02 | `02-dashboard-admin.png` | 1. (após login) |
-| 03 | `03-lista-artigos-completa.png` | 2. Lista de artigos |
-| 04 | `04-filtros-busca.png` | 2. Filtros |
-| 05 | `05-novo-artigo-botao.png` | 2. Botão Novo artigo |
-| 06 | `06-editor-vazio.png` | 3. Criar artigo novo |
-| 07 | `07-painel-lateral-conteudo.png` | 7. Painel lateral (aba Conteúdo) |
-| 08 | `08-toolbar-acoes.png` | 8. Botões Salvar/Agendar/Publicar |
-| 09 | `09-editor-artigo-existente.png` | 9. Editar artigo publicado |
-| 10 | `10-slash-menu-aberto.png` | 4. Slash menu |
-| 11 | `11-slash-menu-blocos-fymoob.png` | 5. Seção FYMOOB do menu |
-| 12 | `12-editor-playground.png` | (sandbox de teste) |
-| 14 | `14-bloco-methodology.png` | 5. MethodologyBox |
-| 15 | `15-bloco-callout.png` | 5. CalloutBox |
-| 16 | `16-bloco-cta.png` | 5. CTABox |
-| 17 | `17-bloco-changelog.png` | 5. Changelog |
-| 18 | `18-bloco-faq.png` | 5. FAQ Item |
-| 19 | `19-bloco-imovel-destaque.png` | 5. ImovelDestaque |
-| 23 | `23-aba-conteudo.png` | 7. Aba Conteúdo |
-| 24 | `24-aba-detalhes.png` | 7. Aba Detalhes |
-| 25 | `25-aba-confiabilidade.png` | 7. Aba Confiabilidade |
-| 26 | `26-aba-google.png` | 7. Aba Google |
-| 34 | `34-historico-lateral.png` | 10. Histórico de revisões |
-| 37 | `37-botao-excluir-lista.png` | 11. Botão excluir na lista |
-| 38 | `38-modal-excluir.png` | 11. Confirmação (capturou estado pós-clique) |
-| 39 | `39-lista-autores.png` | 12. Lista de autores |
-| 40 | `40-autor-edicao.png` | 12. Editar autor |
-| 41 | `41-autor-form-completo.png` | 12. Form completo do autor |
-| 42 | `42-painel-detalhes-completo.png` | 7. Painel direito full-page |
-
-### Pendentes ⏳ (manuais — requerem ação no painel)
-
-| # | Filename sugerido | Por que falta |
-|---|---|---|
-| 13 | `13-listas-exemplo.png` | Cria artigo com bullets/numbered + screenshot |
-| 20-22 | `20-seo-score-painel.png` + 21-22 | SEO Score gate — requer trigger no painel |
-| 27 | `27-tags-categoria.png` | Painel "Detalhes" com tags preenchidas |
-| 28-30 | `28-botao-publicar-modal.png` + 29-30 | Modal de publicar (requer rascunho real) |
-| 31 | `31-prompt-agendar.png` | É `prompt()` nativo do browser — capturar com print de tela manual |
-| 32-33 | `32-editar-publicado.png` + 33 | Já tem `09-editor-artigo-existente.png` — adequar |
-| 35-36 | `35-historico-revisao.png` + 36 | Abrir histórico com >0 entradas |
-| 43-44 | `43-upload-modal.png` + 44 | Clicar em "Imagem de capa" + capturar Supabase upload |
-
-> Pendentes podem ser capturados em sessão posterior ou substituídos no Loom.
+- **2026-05-15:** versão inicial publicada com 30 screenshots inline capturados via Playwright em produção. Pendentes: SEO Score painel, listas exemplo, tags/categoria, modal publicar, prompt agendar, upload de capa. Capturas adicionais conforme o painel evoluir.
