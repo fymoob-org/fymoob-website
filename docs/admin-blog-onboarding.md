@@ -146,12 +146,12 @@ Como funciona o editor estilo Notion: blocos, atalhos, formatação.
 
 | Bloco | Quando usar | Aparência no site |
 |---|---|---|
-| **Methodology Box** | Topo de artigo de dados, citar fonte/período | Caixa cinza institucional |
-| **Callout Box** | Destacar info importante no meio do texto | Caixa colorida com ícone |
-| **CTA Box** | Conversão (final de seção, oferecer contato) | Botão grande chamativo |
-| **Changelog** | Topo de artigo "pillar" (atualizado periódico) | Bloco com data + mudanças |
-| **FAQ Item** | Perguntas frequentes (gera schema SEO) | Accordion com pergunta + resposta |
-| **Imóvel Destaque** | Mostrar imóvel específico vinculado ao artigo | Card visual com foto + preço |
+| **Metodologia** | Topo de artigo de dados, citar fonte/período | Caixa cinza institucional |
+| **Aviso (Callout)** | Destacar info importante no meio do texto | Caixa colorida com ícone |
+| **Chamada (CTA)** | Conversão (final de seção, oferecer contato) | Botão grande chamativo |
+| **Histórico de atualizações** | Topo de artigo "pillar" (atualizado periódico) | Bloco com data + mudanças |
+| **Pergunta FAQ** | Perguntas frequentes (gera schema SEO) | Accordion com pergunta + resposta |
+| **Imóvel em destaque** | Mostrar imóvel específico vinculado ao artigo | Card visual com foto + preço |
 
 ### Como inserir
 
@@ -161,22 +161,22 @@ Como funciona o editor estilo Notion: blocos, atalhos, formatação.
 4. Click no que quer adicionar
 5. Preencha os campos do bloco
 
-![Bloco Methodology Box no editor](./admin-blog-screenshots/14-bloco-methodology.png)
+![Bloco Metodologia no editor](./admin-blog-screenshots/14-bloco-methodology.png)
 
-![Bloco Callout/Aviso no editor](./admin-blog-screenshots/15-bloco-callout.png)
+![Bloco Aviso (Callout) no editor](./admin-blog-screenshots/15-bloco-callout.png)
 
-![Bloco CTA (Call to Action) no editor](./admin-blog-screenshots/16-bloco-cta.png)
+![Bloco Chamada (CTA) no editor](./admin-blog-screenshots/16-bloco-cta.png)
 
-![Bloco Changelog/Histórico de atualizações no editor](./admin-blog-screenshots/17-bloco-changelog.png)
+![Bloco Histórico de atualizações no editor](./admin-blog-screenshots/17-bloco-changelog.png)
 
-![Bloco FAQ (Pergunta + Resposta) no editor](./admin-blog-screenshots/18-bloco-faq.png)
+![Bloco Pergunta FAQ no editor](./admin-blog-screenshots/18-bloco-faq.png)
 
-![Bloco Imóvel em destaque no editor](./admin-blog-screenshots/19-bloco-imovel-destaque.png)
+![Bloco Imóvel em destaque (vinculado ao CRM Loft) no editor](./admin-blog-screenshots/19-bloco-imovel-destaque.png)
 
 ### Dica
 
-- **MethodologyBox + Changelog são obrigatórios em artigos "pillar"** (guias amplos, atualizados periodicamente)
-- **FAQ Item** ajuda SEO porque gera schema markup automaticamente — sempre coloca 3-5 perguntas no final dos artigos longos
+- **Metodologia + Histórico de atualizações são obrigatórios em artigos "pillar"** (guias amplos, atualizados periodicamente)
+- **Pergunta FAQ** ajuda SEO porque gera schema markup automaticamente — sempre coloca 3-5 perguntas no final dos artigos longos
 
 ---
 
