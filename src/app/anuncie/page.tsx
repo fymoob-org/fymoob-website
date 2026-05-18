@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { Breadcrumbs } from "@/components/seo/Breadcrumbs"
 import { ContactForm } from "@/components/shared/ContactForm"
 import { DynamicFAQ } from "@/components/seo/DynamicFAQ"
@@ -14,6 +15,9 @@ import {
   Megaphone,
   Handshake,
   CheckCircle2,
+  Tag,
+  Key,
+  ArrowRight,
 } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -117,7 +121,7 @@ export default function AnunciePage() {
       />
 
       {/* Hero */}
-      <div className="mb-12">
+      <div className="mb-10">
         <h1 className="font-display text-3xl font-bold text-fymoob-gray-dark sm:text-4xl">
           Anuncie seu imóvel na FYMOOB
         </h1>
@@ -128,6 +132,49 @@ export default function AnunciePage() {
           </strong>
         </p>
       </div>
+
+      {/* Escolha venda vs locação */}
+      <section className="mb-14 grid gap-4 sm:grid-cols-2">
+        <Link
+          href="/anuncie/venda"
+          className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:border-brand-primary/40 hover:shadow-lg sm:p-7"
+        >
+          <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-primary/10">
+            <Tag className="size-6 text-brand-primary" />
+          </div>
+          <h2 className="font-display text-xl font-bold text-fymoob-gray-dark">
+            Quero vender meu imóvel
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-fymoob-gray-mid">
+            Avaliação profissional, fotos, divulgação em portais e
+            acompanhamento até a escritura.
+          </p>
+          <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-primary group-hover:gap-2 transition-[gap]">
+            Saiba mais
+            <ArrowRight className="size-4" />
+          </span>
+        </Link>
+
+        <Link
+          href="/anuncie/locacao"
+          className="group relative overflow-hidden rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:border-brand-primary/40 hover:shadow-lg sm:p-7"
+        >
+          <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-primary/10">
+            <Key className="size-6 text-brand-primary" />
+          </div>
+          <h2 className="font-display text-xl font-bold text-fymoob-gray-dark">
+            Quero alugar meu imóvel
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-fymoob-gray-mid">
+            Análise de crédito do inquilino, contrato, vistoria e cobrança.
+            Você fica protegido de inadimplência.
+          </p>
+          <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-primary group-hover:gap-2 transition-[gap]">
+            Saiba mais
+            <ArrowRight className="size-4" />
+          </span>
+        </Link>
+      </section>
 
       {/* Stats bar */}
       <div className="mb-14 grid grid-cols-3 gap-4 rounded-xl border border-brand-primary/20 bg-brand-primary/5 p-6">

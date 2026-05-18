@@ -1,81 +1,115 @@
-# Add-Ons Fora do Escopo Contratual
+# Roadmap de Serviços Online (Bruno)
 
-> Pacotes 1+2 de servicos fora do contrato. Status, valores, aprovacoes pendentes.
-> Migrado de `docs/TASKS.md` em 2026-05-04 — ver `docs/TASKS.md` para indice mestre.
+> Status, valores e prioridade dos serviços online solicitados pelo Bruno.
+> **Atualizado:** 2026-05-18 — lista enxuta após conversa com Bruno
+> (descartados itens fora da lista atual; manter foco nos 8 abaixo).
 
+---
 
-## 💰 Add-Ons Fora do Escopo Contratual (Orçamento Complementar)
+## 📋 Lista oficial — 8 serviços solicitados pelo Bruno
 
-> **Seção dedicada** — consolida TODAS as demandas do Bruno que não estão
-> no contrato de 04/04/2026. Atualizar sempre que surgir pedido novo.
->
-> **Base legal:** Cláusula 2, §2º do contrato — *"Quaisquer funcionalidades,
-> páginas ou serviços não listados nesta cláusula estão fora do escopo deste
-> contrato e, se solicitados, serão objeto de orçamento complementar aprovado
-> por ambas as partes antes da execução."*
->
-> **Como aprovar:** WhatsApp com confirmação por escrito (cf. §5º Cláusula 13ª).
->
-> **Referência visual:** `docs/configurador-servicos.html` tem formulário que
-> já foi apresentado ao Bruno com itens 1-7.
+### Imóvel
+1. **Laudo de Avaliação Judicial** (R$)
+2. **Calculadora de imóvel** (igual ChatGPT, IA)
+3. **Laudo de Avaliação Física** (R$)
 
-### Status dos orçamentos
+### Vendas
+4. **Pack de Certidões** (R$)
+5. **Proposta Online (venda)**
+6. **Anuncie seu imóvel pra venda** ← _já existe parcialmente_
 
-| Status | Quantidade |
-|---|---|
-| Pendente aprovação | 13 itens |
-| Aprovados | 0 |
-| Em execução | 0 |
-| Concluídos | 0 |
+### Locação
+7. **Proposta + Análise de Crédito (locação)**
+8. **Anuncie seu imóvel pra locação** ← _já existe parcialmente_
 
-### Pacote 1 — Serviços ao Cliente (apresentados no configurador)
+---
 
-| # | Item | Valor | Aprovado? |
-|---|------|---|---|
-| 1 | **Página de Serviços** — hub + menu "Serviços" substituindo "Anunciar" | R$ 800 | ⬜ |
-| 2a | **Pack Certidões** — pagamento Pix manual | R$ 1.800 | ⬜ |
-| 2b | **Pack Certidões** — pagamento online automático (Pagar.me/Mercado Pago) | R$ 3.500 | ⬜ (alternativa ao 2a) |
-| 3a | **Calculadora Avaliação** — estimativa por tabela de preços do catálogo | R$ 2.500 | ⬜ |
-| 3b | **Calculadora Avaliação** — estimativa com IA (OpenAI/Anthropic + base FYMOOB) | R$ 5.000 | ⬜ (alternativa ao 3a) |
-| 4 | **Laudo Avaliação Presencial** — página + formulário | R$ 1.000 | ⬜ |
-| 5 | **Ficha Análise de Crédito** — form completo + envio email | R$ 1.500 | ⬜ |
-| 6 | **Captação Imóveis para Locação** — landing dedicada | R$ 800 | ⬜ |
-| 7 | **Captura Contato WhatsApp** — form rápido antes do wa.me + cadastro auto no CRM | R$ 800 | ⬜ |
+## ✅ Itens 6 e 8 — "Anuncie venda" e "Anuncie locação"
 
-**Totais possíveis do Pacote 1:**
-- Completo com pagamentos manuais: 1+2a+3a+4+5+6+7 = **R$ 9.200**
-- Completo com pagamentos online: 1+2b+3b+4+5+6+7 = **R$ 13.400**
-- ROI focado (captação de lead): 3a+4+5+7 = **R$ 5.600**
+**Status:** ✅ **MELHORIA APLICADA (18/05/2026, sem custo)**
 
-### Pacote 2 — Demandas Adicionais (mapeadas 18-19/04)
+Antes da conversa, existia `/anuncie` única que cobria os 2 casos. Agora:
 
-| # | Item | Valor | Aprovado? |
-|---|------|---|---|
-| 8 | **Multi-CRM (parceiros)** — API Loft de outra imobiliária, prefix de códigos, CRECI, lead routing | R$ 1.200 setup + R$ 400/CRM adicional | ⬜ (parceiro ainda não definido) |
-| 9 | **Loft Share Button** — ferramenta `/admin/compartilhar` gerando link fymoob.com.br + WhatsApp com msg pronta, substituindo imo.bi do Loft | R$ 1.000 | ⬜ (tentar custom domain Loft grátis primeiro) |
-| 10 | **Padronização Títulos SEO** — planilha de sugestões (features + copywriting pesquisado 19/04) + auto-aplicação em 200 imóveis menores; top 30 revisados por Bruno no CRM | R$ 800 | ⬜ (aguarda decisão Bruno) |
-| 11 | **Proposta de Compra (PDF)** — corretor preenche form, site gera PDF FYMOOB, envia por email | R$ 1.200 (estimativa) | ⬜ |
-| 12 | **Proposta de Locação (PDF)** — igual ao 11 com campos específicos (garantia, prazo) | R$ 1.000 (estimativa — reusa código do 11) | ⬜ |
-| 13 | **Empreendimentos Personalizáveis** — página custom por empreendimento (editorial, galeria estendida, plantas, mapa detalhado) | Escopo pendente | ⬜ (Bruno precisa definir nível de custom) |
+- `/anuncie` → hub com 2 botões grandes (Quero vender / Quero alugar)
+- `/anuncie/venda` → página dedicada, copy direcionado pra proprietário vendendo
+- `/anuncie/locacao` → página dedicada, copy direcionado pra proprietário alugando
 
-**Total Pacote 2 (itens 8+9+10+11+12, sem 13):** R$ 5.200
+Cada página tem etapas, benefícios e form específicos. Form com `interesseOptions` filtrado por contexto.
 
-### Pacote Full — tudo aprovado (1+2a+3a+4+5+6+7+8+9+10+11+12)
+Não cobrado — entrou como melhoria de UX.
 
-**R$ 14.400** (exceto item 13 que precisa escopo) — negociável em parcelas similar ao contrato original (6x R$ 2.400).
+---
 
-### Itens descartados / shelved
+## 💰 Itens 1-5 e 7 — Features novas (a orçar)
 
-| Item | Motivo |
-|---|---|
-| Browser extension para share button | Muito custo de manutenção; substituído pelo item 9 |
-| Integração Supabase pro lead (Fase 15.A) | Dentro de 15.A do plano atual, não vira add-on extra |
+### Esforço e valor sugerido
 
-### Política de novos add-ons
+| # | Item | Esforço | Tempo real | Valor pro Bruno | Custo recorrente |
+|---|---|---|---:|---:|---|
+| 4 | **Pack Certidões** (Pix manual) | 🟢 BAIXO | 1-2 dias | **R$ 1.500** | — |
+| 4 | **Pack Certidões** (gateway online) | 🟢 BAIXO | 3-4 dias | **R$ 2.800** | ~2% por transação |
+| 5 | **Proposta de Venda** (sozinha) | 🟡 MÉDIO | 2 dias | **R$ 1.000** | — |
+| 7 | **Proposta + Análise Crédito** (loc, sozinha) | 🟡 MÉDIO | 3 dias | **R$ 1.500** | — |
+| 5+7 | **Combo Propostas** (venda + loc juntas) | 🟡 MÉDIO | 4-5 dias | **R$ 2.200** | — |
+| 3 | **Laudo Físico** | 🟠 ALTO | 2-3 dias | **R$ 1.000** | — |
+| 1 | **Laudo Judicial** | 🟠 ALTO | 3-4 dias | **R$ 1.500** | — |
+| 2 | **Calculadora ChatGPT** | 🔴 MUITO ALTO | 8-12 dias | **R$ 5.000** | R$ 50-200/mês (API IA) |
 
-Quando o Bruno pedir algo novo que **não está** no contrato nem nesta lista:
+### Pacote completo
 
-1. Avaliar se é trivial (< 2h dev) — nesse caso posso fazer sem cobrar extra como cortesia
-2. Se > 2h: estimar e **adicionar aqui** com valor sugerido
-3. Enviar orçamento por WhatsApp antes de executar
-4. Só iniciar após confirmação escrita do Bruno (print ou msg explícita)
+- **Manual + combo:** R$ 13.000
+- **Online + combo:** R$ 14.300
+
+---
+
+## 📅 Ordem técnica recomendada
+
+```
+Fase 1 (~2 sem) — Pack Certidões
+  Gera receita já (cobra cliente), independente dos outros.
+
+Fase 2 (~3 sem) — Combo Propostas (venda + locação + análise crédito)
+  Compartilham 70% do código (form, geração de PDF, email).
+  Fazer junto sai ~30% mais barato vs. separado.
+
+Fase 3 (~2 sem) — Laudos (Físico + Judicial)
+  Templates de PDF diferentes mas infra reaproveitada da Fase 2.
+  Judicial precisa: perito parceiro com CRECI judicial confirmado.
+
+Fase 4 (~4-6 sem) — Calculadora ChatGPT
+  Por último: mais cara, custo recorrente de IA, validação anti-alucinação.
+  Vale começar depois que os outros tiverem rodando.
+```
+
+---
+
+## ❓ Decisão pendente (pergunta enviada ao Bruno)
+
+**Captação vs. monetização:**
+
+- Lead novo (precisa mais gente no funil) → começar pela **Calculadora**
+- Monetizar quem já chegou → começar por **Certidões + Propostas**
+
+Resposta do Bruno define ordem real das fases.
+
+---
+
+## Política contratual
+
+Base legal: Cláusula 2, §2º do contrato (04/04/2026) — "*Quaisquer funcionalidades,
+páginas ou serviços não listados nesta cláusula estão fora do escopo deste
+contrato e, se solicitados, serão objeto de orçamento complementar aprovado
+por ambas as partes antes da execução.*"
+
+Aprovação válida: WhatsApp com confirmação por escrito (§5º Cláusula 13ª).
+
+---
+
+## Histórico
+
+- **04/04/2026** — contrato original assinado, escopo definido
+- **18-19/04/2026** — primeiros add-ons mapeados (configurador-servicos.html)
+- **18/05/2026** — Bruno mandou lista enxuta de 8 serviços. Itens fora da lista
+  removidos do roadmap ativo. `/anuncie/venda` e `/anuncie/locacao` separados
+  como melhoria gratuita. Mensagem com fases enviada pra Bruno aguardando
+  resposta sobre prioridade.
