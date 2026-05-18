@@ -202,7 +202,11 @@ Cada artigo tem uma nota de **0 a 100** calculada automaticamente. Verifica:
 
 No editor, painel lateral direito mostra o score + checklist do que falta.
 
-> 📸 _Prints pendentes: SEO Score painel, checklist com pendentes, e estado "score 100"._
+![Painel SEO Score completo (aba Google)](./admin-blog-screenshots/20-seo-score-painel.png)
+
+![Checklist do SEO Score com itens validados](./admin-blog-screenshots/21-seo-checklist.png)
+
+![Tag de pontuação SEO (este artigo: 94)](./admin-blog-screenshots/22-score-tag.png)
 
 ### Regra importante
 
@@ -406,7 +410,11 @@ Onde fazer upload de capas, imagens inline, fotos de autor.
 4. Pode redimensionar arrastando as bordas
 5. **Adicionar alt text** (descritivo, importante pra SEO)
 
-> 📸 _Prints pendentes: modal de upload de capa, imagem inline com alt text, redimensionar imagem._
+![Painel com imagem de capa carregada (com botão "Remover capa")](./admin-blog-screenshots/42-imagem-capa-preview.png)
+
+![Bloco de imagem inline (estado de upload via slash menu)](./admin-blog-screenshots/43-bloco-imagem-upload.png)
+
+> 📸 _Print pendente: redimensionar imagem com handles arrastáveis (requer imagem já carregada)._
 
 ### Dicas
 
