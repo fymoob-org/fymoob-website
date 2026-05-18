@@ -458,11 +458,7 @@ Onde fazer upload de capas, imagens inline, fotos de autor.
 
 ---
 
-## Contato pra dúvidas
-
-**Vinicius** (desenvolvedor):
-- WhatsApp: [NÚMERO]
-- Email: dev.viniciusdamas@gmail.com
+## Quando chamar o desenvolvedor
 
 **Em caso de**:
 - Erro técnico que trava o admin
