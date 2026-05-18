@@ -60,7 +60,7 @@ Entender o que cada coluna da lista mostra + como filtrar.
 ### Passo a passo
 
 1. Na URL `/admin/blog` você vê todos os artigos.
-2. Colunas visíveis: Título, Autor, Status (draft/scheduled/published), Última atualização, Ações.
+2. Colunas visíveis: Título, Autor, Status (Rascunho/Agendado/Publicado), Última atualização, Ações.
 3. Use filtros no topo pra ver apenas status específico (rascunhos, agendados, publicados).
 
 ![Lista completa de artigos](./admin-blog-screenshots/03-lista-artigos-completa.png)
@@ -89,7 +89,7 @@ Criar um artigo do zero.
 
 1. Click em **"Novo artigo"** no topo direito da lista
 2. Preencha o **título** (campo grande no topo)
-3. O **slug** (URL) é gerado automático do título — pode editar se quiser
+3. O **endereço da página** (URL) é gerado automático a partir do título — pode editar se quiser
 4. Comece a escrever no editor (cursor já está posicionado)
 5. Não esquece de salvar (Ctrl+S ou botão "Salvar rascunho")
 
@@ -101,7 +101,7 @@ Criar um artigo do zero.
 
 ### Dica importante
 
-- **Título define o slug** → mudar título depois muda URL → quebra links externos. Decida o título antes de divulgar o artigo.
+- **Título define o endereço da página (URL)** → mudar o título depois muda a URL → quebra links que outras pessoas já compartilharam. Decida o título antes de divulgar o artigo.
 
 ---
 
@@ -150,7 +150,7 @@ Como funciona o editor estilo Notion: blocos, atalhos, formatação.
 | **Aviso (Callout)** | Destacar info importante no meio do texto | Caixa colorida com ícone |
 | **Chamada (CTA)** | Conversão (final de seção, oferecer contato) | Botão grande chamativo |
 | **Histórico de atualizações** | Topo de artigo "pillar" (atualizado periódico) | Bloco com data + mudanças |
-| **Pergunta FAQ** | Perguntas frequentes (gera schema SEO) | Accordion com pergunta + resposta |
+| **Pergunta FAQ** | Perguntas frequentes (ajuda o Google a entender o artigo) | Lista expansível com pergunta + resposta |
 | **Imóvel em destaque** | Mostrar imóvel específico vinculado ao artigo | Card visual com foto + preço |
 
 ### Como inserir
@@ -176,7 +176,7 @@ Como funciona o editor estilo Notion: blocos, atalhos, formatação.
 ### Dica
 
 - **Metodologia + Histórico de atualizações são obrigatórios em artigos "pillar"** (guias amplos, atualizados periodicamente)
-- **Pergunta FAQ** ajuda SEO porque gera schema markup automaticamente — sempre coloca 3-5 perguntas no final dos artigos longos
+- **Pergunta FAQ** ajuda no Google porque adiciona um código invisível que o buscador entende — sempre coloca 3-5 perguntas no final dos artigos longos
 
 ---
 
@@ -238,7 +238,7 @@ Preencher capa, descrição SEO, autor, categoria, tags.
 
 ![Aba Confiabilidade (E-E-A-T e Research Protocol)](./admin-blog-screenshots/25-aba-confiabilidade.png)
 
-![Aba Google (SEO técnico, OG image, schema)](./admin-blog-screenshots/26-aba-google.png)
+![Aba Google (SEO técnico, imagem pra redes sociais, código invisível)](./admin-blog-screenshots/26-aba-google.png)
 
 ![Painel direito completo full-page](./admin-blog-screenshots/42-painel-detalhes-completo.png)
 
@@ -260,18 +260,18 @@ Diferença entre salvar rascunho × publicar × programar.
 #### Salvar rascunho
 - **Ctrl+S** ou botão "Salvar"
 - Salva automaticamente a cada 30s também (autosave)
-- Status fica `draft` — ninguém vê fora do admin
+- Status fica **Rascunho** — ninguém vê fora do admin
 
 #### Publicar agora
 1. Click **"Publicar"**
 2. Sistema verifica SEO Score ≥ 80
-3. Se OK, status vira `published` e o artigo fica visível em **fymoob.com.br/blog/{slug}** em poucos minutos
+3. Se OK, status vira **Publicado** e o artigo fica visível em **fymoob.com.br/blog/{endereço}** em poucos minutos
 4. Se SEO Score < 80 → modal explica o que falta corrigir antes
 
 #### Programar publicação
 1. Click **"Programar"** (ao invés de "Publicar")
 2. Escolha **data e hora** futura
-3. Status vira `scheduled` — sistema publica automaticamente naquela hora
+3. Status vira **Agendado** — sistema publica sozinho na data/hora marcada
 4. Cron roda diariamente às 06:00 BRT — então use datas futuras
 
 ![Botões de ação no topo (Histórico, Preview, Salvar, Agendar, Publicar)](./admin-blog-screenshots/08-toolbar-acoes.png)
@@ -279,7 +279,7 @@ Diferença entre salvar rascunho × publicar × programar.
 ### Dica
 
 - **Programar publicação** é bom pra publicar de manhãzinha enquanto vocês dormem (ex: programa às 6h pra todo dia 1º do mês)
-- Pra cancelar agendamento: edite o artigo agendado e mude pra `draft` ou outra data
+- Pra cancelar agendamento: edite o artigo e mude o status pra **Rascunho** ou escolhe outra data
 
 ---
 
@@ -291,7 +291,7 @@ Mexer em artigo que já está no ar sem quebrar nada.
 ### Passo a passo
 
 1. Volte à lista de artigos
-2. Filtre por status `published`
+2. Filtre por status **Publicado**
 3. Click no artigo → editor abre
 4. Edite normalmente
 5. Click **"Salvar e publicar alterações"**
@@ -301,8 +301,8 @@ Mexer em artigo que já está no ar sem quebrar nada.
 
 ### Cuidado!
 
-- **Não mude o slug (URL) de artigo publicado** sem motivo forte — quebra todos os links externos que apontam pro artigo
-- Se PRECISAR mudar slug, fala com o Vinicius pra criar redirect 301 (sem isso, perde tráfego SEO)
+- **Não mude o endereço (URL) de artigo publicado** sem motivo forte — quebra todos os links que outras pessoas já compartilharam apontando pro artigo
+- Se PRECISAR mudar o endereço, fala com o desenvolvedor pra criar um redirecionamento automático (sem isso, o artigo some do Google)
 
 ---
 
@@ -332,9 +332,9 @@ Remover artigo do site (sem perder o dado).
 
 1. Lista de artigos → click no artigo
 2. Botão **"Arquivar"** (canto inferior direito do editor)
-3. Confirma — status vira `archived`
+3. Confirma — status vira **Arquivado**
 4. Artigo some do site, mas continua salvo no banco
-5. Pra **deletar de vez** (sem volta): fala com Vinicius (só admin Supabase apaga linha do banco)
+5. Pra **deletar de vez** (sem volta): fala com o desenvolvedor — só ele consegue apagar do banco de dados
 
 ![Botão Excluir destacado na lista de artigos](./admin-blog-screenshots/37-botao-excluir-lista.png)
 
@@ -343,7 +343,7 @@ Remover artigo do site (sem perder o dado).
 ### Cuidado!
 
 - Arquivar artigo publicado significa **perder tráfego SEO** que ele gerava
-- Antes de arquivar, considera **redirect 301 pra outro artigo similar** (fala com Vinicius)
+- Antes de arquivar, considera **redirecionar pra outro artigo similar** (fala com o desenvolvedor)
 
 ---
 
@@ -378,7 +378,7 @@ Menu lateral → **"Autores"** ou URL `/admin/blog/autores`.
 
 ### Dica
 
-- Bio do autor é **importante pra E-E-A-T** (Experiência, Expertise, Autoridade, Trust) — fator de ranking Google. Não economize: 3-5 parágrafos sólidos, mencionando credenciais reais
+- A bio do autor é **importante pro Google considerar o artigo confiável** — Google avalia experiência real, conhecimento técnico, autoridade no assunto e confiança da pessoa. Não economize: 3-5 parágrafos sólidos mencionando credenciais reais (CRECI, anos de experiência, casos)
 
 ---
 
@@ -387,7 +387,7 @@ Menu lateral → **"Autores"** ou URL `/admin/blog/autores`.
 ### O que aprende
 Onde fazer upload de capas, imagens inline, fotos de autor.
 
-### 3 buckets do Supabase
+### 3 pastas no banco de dados
 
 | Bucket | Onde é usado | Tamanho recomendado |
 |---|---|---|
@@ -414,7 +414,9 @@ Onde fazer upload de capas, imagens inline, fotos de autor.
 
 ![Bloco de imagem inline (estado de upload via slash menu)](./admin-blog-screenshots/43-bloco-imagem-upload.png)
 
-> 📸 _Print pendente: redimensionar imagem com handles arrastáveis (requer imagem já carregada)._
+> 📸 _Print pendente: redimensionar imagem arrastando as alças das bordas (requer imagem já carregada no artigo)._
+>
+> Quando você clica numa imagem dentro do artigo, aparecem 4 pontinhos nos cantos. Arrastar esses pontos pra dentro ou pra fora muda o tamanho da imagem. Útil quando quiser uma imagem menor (ilustração no meio do texto) ou maior (destaque grande no topo de uma seção).
 
 ### Dicas
 
@@ -430,22 +432,22 @@ Onde fazer upload de capas, imagens inline, fotos de autor.
 → Veja seção [SEO Score](#6-seo-score--o-que-é-e-como-subir). Foque nos itens com ✗ no checklist.
 
 ### "Salvei mas não vejo no site"
-→ Cache pode demorar 1-5 min pra atualizar. Tenta limpar cache do navegador (Ctrl+F5).
+→ O servidor demora 1-5 min pra atualizar. Tenta forçar atualização da página (Ctrl+F5 no navegador).
 
 ### "Editor travou no meio da edição"
-→ Recarregue a página. Autosave deve ter salvo seu progresso. Confirma no histórico.
+→ Recarregue a página. O salvamento automático deve ter guardado seu progresso. Confere no histórico de revisões.
 
 ### "Imagem subiu mas tá distorcida no artigo"
 → Provavelmente imagem fora de proporção. Capas precisam 1200×630, inline máx 1600px largura.
 
 ### "Bloco custom não aparece no slash menu"
-→ Refresh da página (F5). Se persistir, fala com Vinicius (problema técnico).
+→ Atualize a página (F5). Se persistir, fala com o desenvolvedor (problema técnico).
 
 ### "Programei publicação mas não publicou"
 → Cron roda 6h BRT. Verifica:
 - A data programada já passou?
-- Status ainda mostra `scheduled` ou virou `failed`?
-- Se `failed`, fala com Vinicius.
+- Status ainda mostra **Agendado** ou virou **Falhou**?
+- Se virou **Falhou**, fala com o desenvolvedor.
 
 ---
 
@@ -453,16 +455,18 @@ Onde fazer upload de capas, imagens inline, fotos de autor.
 
 | Termo | Significado |
 |---|---|
-| **BlockNote** | Editor estilo Notion que usamos no admin |
-| **Slug** | Parte final da URL (ex: `melhores-bairros-curitiba-2026`) |
-| **Meta description** | Texto curto que aparece no Google abaixo do título |
-| **E-E-A-T** | Critérios Google: Experiência, Expertise, Autoridade, Trust |
-| **Pillar article** | Artigo amplo "guia definitivo" atualizado periodicamente |
-| **SEO Score gate** | Bloqueio automático que impede publicar com score < 80 |
-| **Schema markup** | Código invisível que ajuda Google entender o conteúdo |
-| **Supabase** | Banco de dados onde artigos ficam armazenados |
-| **Cron** | Tarefa automática (roda diário 6h BRT pra publicar agendados) |
-| **Autosave** | Salvamento automático a cada 30s (não precisa Ctrl+S sempre) |
+| **BlockNote** | O editor estilo Notion que usamos pra escrever artigos |
+| **Endereço da página (URL)** | Parte final da URL após `/blog/` (ex: `melhores-bairros-curitiba-2026`) |
+| **Descrição do Google** | Texto curto que aparece no Google logo abaixo do título do artigo |
+| **E-E-A-T** | Critérios que o Google usa pra avaliar se o artigo é confiável: **E**xperiência real, **E**xpertise técnica, **A**utoridade do autor e **T**rust (confiança) |
+| **Artigo-guia (pillar)** | Artigo amplo, tipo "guia definitivo", atualizado de tempos em tempos |
+| **Bloqueio do SEO Score** | Trava automática que impede publicar quando a nota está abaixo de 80 |
+| **Código invisível (schema)** | Código que fica embutido na página e ajuda o Google a entender o conteúdo, mostrar perguntas frequentes na busca, etc |
+| **Banco de dados (Supabase)** | Onde os artigos ficam armazenados — só o desenvolvedor mexe direto |
+| **Tarefa automática (cron)** | Programa que roda sozinho num horário fixo (ex: todo dia 6h da manhã publica artigos agendados) |
+| **Salvamento automático** | A cada 30 segundos o editor salva sozinho — não precisa apertar Ctrl+S toda hora |
+| **Redirecionamento (301)** | Quando alguém acessa o endereço antigo de um artigo, é levado automático pro novo endereço — preserva visitas |
+| **CRM Loft / Vista** | Sistema externo onde ficam cadastrados os imóveis (alimenta o bloco "Imóvel em destaque") |
 
 ---
 
