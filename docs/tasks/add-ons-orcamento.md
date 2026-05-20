@@ -26,7 +26,7 @@
 
 ## ✅ Itens 6 e 8 — "Anuncie venda" e "Anuncie locação"
 
-**Status:** ✅ **MELHORIA APLICADA (18/05/2026, sem custo)**
+**Status:** ✅ **MELHORIA APLICADA (18-19/05/2026, sem custo)**
 
 Antes da conversa, existia `/anuncie` única que cobria os 2 casos. Agora:
 
@@ -34,9 +34,14 @@ Antes da conversa, existia `/anuncie` única que cobria os 2 casos. Agora:
 - `/anuncie/venda` → página dedicada, copy direcionado pra proprietário vendendo
 - `/anuncie/locacao` → página dedicada, copy direcionado pra proprietário alugando
 
-Cada página tem etapas, benefícios e form específicos. Form com `interesseOptions` filtrado por contexto.
+Cada página tem etapas, benefícios e form específicos.
 
-Não cobrado — entrou como melhoria de UX.
+**Em andamento (Fase 22):** wizard multi-step substituindo o form básico atual.
+Captura endereço (CEP autocomplete), tipo, área, quartos, vagas, valor pretendido,
+fotos (até 10), contato. Plano completo em
+[fase-22-anuncie-wizard.md](fase-22-anuncie-wizard.md). Entrega prevista 22/05.
+
+Não cobrado — entrou como melhoria de UX (continuação do contrato original).
 
 ---
 

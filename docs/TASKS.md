@@ -2,7 +2,7 @@
 
 > Fonte unica conceitual de tasks. Detalhe por fase em [`docs/tasks/<fase>.md`](tasks/).
 > Sessoes antigas e fases concluidas em [`docs/tasks/archive/`](tasks/archive/).
-> **Atualizado:** 2026-05-04
+> **Atualizado:** 2026-05-07
 
 ---
 
@@ -36,9 +36,11 @@
 | 18 | Custom Blog Admin (Sanity Replacement) | 69 | 60 | 9 | EM ANDAMENTO (Sprints A-G done) | [fase-18-blog-admin.md](tasks/fase-18-blog-admin.md) |
 | 19 | **SEO Competitive Action Plan** | 74 | 33 | 41 | **PRIORITARIO** | [fase-19-seo-competitive.md](tasks/fase-19-seo-competitive.md) |
 | 20 | **Code Quality & Tech Debt** | 35 | 23 | 12 | **EM ANDAMENTO** | [fase-20-tech-debt.md](tasks/fase-20-tech-debt.md) |
-| -- | Add-Ons Fora do Contrato | 13 | 0 | 13 | AGUARDA APROVACAO | [add-ons-orcamento.md](tasks/add-ons-orcamento.md) |
+| 21 | **Growth Strategy 1500 acessos/mes** | 38 | 0 | 38 | **PRIORITARIO** | [fase-21-growth-1500.md](tasks/fase-21-growth-1500.md) |
+| 22 | **Wizard moderno /anuncie** | 12 | 0 | 12 | **EM ANDAMENTO** | [fase-22-anuncie-wizard.md](tasks/fase-22-anuncie-wizard.md) |
+| -- | Add-Ons Fora do Contrato | 8 | 0 | 8 | AGUARDA APROVACAO | [add-ons-orcamento.md](tasks/add-ons-orcamento.md) |
 | -- | Nice-to-Have | 4 | 0 | 4 | FUTURO | (inline abaixo) |
-| | **TOTAL** | **622** | **408** | **214** | **66%** | |
+| | **TOTAL** | **660** | **408** | **252** | **62%** | |
 
 ---
 
@@ -47,12 +49,16 @@
 > Atualizar a cada checkpoint de sessao. Use isso para abrir uma sessao
 > sabendo onde focar sem precisar reler todo o tracker.
 
+- **Fase 21** — Growth Strategy 1500 acessos/mes (sprint nova validada
+  07/05). Plano consolidado em [intel/working/growth-1500-strategy.md](intel/working/growth-1500-strategy.md).
+  **Bloqueio unico:** C.0 Bruno adicionar Vinicius como gestor GBP (2 min).
 - **Fase 19** — Re-Index pos Sessoes A/B/C + Reserva Barigui Sprint A/B/B'.
   Tracker de re-indexacao em [seo-reports/reindex-urls-tracker.md](seo-reports/reindex-urls-tracker.md).
 - **Fase 18** — Sprint H+I (cleanup Sanity + onboarding) restantes.
 - **Fase 20** — Waves 3-4 (split seo.ts, tests, UI debt) deferidos.
 - **Acao Bruno** — fotos equipe, cadencia editorial blog, marcar mais
-  destaques no CRM. Detalhe em [bruno-pendencias.md](tasks/bruno-pendencias.md).
+  destaques no CRM, **adicionar Vinicius como gestor GBP**. Detalhe em
+  [bruno-pendencias.md](tasks/bruno-pendencias.md).
 
 ---
 
@@ -104,6 +110,7 @@ CONCLUIDO:
   ✅ Fase 19.P0 + P1.1 + P2 A/B/C (~545 paginas com SEO ressincronizado)
 
 PROXIMO:
+  Fase 21 Frente A+B+C+D — Growth 1500 (semana 1: GBP unblock + Clarity + Looker + recommendations cron)
   Fase 19 RX (Re-Index) — submeter URLs P0 (Reserva Barigui) no GSC + IndexNow batch
   Fase 18 Sprints H+I — cleanup Sanity + onboarding final
   Apresentacao Rodada 1 ao cliente (~1 semana)
