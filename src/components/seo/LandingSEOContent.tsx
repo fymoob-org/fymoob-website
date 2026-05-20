@@ -126,9 +126,8 @@ export function LandingSEOContent({ tipo, total }: LandingSEOContentProps) {
         </h3>
         <p className="mt-4 leading-relaxed text-neutral-700">
           A FYMOOB é uma imobiliária de Curitiba com{" "}
-          <strong>CRECI J 9420</strong> e atendimento personalizado. Trabalhamos com catálogo
-          unificado de mais de 230 imóveis ativos no CRM, atualizados em tempo real. Nosso
-          atendimento é via WhatsApp{" "}
+          <strong>CRECI J 9420</strong>. Trabalhamos com catálogo unificado sincronizado
+          com o nosso CRM. O atendimento é via WhatsApp{" "}
           <a
             href="https://wa.me/5541999780517?text=Ol%C3%A1!%20Tenho%20interesse%20em%20saber%20mais%20sobre%20os%20im%C3%B3veis%20da%20FYMOOB."
             target="_blank"
@@ -139,11 +138,8 @@ export function LandingSEOContent({ tipo, total }: LandingSEOContentProps) {
           >
             (41) 99978-0517
           </a>{" "}
-          de segunda a sexta, das 8h30 às 17h. Conduzimos toda a jornada — da visita à escritura
-          — com transparência: avaliação imparcial, documentação verificada, acompanhamento de
-          financiamento (Caixa, Itaú, Bradesco) e suporte pós-venda. Bruno César de Almeida
-          (sócio-diretor, CRECI/PR 24.494) atua há mais de 10 anos no mercado imobiliário de
-          Curitiba.
+          ou email <strong>fymoob@gmail.com</strong>. Bruno César de Almeida{" "}
+          (CRECI/PR 24.494) é o corretor responsável.
         </p>
 
         {tipo === "Apartamento" && (

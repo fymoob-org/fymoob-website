@@ -264,17 +264,13 @@ export function EmpreendimentoStandardSEOContent({
         <div className="mt-4 space-y-4 leading-relaxed text-neutral-700">
           <p>
             A <strong>FYMOOB Imobiliária</strong> é registrada no CRECI/PR sob
-            o número J 9420. Bruno César de Almeida (CRECI/PR 24.494,
-            sócio-diretor) atua há mais de 10 anos no mercado imobiliário de
-            Curitiba e acompanha pessoalmente os principais clientes em todas
-            as etapas: visita ao imóvel, análise de documentação, simulação de
-            financiamento (Caixa, Itaú, Bradesco), proposta, contrato e
-            escritura.
+            o número <strong>J 9420</strong>. Bruno César de Almeida
+            (CRECI/PR 24.494) é o corretor responsável. Atendemos quem busca
+            imóveis em Curitiba e região metropolitana — visita, documentação,
+            orientação sobre financiamento, proposta, contrato e escritura.
           </p>
           <p>
-            <strong>Você não paga nada à FYMOOB</strong> — nossa comissão é
-            paga pelo proprietário/construtora vendedora. Atendemos pelo
-            WhatsApp{" "}
+            Atendimento pelo WhatsApp{" "}
             <a
               href={`https://wa.me/5541999780517?text=${encodeURIComponent(
                 `Olá! Tenho interesse no empreendimento ${emp.nome} em ${bairro}. Gostaria de mais informações.`

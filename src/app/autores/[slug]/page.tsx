@@ -220,7 +220,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
               Quer falar com {author.name.split(" ")[0]}?
             </h2>
             <p className="mt-2 text-sm text-neutral-700">
-              Atendimento de segunda a sábado. Sem custo pra orientação inicial.
+              Chame no WhatsApp pra tirar dúvidas e conhecer o catálogo.
             </p>
             <Link
               href={`https://wa.me/${author.whatsapp}?text=Olá ${author.name.split(" ")[0]}, vim pelo blog da FYMOOB.`}

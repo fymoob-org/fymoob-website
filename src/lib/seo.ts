@@ -1099,8 +1099,8 @@ export function generatePillarFAQ(
         answer: `Os bairros com maior valorização nos últimos 5 anos em Curitiba são: **Centro Cívico** (+25-30%, gentrificação + Linha Verde), **Hugo Lange** (+20-25%, retrofit + classe alta), **Capão Raso** (+15-20%, BRT + comércio), **Mossunguê** (+18-22%, lançamentos alto padrão), **Vila Izabel** (+15-18%, próximo Batel), **Jardim Botânico** (+12-15%, área verde + UFPR). Bairros tradicionais como Batel e Bigorrilho mantêm valorização estável de 5-8% ao ano. Para investimento de aluguel, bairros próximos a hospitais (Cajuru, Champagnat, Cristo Rei) e universidades (Centro, Cabral) têm liquidez alta.`,
       },
       {
-        question: "A FYMOOB cobra alguma taxa do comprador?",
-        answer: `Não. A FYMOOB Imobiliária (CRECI J 9420) atende compradores **gratuitamente** — nossa comissão é paga pelo proprietário/construtora vendedora. Você não paga nada à imobiliária. As únicas despesas do comprador são as cobradas pelo banco/cartório/prefeitura: ITBI (3%), avaliação bancária (~R$ 3 mil), tarifas do contrato, escritura (~1-2% no cartório), registro (~1.5%). A FYMOOB ajuda em todas as etapas — visita, proposta, análise de docs, acompanhamento até as chaves — sem cobrar do comprador.`,
+        question: "Quais custos o comprador tem em uma compra de imóvel?",
+        answer: `Os custos cobrados ao comprador em Curitiba normalmente são: **ITBI** (3% do valor venal, pago à Prefeitura), **avaliação bancária** quando há financiamento, **tarifas de contrato** do banco, **escritura** no cartório e **registro de imóvel** (1-2% e 1,5% respectivamente, conforme tabelas vigentes). Esses valores são padrão de mercado, cobrados por terceiros. As condições comerciais com a imobiliária são alinhadas direto no atendimento.`,
       },
     ]
   }
@@ -1136,7 +1136,7 @@ export function generatePillarFAQ(
   return [
     {
       question: "Como funciona o aluguel de imóveis em Curitiba?",
-      answer: `O aluguel em Curitiba segue padrão nacional: **contrato de 30 meses** (típico) ou 12 meses (mais raro). **Garantias** aceitas: caução em dinheiro (3 meses de aluguel, devolvido ao final), fiador (com imóvel quitado em Curitiba), seguro-fiança (Porto Seguro, Tokio Marine — 70-130% do aluguel/ano), título de capitalização (Caixa Capitaliza, Brasilcap). **Custos do início**: primeiro aluguel + caução (3 meses) + taxa de cadastro (~R$ 200) + vistoria (R$ 150-300). Pagamento mensal: aluguel + condomínio + IPTU (proporcional). Reajuste anual pelo IGP-M ou IPCA conforme contrato.`,
+      answer: `O aluguel em Curitiba segue o padrão nacional: contratos costumam ser de **30 meses** (mais comum) ou 12 meses. **Garantias** mais utilizadas: caução em dinheiro (geralmente 3 meses de aluguel, devolvida ao final), fiador (com imóvel próprio), seguro-fiança e título de capitalização. Os custos exatos do início, taxa de cadastro e vistoria variam conforme o imóvel e a imobiliária responsável — o corretor confirma os valores no atendimento. Pagamento mensal: aluguel + condomínio + IPTU proporcional. Reajuste anual conforme índice previsto em contrato (IGP-M ou IPCA).`,
     },
     {
       question: "Quanto custa em média alugar um apartamento em Curitiba?",
@@ -1148,7 +1148,7 @@ export function generatePillarFAQ(
     },
     {
       question: "Quais documentos preciso pra alugar um imóvel em Curitiba?",
-      answer: `Documentação padrão: RG, CPF, comprovante de residência atual (3 meses), comprovante de renda (3 últimos contracheques — renda mínima 3x o valor do aluguel), CTPS (carteira de trabalho), declaração de IR. Casados: certidão de casamento + docs do cônjuge. Para fiador: imóvel quitado em Curitiba (matrícula), comprovante de renda 3x o aluguel, RG/CPF/comprovante residência. Para seguro-fiança: análise de crédito + cartão de crédito ou débito automático. **Análise da imobiliária**: 1-3 dias úteis. Após aprovação, vistoria + contrato + chaves em 5-7 dias.`,
+      answer: `Documentação padrão: RG, CPF, comprovante de residência atual, comprovante de renda (geralmente 3 últimos contracheques — renda padrão de mercado é 3x o valor do aluguel), CTPS e declaração de IR. Casados: certidão de casamento + documentos do cônjuge. Pra fiador: matrícula do imóvel próprio em Curitiba + comprovantes de renda e endereço. Pra seguro-fiança: análise de crédito junto à seguradora. Os prazos de análise e liberação variam conforme a imobiliária e o proprietário.`,
     },
     {
       question: "Quem paga o IPTU e taxa de lixo no aluguel em Curitiba?",
@@ -1182,40 +1182,40 @@ export function generatePropertyDetailFAQ(
   const faq: { question: string; answer: string }[] = [
     {
       question: `Como agendar uma visita pra esse ${tipoLower}?`,
-      answer: `Você pode agendar uma visita ao ${tipoLower} pelo WhatsApp da FYMOOB: (41) 99978-0517. Atendimento de segunda a sexta, das 8h30 às 17h. Visitas geralmente são marcadas com 24-48h de antecedência, conforme disponibilidade do proprietário/construtora. Bruno (CRECI/PR 24.494) ou um dos corretores da equipe acompanha você in loco, mostra todos os detalhes do imóvel e tira dúvidas sobre documentação, financiamento e processo de compra.`,
+      answer: `Você pode agendar uma visita ao ${tipoLower} pelo WhatsApp da FYMOOB: **(41) 99978-0517**. Um corretor da equipe (CRECI J 9420) confirma a disponibilidade com o proprietário/construtora e marca o melhor horário.`,
     },
     ...(property.codigo
       ? [
           {
             question: `Qual o código desse ${tipoLower} no CRM?`,
-            answer: `O código deste ${tipoLower} é **${property.codigo}**. Use esse código ao falar com o atendimento da FYMOOB pra agilizar o atendimento — vai direto pra ficha técnica completa do imóvel no nosso CRM.`,
+            answer: `O código deste ${tipoLower} é **${property.codigo}**. Cite esse código ao falar com a FYMOOB pra agilizar o atendimento — ele aponta direto pra ficha completa do imóvel no nosso CRM.`,
           },
         ]
       : []),
     ...(isAluguel
       ? [
           {
-            question: `Quais garantias são aceitas pra alugar esse ${tipoLower}?`,
-            answer: `Aceitamos as garantias padrão de aluguel em Curitiba: **caução em dinheiro** (3 meses de aluguel, devolvido ao final), **fiador** (com imóvel quitado em Curitiba e renda 3x o aluguel), **seguro-fiança** (Porto Seguro, Tokio Marine, custo 70-130% do aluguel/ano) ou **título de capitalização** (Caixa, Brasilcap). A escolha da garantia depende do perfil do inquilino e disponibilidade do proprietário. Análise de crédito leva 1-3 dias úteis.`,
+            question: `Quais garantias podem ser aceitas pra alugar esse ${tipoLower}?`,
+            answer: `As garantias mais comuns no mercado de aluguel são **caução em dinheiro**, **fiador** com imóvel próprio, **seguro-fiança** e **título de capitalização**. A garantia aceita pra este imóvel específico depende do proprietário — o corretor confirma no contato inicial e explica o processo de análise cadastral.`,
           },
         ]
       : [
           {
             question: `Esse ${tipoLower} aceita financiamento bancário?`,
-            answer: `Sim, este imóvel está apto a financiamento pelos principais bancos brasileiros (Caixa, Itaú, Bradesco, Santander, Banco do Brasil). Condições típicas: entrada mínima 20% (pode usar FGTS), prazo até 35 anos, juros 9-12% ao ano + TR. ${property.precoVenda && property.precoVenda < 350000 ? "Como o valor está dentro do limite MCMV (até R$ 350 mil), pode haver condições especiais de juros mais baixos." : ""} A FYMOOB indica correspondente bancário gratuitamente — a análise de crédito leva 15-30 dias.`,
+            answer: `Em geral, imóveis com documentação regularizada são aceitos pelos principais bancos (Caixa, Itaú, Bradesco, Santander, Banco do Brasil). Condições padrão no Brasil: entrada mínima de 20% (pode usar FGTS), prazo de até 35 anos, taxa de juros conforme tabela vigente de cada banco. ${property.precoVenda && property.precoVenda < 350000 ? "Como o valor está dentro do limite MCMV (até R$ 350 mil), pode haver condições especiais de juros mais baixos. " : ""}A FYMOOB pode te apoiar com orientação sobre o processo — fale com o corretor pra avaliar viabilidade no seu caso.`,
           },
           {
             question: `Quais documentos preciso pra ${acao} esse ${tipoLower}?`,
-            answer: `Do comprador: RG, CPF, comprovante de residência, comprovante de renda (3 últimos contracheques ou DECORE), certidão negativa Federal e Estadual, certidão conjunta trabalhista, FGTS atualizado se for usar. Do imóvel: matrícula atualizada, certidões de ônus, IPTU em dia, declaração de quitação de condomínio, ART (se houver reforma). A FYMOOB checa toda documentação antes da assinatura — você fica seguro de não ter surpresas.`,
+            answer: `Do comprador, geralmente são pedidos: RG, CPF, comprovante de residência, comprovante de renda (3 últimos contracheques ou DECORE), certidão negativa Federal e Estadual, certidão conjunta trabalhista, e extrato do FGTS se for usar. Do imóvel: matrícula atualizada, certidões de ônus, IPTU em dia e declaração de quitação de condomínio. O corretor da FYMOOB orienta exatamente o que pedir conforme o banco e a operação.`,
           },
         ]),
     {
-      question: `O ${tipoLower} fica em qual bairro de Curitiba? Como é a região?`,
-      answer: `Este ${tipoLower} fica no bairro **${bairro}**, em ${cidade}. Veja imóveis similares na mesma região na nossa landing dedicada: /imoveis/${bairro.toLowerCase().replace(/\s+/g, "-")}. Para conhecer infraestrutura, escolas, transporte e perfil do bairro, consulte o guia da FYMOOB sobre ${bairro} ou visite o imóvel pessoalmente — agendamos com 24h de antecedência.`,
+      question: `O ${tipoLower} fica em qual bairro de Curitiba?`,
+      answer: `Este ${tipoLower} fica no bairro **${bairro}**, em ${cidade}. Veja imóveis similares na mesma região na nossa landing dedicada: /imoveis/${bairro.toLowerCase().replace(/\s+/g, "-")}. Pra conhecer a região com calma, vale também visitar o imóvel pessoalmente — o corretor agenda a visita no contato.`,
     },
     {
       question: `Como faço uma proposta pra esse ${tipoLower}?`,
-      answer: `Após visitar o imóvel e decidir prosseguir, você faz a proposta diretamente pela FYMOOB. O processo: 1) WhatsApp ou e-mail com sua proposta (valor, condições, prazo); 2) Apresentação ao proprietário/construtora; 3) Negociação de detalhes (preço, prazo de pagamento, mobília inclusa, etc); 4) Aceitação por escrito; 5) Assinatura de contrato preliminar com sinal (5-10% do valor); 6) Análise documental + financiamento; 7) Escritura final. ${finalidade === "venda" ? "Tempo total: 60-90 dias da proposta às chaves." : "Tempo total para começar a alugar: 5-15 dias da aprovação cadastral."} A FYMOOB acompanha você em todas as etapas.`,
+      answer: `Após visitar o imóvel e decidir prosseguir, você apresenta a proposta direto pela FYMOOB. O processo geral: 1) WhatsApp ou email com sua proposta (valor, condições, prazo); 2) Apresentação ao proprietário/construtora; 3) Negociação dos detalhes; 4) Aceite por escrito; 5) Contrato preliminar com sinal; 6) Análise documental e financiamento (se for o caso); 7) Escritura final. ${finalidade === "venda" ? "O prazo total depende do banco e da documentação. " : "O prazo pra começar a alugar depende da análise cadastral e do proprietário. "}O corretor da FYMOOB acompanha você em todas as etapas.`,
     },
   ]
 
@@ -1241,7 +1241,7 @@ export function generateLancamentosFAQ(total: number): { question: string; answe
     },
     {
       question: `Quais construtoras estão lançando em Curitiba?`,
-      answer: `As principais construtoras com lançamentos ativos em Curitiba: **Avantti** (Reserva Barigui, Reserva Lago), **Plaenge** (Plaenge Artis, Lange Turin), **Cyrela** (alto padrão Batel/Bigorrilho), **Helbor** (My Place Jardim Botânico), **Dirani** (Audace, Insight), **CR2** (Sensia Horizon, K&ra), **Diálogo** (Bioma, Liv.In), **Castro** (Pine Blue), **EBM** (Plus Portão), **AYA** (AYA Residence). A FYMOOB é parceira oficial dessas construtoras — preços de tabela direta da fábrica, sem intermediação extra.`,
+      answer: `Curitiba tem lançamentos constantes de construtoras como Avantti, Plaenge, Cyrela, Helbor, Dirani, CR2, Diálogo, Castro, EBM e AYA, entre outras. Veja em /lancamentos os empreendimentos disponíveis no nosso catálogo no momento, com detalhes de cada um.`,
     },
     {
       question: `Vale a pena comprar imóvel na planta em Curitiba em 2026?`,
@@ -1249,7 +1249,7 @@ export function generateLancamentosFAQ(total: number): { question: string; answe
     },
     {
       question: `Quanto pago de entrada e como funciona o financiamento na planta?`,
-      answer: `Estrutura típica de pagamento na planta: **Sinal** (5-10% do valor) na assinatura. **Pagamento durante a obra** (15-30%) parcelado mensalmente até a entrega. **Financiamento bancário pós-entrega** (60-80%) — a Caixa, Itaú e Bradesco financiam sob garantia de alienação fiduciária. Pode usar FGTS na entrada e durante. Algumas construtoras oferecem opções alternativas: pagamento direto sem banco (juros próprios da construtora), uso de imóvel como permuta, parcelamento em até 200 meses da própria construtora. A FYMOOB simula todas as opções pra você.`,
+      answer: `A estrutura típica no mercado: **sinal** na assinatura (geralmente 5-10% do valor), **pagamento durante a obra** parcelado até a entrega, e **financiamento bancário pós-entrega** com Caixa, Itaú, Bradesco ou Santander sob garantia de alienação fiduciária. Pode usar FGTS na entrada. Algumas construtoras também oferecem pagamento direto sem banco, permuta ou parcelamento prolongado próprio. As condições de cada empreendimento são definidas pela construtora — o corretor da FYMOOB explica caso a caso.`,
     },
     {
       question: `O que acontece se a construtora atrasar a entrega?`,
@@ -1270,71 +1270,63 @@ export function generateHomeFAQ(): { question: string; answer: string }[] {
   return [
     {
       question: "O que é a FYMOOB Imobiliária?",
-      answer: `A FYMOOB Imobiliária (CRECI J 9420) é uma imobiliária boutique de Curitiba especializada em apartamentos, casas, sobrados e empreendimentos. Atendemos clientes interessados em comprar, vender ou alugar imóveis na cidade e região metropolitana. Nosso atendimento é personalizado, com curadoria de imóveis, acompanhamento integral do processo (visita, proposta, financiamento, escritura) e assessoria gratuita pra compradores. Bruno César de Almeida (CRECI/PR 24.494) é o sócio-diretor responsável.`,
+      answer: `A FYMOOB é uma imobiliária de Curitiba registrada no CRECI sob o número **CRECI J 9420**. Atendemos quem quer comprar, vender ou alugar imóveis em Curitiba e região metropolitana — apartamentos, casas, sobrados, terrenos, salas comerciais e empreendimentos.`,
     },
     {
       question: "Quantos imóveis a FYMOOB tem disponíveis em Curitiba?",
-      answer: `Trabalhamos com mais de 230 imóveis ativos em tempo real, sincronizados automaticamente com o CRM Loft/Vista. O catálogo cobre apartamentos (80% do estoque), casas, sobrados, terrenos, lojas e salas comerciais nos principais bairros de Curitiba. Você encontra desde studios compactos a partir de R$ 190 mil até empreendimentos de alto padrão acima de R$ 5 milhões. Veja em /apartamentos-curitiba, /casas-curitiba, /sobrados-curitiba ou /lancamentos.`,
+      answer: `O catálogo do site é sincronizado com o nosso CRM Loft/Vista e mostra os imóveis efetivamente disponíveis em tempo real. Você consulta o estoque atualizado nas páginas /apartamentos-curitiba, /casas-curitiba, /sobrados-curitiba, /lancamentos ou na busca geral em /busca.`,
     },
     {
       question: "Como funciona o atendimento da FYMOOB?",
-      answer: `O atendimento é via WhatsApp **(41) 99978-0517**, e-mail **fymoob@gmail.com**, ou pessoalmente em nosso escritório (Rua Engenheiro Heitor Soares Gomes, 778, Esquina, Curitiba). Funcionamos de segunda a sexta, das 8h30 às 17h. Bruno e Wagner (sócios) atendem pessoalmente os principais clientes. Para visitas agendamos com 24-48h de antecedência conforme disponibilidade do imóvel. Acompanhamos toda a jornada: avaliação imparcial, documentação, financiamento (Caixa/Itaú/Bradesco), escritura e pós-venda.`,
-    },
-    {
-      question: "A FYMOOB cobra alguma taxa do comprador?",
-      answer: `Não. A comissão da imobiliária é paga sempre pelo proprietário/construtora vendedora. O comprador não paga nada à FYMOOB. As únicas despesas do comprador são as cobradas por terceiros: ITBI (3% do valor venal em Curitiba), avaliação bancária (~R$ 3 mil se financiar), tarifas do contrato bancário, escritura no cartório (~1-2%), registro de imóvel (~1.5%). Esses valores são padrão de mercado, não da imobiliária.`,
+      answer: `O atendimento é por WhatsApp **(41) 99978-0517** e email **fymoob@gmail.com**. Os horários, agendamento de visita e detalhes do processo são alinhados direto com o corretor no primeiro contato.`,
     },
     {
       question: "Quais bairros de Curitiba a FYMOOB atende?",
-      answer: `Cobrimos os principais bairros de Curitiba e região metropolitana, com foco em: **Batel, Bigorrilho, Ecoville, Mossunguê, Cabral, Champagnat** (alto padrão); **Água Verde, Juvevê, Cristo Rei, Alto da Glória, Boa Vista, Portão** (médio padrão familiar); **Centro Cívico, Hugo Lange, Vila Izabel, Capão Raso** (investimento); e **Santa Felicidade, Mercês, Campo Comprido** (tranquilo). Veja todos os bairros com imóveis em /busca ou nas landings tipadas.`,
+      answer: `Cobrimos os principais bairros de Curitiba e região metropolitana — entre eles **Batel, Bigorrilho, Ecoville, Mossunguê, Cabral, Champagnat, Água Verde, Juvevê, Cristo Rei, Alto da Glória, Boa Vista, Portão, Centro Cívico, Hugo Lange, Vila Izabel, Capão Raso, Santa Felicidade, Mercês, Campo Comprido**, entre outros. Veja todos os bairros com imóveis disponíveis em /busca.`,
     },
     {
-      question: "Como saber se um imóvel está realmente disponível na FYMOOB?",
-      answer: `O catálogo do site é sincronizado com o CRM Loft/Vista a cada hora. Quando um imóvel é vendido ou alugado, ele sai do site automaticamente em até 60 minutos. Para garantia adicional, o WhatsApp **(41) 99978-0517** confirma disponibilidade na hora — antes de você fazer uma visita ou proposta, conferimos status atualizado direto com o proprietário/construtora. Não trabalhamos com "imóveis fantasma" usados como isca.`,
+      question: "A FYMOOB trabalha com lançamentos em Curitiba?",
+      answer: `Sim. Trabalhamos com imóveis na planta e prontos de construtoras que atuam em Curitiba. Veja todos os empreendimentos cadastrados em /lancamentos com plantas, fotos e detalhes. As condições comerciais de cada empreendimento são informadas pelo corretor responsável.`,
     },
     {
-      question: "A FYMOOB vende imóveis na planta (lançamentos) em Curitiba?",
-      answer: `Sim. Trabalhamos com lançamentos das principais construtoras de Curitiba: Avantti, Plaenge, Cyrela, Helbor, Dirani, CR2, Diálogo, Castro, EBM, AYA. Veja todos em /lancamentos. Como parceiros oficiais das construtoras, oferecemos preços de tabela direta (sem intermediação extra), agendamento de plantão exclusivo, condições especiais de pagamento e ajuda no financiamento. Tempo médio de entrega de obras em Curitiba: 24-36 meses.`,
-    },
-    {
-      question: "Posso alugar um imóvel da FYMOOB? Como funciona?",
-      answer: `Sim. Trabalhamos com aluguel residencial e comercial em Curitiba. Garantias aceitas: **caução em dinheiro** (3 meses), **fiador** (com imóvel em Curitiba), **seguro-fiança** (Porto Seguro, Tokio Marine), **título de capitalização**. Custo de início: 1º aluguel + caução (3 meses) + taxa de cadastro + vistoria. Análise cadastral em 1-3 dias úteis. Mais detalhes na seção /alugar-curitiba ou WhatsApp (41) 99978-0517.`,
+      question: "Como faço pra alugar um imóvel da FYMOOB?",
+      answer: `Você encontra os imóveis disponíveis pra locação em /alugar-curitiba e na busca. Após escolher o imóvel, chame no WhatsApp **(41) 99978-0517** ou abra a página do imóvel — explicamos o processo de visita, análise de cadastro e contrato no atendimento.`,
     },
   ]
 }
 
 /**
- * FAQ pra /anuncie (captacao de proprietarios) — Fase 19.P0.10.
+ * FAQ pra /anuncie (captacao de proprietarios).
+ *
+ * Mantemos perguntas neutras com respostas factuais (CRECI confirmado, processo
+ * geral). Detalhes de comissao, prazos, escopo de servicos sao definidos pelo
+ * Bruno caso a caso — copy nao supoe valores que possam comprometer o cliente.
  */
 export function generateAnuncieFAQ(): { question: string; answer: string }[] {
   return [
     {
       question: "Como anunciar meu imóvel na FYMOOB?",
-      answer: `É simples e gratuito. Preencha o formulário em /anuncie com os dados básicos (tipo de imóvel, bairro, área, quartos, valor desejado), envie 5-10 fotos por WhatsApp **(41) 99978-0517**, e Bruno faz uma avaliação inicial em até 48h. Após aceite, agendamos visita técnica no imóvel pra fotos profissionais (incluso, sem custo), redigimos o anúncio com SEO otimizado, publicamos no site fymoob.com.br + portais (Viva Real, ZAP, Imovelweb) e CRM próprio. Início da captação: 5-7 dias.`,
+      answer: `Preencha o formulário em /anuncie com os dados do imóvel (tipo, endereço, área, quartos, valor pretendido) e os seus dados de contato. Um corretor da FYMOOB entra em contato pra agendar visita de avaliação e alinhar os próximos passos. Você também pode falar direto via WhatsApp **(41) 99978-0517**.`,
     },
     {
-      question: "Qual a comissão da FYMOOB para vendas?",
-      answer: `A comissão padrão de mercado em Curitiba é **6% do valor de venda** (CRECI-PR), pago pelo vendedor na escritura. A FYMOOB segue esse padrão. Para vendas acima de R$ 1 milhão, podemos negociar comissões reduzidas. Importante: a comissão só é paga **após o fechamento** da venda — não há cobrança antecipada por publicação, fotos, ou marketing. Se o imóvel não vender, você não paga nada.`,
+      question: "A FYMOOB é registrada no CRECI?",
+      answer: `Sim. A FYMOOB é registrada no Conselho Regional de Corretores de Imóveis do Paraná sob o número **CRECI J 9420**. Todo atendimento, contrato e intermediação segue as normas da profissão e a legislação brasileira (Lei 6.530/1978 e Código de Ética COFECI).`,
     },
     {
-      question: "Qual a comissão da FYMOOB para aluguel?",
-      answer: `Para aluguel, a comissão é o **valor do primeiro aluguel** (1 mês), pago pelo proprietário no início da locação. Há também a taxa mensal de administração de **6-10% do aluguel** (negociável conforme valor e tipo de imóvel) que cobre: cobrança, repasse, gestão de inadimplência, vistoria, manutenção. Para aluguel temporário (Airbnb-style) a comissão é diferente — consulte direto.`,
+      question: "Quais documentos preciso pra anunciar?",
+      answer: `Pra começar o processo de captação, normalmente precisamos da **matrícula atualizada** do imóvel (cartório de registro), **IPTU recente** e, no caso de financiamento ativo, **demonstrativo do saldo devedor**. Pra venda também é importante apresentar **certidões negativas** (Federal, Estadual, Trabalhista) — o corretor orienta exatamente o que pedir no seu caso. Aluguel exige documentação mais simples no momento do anúncio.`,
     },
     {
-      question: "A FYMOOB faz fotos profissionais do imóvel?",
-      answer: `Sim, **sem custo adicional**. Após captação, agendamos sessão de fotos com fotógrafo profissional (1-2h no imóvel). Tiramos 30-50 fotos (interna, externa, fachada, vistas), tratamos as melhores 15-20, criamos tour virtual em 360° (opcional, +R$ 300), e plantas em 2D quando relevante (a partir de R$ 200 — opcional). Vídeos de drone e tours em vídeo: orçamento sob consulta. Tudo isso é pago pela FYMOOB no caso de venda exclusiva.`,
+      question: "Quanto custa anunciar um imóvel pela FYMOOB?",
+      answer: `As condições comerciais (comissão, escopo de serviços, exclusividade) são alinhadas direto com o Bruno em conversa com o proprietário, considerando o perfil do imóvel e a operação (venda ou locação). Pra entender o que cabe no seu caso, finalize o cadastro no formulário ou entre em contato via WhatsApp **(41) 99978-0517**.`,
     },
     {
-      question: "Quanto tempo demora pra vender um imóvel em Curitiba?",
-      answer: `Depende muito de **bairro, preço e condição**. Imóveis bem precificados em bairros consolidados (Batel, Bigorrilho, Água Verde) vendem em **2-4 meses**. Bairros médios (Portão, Cabral, Boa Vista): **4-8 meses**. Bairros mais afastados ou imóveis acima do valor de mercado: **8-18 meses ou mais**. Para acelerar: precificação alinhada ao FipeZAP (R$ 11.621/m² médio em mar/2026), fotos profissionais, descrição rica, exclusividade com 1-2 imobiliárias (não pulverizar).`,
+      question: "Como meu imóvel é divulgado?",
+      answer: `Imóveis captados pela FYMOOB ficam no site **fymoob.com.br** (com página dedicada otimizada pra Google) e no nosso CRM Loft/Vista. Divulgação em portais externos, redes sociais e mídia adicional é avaliada caso a caso pela equipe — o corretor explica no contato inicial qual estratégia faz sentido pro seu imóvel.`,
     },
     {
-      question: "Posso vender meu imóvel pela FYMOOB e por outras imobiliárias ao mesmo tempo?",
-      answer: `Sim, mas tecnicamente desencorajamos por 2 motivos: 1) **Diluição de esforço comercial** — quando uma imobiliária sabe que está exclusiva, investe mais em marketing, SEO, captação de leads; 2) **Confusão pro comprador** — anúncios duplicados em portais com fotos diferentes geram desconfiança. Em Curitiba a prática comum é **exclusividade de 90 dias** com 1 imobiliária, depois renovar ou abrir. Oferecemos esse modelo, com cláusula de saída em caso de não-resultado.`,
-    },
-    {
-      question: "A FYMOOB tira o imóvel do anúncio quando vende?",
-      answer: `Sim, automaticamente. Nosso CRM Loft/Vista atualiza status em tempo real. Quando o contrato de compra/venda é assinado, marcamos o imóvel como "vendido" no sistema, ele sai do site fymoob.com.br em até 60 minutos, e dos portais (Viva Real, ZAP, Imovelweb) em 1-3 dias. Não deixamos imóveis vendidos como isca, nem repostamos imóveis antigos como "novidade". Política de transparência total.`,
+      question: "Posso retirar meu imóvel do anúncio depois?",
+      answer: `Sim. As condições de retirada (prazo de aviso, eventual período de exclusividade) ficam no contrato de intermediação firmado com a FYMOOB. Quando o imóvel é efetivamente vendido ou alugado, ele sai automaticamente do site via integração com o nosso CRM.`,
     },
   ]
 }

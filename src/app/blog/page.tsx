@@ -184,7 +184,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 em março/2026: R$ 11.621), <strong>IBGE</strong>, <strong>Caixa Econômica Federal</strong>,
                 <strong>Lei do Inquilinato 8.245/91</strong> e a <strong>Lei 13.786/2018</strong> que
                 regula compra de imóvel na planta. Nossos autores são corretores ativos no mercado
-                de Curitiba: Bruno César de Almeida (CRECI/PR 24.494, sócio-diretor) e equipe.
+                de Curitiba: Bruno César de Almeida (CRECI/PR 24.494) e equipe.
               </p>
               <p>
                 Para complementar a leitura, oferecemos guias estruturados nos chamados &ldquo;pillars&rdquo;:{" "}
