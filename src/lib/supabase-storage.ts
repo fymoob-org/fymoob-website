@@ -11,7 +11,7 @@ import { randomUUID } from "node:crypto"
 import sharp from "sharp"
 import { getSupabaseAdmin } from "@/lib/supabase-admin"
 
-export type StorageBucket = "articles-covers" | "articles-inline" | "authors"
+export type StorageBucket = "articles-covers" | "articles-inline" | "authors" | "lead-photos"
 
 const ALLOWED_MIME = new Set([
   "image/webp",
